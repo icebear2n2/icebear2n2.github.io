@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>5주차 - 보안 서비스 | Sujeong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="AFOS[2기]" />
+  
+  
+  
+  
+  <meta name="description" content="AWS 사용하는 3가지 방법1.관리 콘솔로 리소스 만들기 쉽게 시작 가능 반복 작업에 적합 X 시간이 오래 걸림">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5주차 - 보안 서비스">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/12/2021-07-07-AFOS/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="AWS 사용하는 3가지 방법1.관리 콘솔로 리소스 만들기 쉽게 시작 가능 반복 작업에 적합 X 시간이 오래 걸림">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787334-639ee680-df83-11eb-8cfc-775d7e207fa5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787336-639ee680-df83-11eb-9e5e-bab11f7c6de8.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787340-64377d00-df83-11eb-825d-f59acef51ef2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787344-64d01380-df83-11eb-89cc-c7b5271f71ef.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787349-64d01380-df83-11eb-8bf0-bbd4d1f92450.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787350-6568aa00-df83-11eb-9623-c3958a63c9bc.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787353-66014080-df83-11eb-8405-deb918b56ac4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787355-66014080-df83-11eb-94eb-5502d583553f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787358-6699d700-df83-11eb-8054-7719c710a399.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787362-67326d80-df83-11eb-971c-4fe75048c12a.png">
+<meta property="og:image" content="https://images.velog.io/images/icebear2n2/post/6b98654c-4a7c-4633-9823-f26b4c3b9fa2/D072F1CB-DEF5-4352-B988-514FDBE0F4AC.jpeg">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787372-68fc3100-df83-11eb-9248-51d91a62dcf2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787373-68fc3100-df83-11eb-8036-056e399b4c02.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787378-6994c780-df83-11eb-9faf-4f9ebf7d35d1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787381-6a2d5e00-df83-11eb-8e41-b4bce692bad9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787382-6ac5f480-df83-11eb-8cee-765a09655059.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787384-6ac5f480-df83-11eb-89bd-03dd9e39a8d5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787387-6b5e8b00-df83-11eb-91f5-0fcb016b878d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787388-6bf72180-df83-11eb-90f1-d79039d516f7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787392-6bf72180-df83-11eb-869c-08e8e256fe21.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787397-6c8fb800-df83-11eb-971f-4f2493f57c1e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787400-6d284e80-df83-11eb-8f79-6a736cfbec75.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787402-6d284e80-df83-11eb-9b54-ed1d5d0f8376.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787404-6dc0e500-df83-11eb-8a1c-eddfa3ffefbf.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787408-6e597b80-df83-11eb-97b0-9ae355c0245a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787410-6e597b80-df83-11eb-9013-817c7c491916.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787412-6ef21200-df83-11eb-9017-55118e253828.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787413-6f8aa880-df83-11eb-8fd9-f617f07f8a22.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787415-6f8aa880-df83-11eb-887d-865a0c01a6e8.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787416-70233f00-df83-11eb-9f9a-d844b0fd103d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787418-70bbd580-df83-11eb-93c3-8b03e5770a75.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787423-70bbd580-df83-11eb-8537-64237cc8c8c9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787426-71546c00-df83-11eb-8b64-fb287f651a6d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787430-71ed0280-df83-11eb-913e-3892406a1d92.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787433-71ed0280-df83-11eb-8421-93b03634c706.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787439-731e2f80-df83-11eb-9f4c-fe883b71eb20.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787440-731e2f80-df83-11eb-909c-a2e7ed581757.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787442-73b6c600-df83-11eb-94df-b4ccece6e0f6.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787447-744f5c80-df83-11eb-938a-c6062b10ce72.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787452-74e7f300-df83-11eb-83a8-a093bff61f46.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787456-75808980-df83-11eb-8989-3418247373c7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787460-76192000-df83-11eb-93fe-23c09759f3b9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787462-76192000-df83-11eb-915d-b2376b64f529.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787466-76b1b680-df83-11eb-8f79-d98b7991a216.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787469-774a4d00-df83-11eb-804b-86a999b3ed7f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787471-774a4d00-df83-11eb-9dbc-b4b25eeed46f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787479-77e2e380-df83-11eb-9612-c4c3ec5f9e58.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787481-787b7a00-df83-11eb-8b42-e98cf35fb9a9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787483-79141080-df83-11eb-824d-dfcf5344fb8b.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787486-79141080-df83-11eb-9ad1-04ee3afb65aa.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787490-79aca700-df83-11eb-988c-c658cbbc7fed.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787491-7a453d80-df83-11eb-9ea6-0b778312b2dc.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787493-7a453d80-df83-11eb-8edc-57350f6c9766.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787494-7addd400-df83-11eb-9382-06345949bf20.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787497-7b766a80-df83-11eb-9b43-2a5cf94623ff.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787501-7b766a80-df83-11eb-9eca-db1f36d7b47e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787503-7c0f0100-df83-11eb-9386-6c84d4f7acf2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787507-7ca79780-df83-11eb-91b5-cdb585c7796d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787509-7ca79780-df83-11eb-9a1b-e7b3d8cd3327.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787513-7dd8c480-df83-11eb-995f-1b78ae0c513a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787517-7e715b00-df83-11eb-97c7-226655a547fb.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787521-7e715b00-df83-11eb-93ec-b3d824d04925.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787539-80d3b500-df83-11eb-9755-df3e14aa8f67.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787540-816c4b80-df83-11eb-948f-1e3bc5f9c8b3.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787542-816c4b80-df83-11eb-81a6-ca4e5eff489f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787546-8204e200-df83-11eb-856a-4c969aef775d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787550-829d7880-df83-11eb-80e0-55de6fcbc0d9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787553-829d7880-df83-11eb-94f7-4e9a419f5c76.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787556-83360f00-df83-11eb-99b8-fc97c93eda88.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787558-83cea580-df83-11eb-8ad5-be23cd801764.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787565-84ffd280-df83-11eb-9658-623126cb434d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787567-85986900-df83-11eb-9f62-91d193e188d6.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787571-85986900-df83-11eb-82f8-a95f1ecb14b0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787574-8630ff80-df83-11eb-9f17-34c8efd419ae.png">
+<meta property="article:published_time" content="2021-07-12T11:57:15.449Z">
+<meta property="article:modified_time" content="2021-07-12T11:57:26.995Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/86812249/124787334-639ee680-df83-11eb-8cfc-775d7e207fa5.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2021-07-07-AFOS" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      5주차 - 보안 서비스
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/07/12/2021-07-07-AFOS/" class="article-date">
+	  <time datetime="2021-07-12T11:57:15.449Z" itemprop="datePublished">2021-07-12</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="AWS-사용하는-3가지-방법"><a href="#AWS-사용하는-3가지-방법" class="headerlink" title="AWS 사용하는 3가지 방법"></a>AWS 사용하는 3가지 방법</h2><h2 id="1-관리-콘솔로-리소스-만들기"><a href="#1-관리-콘솔로-리소스-만들기" class="headerlink" title="1.관리 콘솔로 리소스 만들기"></a>1.관리 콘솔로 리소스 만들기</h2><ul>
+<li>쉽게 시작 가능</li>
+<li>반복 작업에 적합 X</li>
+<li>시간이 오래 걸림</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="2-코드-형태의-명령형-인프라-CLI-Command-Line-Interface"><a href="#2-코드-형태의-명령형-인프라-CLI-Command-Line-Interface" class="headerlink" title="2.코드 형태의 명령형 인프라 : CLI(Command Line Interface)"></a>2.코드 형태의 명령형 인프라 : CLI(Command Line Interface)</h2><ul>
+<li>반복 작업에 적합</li>
+<li>원하는 항목에 대한 수정이 용이</li>
+<li>리소스의 준비 상태 확인이 어려움</li>
+<li>문제 발생 시 복원이 어려움</li>
+</ul>
+<h2 id="3-코드로서의-선언적-인프라-AWS-CloudFormation-template-HashiCorp-Configuation-Language-HCL"><a href="#3-코드로서의-선언적-인프라-AWS-CloudFormation-template-HashiCorp-Configuation-Language-HCL" class="headerlink" title="3.코드로서의 선언적 인프라 : AWS CloudFormation template, HashiCorp Configuation Language(HCL)"></a>3.코드로서의 선언적 인프라 : AWS CloudFormation template, HashiCorp Configuation Language(HCL)</h2><ul>
+<li>자동화 구현에 용이</li>
+<li>반복 작업에 적합</li>
+<li>에러 발생 시 원상 복구가 쉬움</li>
+<li>최초 구현이 복잡함</li>
+</ul>
+<h2 id="4-AWS-CDK-DOM-모델-기반-Cloud-Development-Kit"><a href="#4-AWS-CDK-DOM-모델-기반-Cloud-Development-Kit" class="headerlink" title="4.AWS CDK(DOM 모델 기반, Cloud Development Kit)"></a>4.AWS CDK(DOM 모델 기반, Cloud Development Kit)</h2><ul>
+<li>친숙한 개발 언어로 작성</li>
+<li>단일 생성자를 기반으로 많은 AWS 리소스를 생성</li>
+<li>생성자는 간단한 클래스로 각각의 스택을 구성</li>
+<li>여전히 선언적이지만, 생성과 업데이트를 처리할 필요가 없음</li>
+</ul>
+<h3 id="결국-API-모든-방식은-결국-AWS-리소스를-사용-시-혹은-AWS-리소스들간-최종적으로는-API-Application-Programming-Interface-를-사용"><a href="#결국-API-모든-방식은-결국-AWS-리소스를-사용-시-혹은-AWS-리소스들간-최종적으로는-API-Application-Programming-Interface-를-사용" class="headerlink" title="결국 API : 모든 방식은 결국 AWS 리소스를 사용 시 혹은 AWS 리소스들간 최종적으로는 API(Application Programming Interface)를 사용"></a>결국 API : 모든 방식은 결국 AWS 리소스를 사용 시 혹은 AWS 리소스들간 최종적으로는 API(Application Programming Interface)를 사용</h3><h2 id="AWS의-shared-responsibility-model"><a href="#AWS의-shared-responsibility-model" class="headerlink" title="AWS의 shared responsibility model"></a>AWS의 shared responsibility model</h2><ul>
+<li>어떤 환경을 사용하더라도 AWS IAM 필요로 하고, 관리 주체와 책은 고객이다.</li>
+</ul>
+<h2 id="AWS-IAM-Identify-and-Access-Management"><a href="#AWS-IAM-Identify-and-Access-Management" class="headerlink" title="AWS IAM(Identify and Access Management)"></a>AWS IAM(Identify and Access Management)</h2><ul>
+<li>AWS 전체의 권한 통제 시스템 =&gt; <strong>인증</strong> + <strong>인가</strong></li>
+<li>인증 : 누구시죠? 정체를 밝혀라 ! (Identity)</li>
+<li>인가 : 권한 있으세요 ? (Access Management)</li>
+</ul>
+<h2 id="IAM-User-사용자-vs-IAM-Group-그룹"><a href="#IAM-User-사용자-vs-IAM-Group-그룹" class="headerlink" title="IAM User(사용자) vs IAM Group(그룹)"></a>IAM User(사용자) vs IAM Group(그룹)</h2><ul>
+<li>IAM Group 은 동일한 권한을 가져야 하는 IAM User 에게 권한을 설정하는 것을 편리하게 하기 위함이며, IAM Group 이 보안 주체가 될 수 없음</li>
+<li>IAM User는 최대 10개의 Group에 속할 수 있음</li>
+</ul>
+<h2 id="AWS-IAM-정책-Policy-의-JSON-구조"><a href="#AWS-IAM-정책-Policy-의-JSON-구조" class="headerlink" title="AWS IAM 정책(Policy)의 JSON 구조"></a>AWS IAM 정책(Policy)의 JSON 구조</h2><ul>
+<li>IAM Policy 는 AWS 서비스와 리소스에 대한 <strong>인가 기능</strong>을 제공</li>
+<li>IAM 은 여러분이 정의한 Policy 를 기반으로 AWS 요청을 검사/ 평가 하게 되며 최종적으로 허용 혹은 차단을 결정</li>
+</ul>
+<h2 id="IAM-advanced"><a href="#IAM-advanced" class="headerlink" title="IAM advanced"></a>IAM advanced</h2><h2 id="AWS-계정의-활동-모니터링-및-감사"><a href="#AWS-계정의-활동-모니터링-및-감사" class="headerlink" title="AWS 계정의 활동 모니터링 및 감사"></a>AWS 계정의 활동 모니터링 및 감사</h2><pre><code>* AWS CloudTrail - API 로깅, 감사 활동의 핵심
+* AWS IAM Access analyzer - 외부 엔터티와 공유되는 리소스 식별
+* Amazon GuardDuty - 위협탐지 서비스
+* AWS Security Hub - 통합 대쉬보드
+</code></pre>
+<h2 id="속성-기반-접근-제어"><a href="#속성-기반-접근-제어" class="headerlink" title="속성 기반 접근 제어"></a>속성 기반 접근 제어</h2><ul>
+<li>Before : 기존의 RBAC 방식 - 메번 개별적인 권한 관리 운영이 필요함</li>
+<li>ABCA : Attribute Based Access Control<ul>
+<li>IAM 보안 주체의 요소(attribute, 태그)를 이용해서 단일 policy 로 각기 다른 리소스에서 재사용가능한 접근 제어</li>
+</ul>
+</li>
+<li>After : 보안 주체가 가진 태그와 리소스가 가진 태그의 일치를 확인으로 권한 부여 가능 -&gt; 동적인 권한 부여 기능</li>
+</ul>
+<h2 id="Key-take-away"><a href="#Key-take-away" class="headerlink" title="Key take away"></a>Key take away</h2><ul>
+<li>Everything API, AWS 사용자들에게 IAM은 피할 수 없는 숙명</li>
+<li>IAM의 인증과 인가</li>
+<li>정책의 구조와 종류</li>
+<li>IAM 운영은 모범 사례에 맞춰서</li>
+<li>Beyond IAM, 워크로드 보안</li>
+</ul>
+<h2 id="실습-AWS-CLI"><a href="#실습-AWS-CLI" class="headerlink" title="실습) AWS CLI"></a>실습) AWS CLI</h2><p><code>도쿄리전</code> 접속 -&gt; 환경 구성이 다 될 때까지 기다리기</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 현재 AWS Web Console 로그인된 계정의 정보(권한)으로 AWS CLI 환경 사용</span><br><span class="line"># AWS CLI 사용 보안 주체의 정보</span><br><span class="line">aws configure list</span><br><span class="line"></span><br><span class="line"># s3 버킷 조회</span><br><span class="line">aws s3 ls</span><br><span class="line"></span><br><span class="line"># S3 버킷 생성</span><br><span class="line">aws s3 mb s3://버킷(유일한 이름) --region ap-northeast-2</span><br><span class="line"></span><br><span class="line"># s3 버킷 조회 or Web Console 확인</span><br><span class="line">aws s3 ls</span><br><span class="line"></span><br><span class="line"># S3 버킷 삭제</span><br><span class="line">aws s3 rb s3://버킷(유일한 이름)</span><br></pre></td></tr></table></figure>
+<img width="78" alt="스크린샷 2021-07-07 오후 10 26 20" src="https://user-images.githubusercontent.com/86812249/124787334-639ee680-df83-11eb-8cfc-775d7e207fa5.png">
+<img width="721" alt="스크린샷 2021-07-07 오후 10 27 38" src="https://user-images.githubusercontent.com/86812249/124787336-639ee680-df83-11eb-9e5e-bab11f7c6de8.png">
+<img width="365" alt="스크린샷 2021-07-07 오후 10 27 48" src="https://user-images.githubusercontent.com/86812249/124787340-64377d00-df83-11eb-825d-f59acef51ef2.png">
+<img width="711" alt="스크린샷 2021-07-07 오후 11 41 59" src="https://user-images.githubusercontent.com/86812249/124787344-64d01380-df83-11eb-89cc-c7b5271f71ef.png">
+<img width="360" alt="스크린샷 2021-07-07 오후 11 42 10" src="https://user-images.githubusercontent.com/86812249/124787349-64d01380-df83-11eb-8bf0-bbd4d1f92450.png">
+<img width="539" alt="스크린샷 2021-07-07 오후 11 42 49" src="https://user-images.githubusercontent.com/86812249/124787350-6568aa00-df83-11eb-9623-c3958a63c9bc.png">
+<img width="359" alt="스크린샷 2021-07-07 오후 11 43 00" src="https://user-images.githubusercontent.com/86812249/124787353-66014080-df83-11eb-8405-deb918b56ac4.png">
+
+<h2 id="실습-AWS-CloudTrail"><a href="#실습-AWS-CloudTrail" class="headerlink" title="실습)  AWS CloudTrail"></a>실습)  AWS CloudTrail</h2><p> 서비스 -&gt; CloudTrail -&gt; <code>이벤트 기록</code> 클릭<br><img width="204" alt="스크린샷 2021-07-07 오후 11 44 09" src="https://user-images.githubusercontent.com/86812249/124787355-66014080-df83-11eb-94eb-5502d583553f.png"></p>
+<p>특정 이벤트 클릭<br><img width="1087" alt="스크린샷 2021-07-07 오후 11 44 27" src="https://user-images.githubusercontent.com/86812249/124787358-6699d700-df83-11eb-8054-7719c710a399.png"><br><img width="454" alt="스크린샷 2021-07-07 오후 11 44 32" src="https://user-images.githubusercontent.com/86812249/124787362-67326d80-df83-11eb-971c-4fe75048c12a.png"></p>
+<p>상세정보(레코드)를 볼 수 있음<br><img alt="nothing" src="https://images.velog.io/images/icebear2n2/post/6b98654c-4a7c-4633-9823-f26b4c3b9fa2/D072F1CB-DEF5-4352-B988-514FDBE0F4AC.jpeg"></p>
+<h2 id="실습-IAM-User-생성-및-로그인"><a href="#실습-IAM-User-생성-및-로그인" class="headerlink" title="실습) IAM User 생성 및 로그인"></a>실습) IAM User 생성 및 로그인</h2><p>IAM -&gt; <code>사용자</code> 클릭<br><img width="215" alt="스크린샷 2021-07-07 오후 11 46 05" src="https://user-images.githubusercontent.com/86812249/124787372-68fc3100-df83-11eb-9248-51d91a62dcf2.png"></p>
+<p><code>사용자 추가</code> 클릭<br><img width="131" alt="스크린샷 2021-07-07 오후 11 46 12" src="https://user-images.githubusercontent.com/86812249/124787373-68fc3100-df83-11eb-8036-056e399b4c02.png"></p>
+<p><code>사용자 이름 : admin</code>.<br><code>프로그래밍 방식 엑세스</code>, <code>AWS Management Console 액세스</code>  선택 후 -&gt;  비밀번호 설정 -&gt; <code>다음: 권한</code> 클릭<br><img width="1063" alt="스크린샷 2021-07-07 오후 11 46 43" src="https://user-images.githubusercontent.com/86812249/124787378-6994c780-df83-11eb-9faf-4f9ebf7d35d1.png"></p>
+<p>상단 오른쪽에 <code>기존 정책 직접 연결</code> 클릭<br><img width="428" alt="스크린샷 2021-07-07 오후 11 46 50" src="https://user-images.githubusercontent.com/86812249/124787381-6a2d5e00-df83-11eb-8e41-b4bce692bad9.png"></p>
+<p><code>AdministratorAccess</code> 체크<br><img width="826" alt="스크린샷 2021-07-07 오후 11 46 57" src="https://user-images.githubusercontent.com/86812249/124787382-6ac5f480-df83-11eb-8cee-765a09655059.png"></p>
+<p>하단에 <code>다음: 태그</code> 클릭<br><img width="211" alt="스크린샷 2021-07-07 오후 11 47 02" src="https://user-images.githubusercontent.com/86812249/124787384-6ac5f480-df83-11eb-89bd-03dd9e39a8d5.png"></p>
+<p>기본 값으로 둔 후 -&gt; <code>다음: 검토</code> 클릭<br><img width="151" alt="스크린샷 2021-07-07 오후 11 47 28" src="https://user-images.githubusercontent.com/86812249/124787387-6b5e8b00-df83-11eb-91f5-0fcb016b878d.png"></p>
+<p>하단에 <code>사용자 만들기</code> 클릭<br><img width="199" alt="스크린샷 2021-07-07 오후 11 47 35" src="https://user-images.githubusercontent.com/86812249/124787388-6bf72180-df83-11eb-90f1-d79039d516f7.png"></p>
+<p>이 뒤로 닫기를 누르면 다시는 액세스키를 볼 수 없으니, <code>.csv 다운로드</code> 클릭해주자<br><img width="351" alt="스크린샷 2021-07-07 오후 11 47 46" src="https://user-images.githubusercontent.com/86812249/124787392-6bf72180-df83-11eb-869c-08e8e256fe21.png"></p>
+<p>다음 계정도 똑같이 만들어 주자<br><code>사용자 이름: viewuser</code>.<br><code>AWS Management Console 액세스</code> 만 체크 후 -&gt; 비밀 번호 설정 -&gt; <code>다음: 권한</code> 클릭<br><img width="1081" alt="스크린샷 2021-07-07 오후 11 48 18" src="https://user-images.githubusercontent.com/86812249/124787397-6c8fb800-df83-11eb-971f-4f2493f57c1e.png"></p>
+<p>상단 오른쪽에 <code>기존 정책 직접 연결</code> 클릭<br><img width="352" alt="스크린샷 2021-07-07 오후 11 48 43" src="https://user-images.githubusercontent.com/86812249/124787400-6d284e80-df83-11eb-8f79-6a736cfbec75.png"></p>
+<p><code>view</code>를 검색 후, <code>ViewOnlyAccess</code> 클릭 -&gt; <code>다음: 태그</code> 클릭<br><img width="1035" alt="스크린샷 2021-07-07 오후 11 48 59" src="https://user-images.githubusercontent.com/86812249/124787402-6d284e80-df83-11eb-9b54-ed1d5d0f8376.png"></p>
+<p>기본 값으로 둔 후 -&gt; <code>다음: 검토</code> 클릭<br><img width="142" alt="스크린샷 2021-07-07 오후 11 49 07" src="https://user-images.githubusercontent.com/86812249/124787404-6dc0e500-df83-11eb-8a1c-eddfa3ffefbf.png"></p>
+<p>하단에 <code>사용자 만들기</code> 클릭<br><img width="152" alt="스크린샷 2021-07-07 오후 11 49 11" src="https://user-images.githubusercontent.com/86812249/124787408-6e597b80-df83-11eb-97b0-9ae355c0245a.png"></p>
+<p>view는 액세스키 사용할 일이 없으니 굳이 저장하지 말자<br><img width="1053" alt="스크린샷 2021-07-07 오후 11 49 23" src="https://user-images.githubusercontent.com/86812249/124787410-6e597b80-df83-11eb-9013-817c7c491916.png"></p>
+<p>IAM ‘admin’ 으로 로그인 해보자 (다른 브라우저로 접속 권장, 다시 로그인하기 귀찮기 때문에 ㅎㅎ…)<br><img width="392" alt="스크린샷 2021-07-07 오후 11 50 30" src="https://user-images.githubusercontent.com/86812249/124787412-6ef21200-df83-11eb-9017-55118e253828.png"></p>
+<p>s3 -&gt; <code>버킷 만들기</code> 클릭<br><img width="187" alt="스크린샷 2021-07-07 오후 11 51 50" src="https://user-images.githubusercontent.com/86812249/124787413-6f8aa880-df83-11eb-8fd9-f617f07f8a22.png"></p>
+<p>이름 마음대로 설정 후, <code>버킷 만들기</code> 클릭<br><img width="759" alt="스크린샷 2021-07-07 오후 11 52 14" src="https://user-images.githubusercontent.com/86812249/124787415-6f8aa880-df83-11eb-887d-865a0c01a6e8.png"><br><img width="203" alt="스크린샷 2021-07-07 오후 11 52 17" src="https://user-images.githubusercontent.com/86812249/124787416-70233f00-df83-11eb-9f9a-d844b0fd103d.png"></p>
+<p>만들어졌습니당<br><img width="910" alt="스크린샷 2021-07-07 오후 11 52 58" src="https://user-images.githubusercontent.com/86812249/124787418-70bbd580-df83-11eb-93c3-8b03e5770a75.png"></p>
+<p><code>삭제</code> 클릭 -&gt; <code>버킷 삭제</code> 클릭<br><img width="101" alt="스크린샷 2021-07-07 오후 11 53 08" src="https://user-images.githubusercontent.com/86812249/124787423-70bbd580-df83-11eb-8537-64237cc8c8c9.png"><br><img width="848" alt="스크린샷 2021-07-07 오후 11 53 19" src="https://user-images.githubusercontent.com/86812249/124787426-71546c00-df83-11eb-8b64-fb287f651a6d.png"></p>
+<p>삭제도 가능하네요 !<br><img width="890" alt="스크린샷 2021-07-07 오후 11 53 25" src="https://user-images.githubusercontent.com/86812249/124787430-71ed0280-df83-11eb-913e-3892406a1d92.png"></p>
+<p>이번엔 ‘viewuser’로 로그인 해봅시다<br><img width="366" alt="스크린샷 2021-07-07 오후 11 53 57" src="https://user-images.githubusercontent.com/86812249/124787433-71ed0280-df83-11eb-8421-93b03634c706.png"></p>
+<p>s3 -&gt; <code>버킷 만들기</code> 클릭<br><img width="146" alt="스크린샷 2021-07-07 오후 11 55 05" src="https://user-images.githubusercontent.com/86812249/124787439-731e2f80-df83-11eb-9f4c-fe883b71eb20.png"></p>
+<p>이름 마음대로 설정 후, <code>버킷 만들기</code> 클릭<br><img width="852" alt="스크린샷 2021-07-07 오후 11 55 19" src="https://user-images.githubusercontent.com/86812249/124787440-731e2f80-df83-11eb-909c-a2e7ed581757.png"><br><img width="156" alt="스크린샷 2021-07-07 오후 11 55 23" src="https://user-images.githubusercontent.com/86812249/124787442-73b6c600-df83-11eb-94df-b4ccece6e0f6.png"></p>
+<p>만들어지지 않습니다 이 IAM 계정에는 <code>볼 수 있는 권한</code>밖에 없기 때문이죠<br><img width="828" alt="스크린샷 2021-07-07 오후 11 55 29" src="https://user-images.githubusercontent.com/86812249/124787447-744f5c80-df83-11eb-938a-c6062b10ce72.png"></p>
+<h2 id="실습-admin-사용자로-AWS-CLI-사용하기"><a href="#실습-admin-사용자로-AWS-CLI-사용하기" class="headerlink" title="실습) admin 사용자로 AWS CLI 사용하기"></a>실습) admin 사용자로 AWS CLI 사용하기</h2><p>저는 귀찮아서 그냥 CLI 앱을 깔았습니다<br><img width="364" alt="스크린샷 2021-07-07 오후 11 57 41" src="https://user-images.githubusercontent.com/86812249/124787452-74e7f300-df83-11eb-83a8-a093bff61f46.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># aws cli 사용을 위한 자격 증명 설정</span><br><span class="line">$ aws configure</span><br><span class="line">AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE</span><br><span class="line">AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span><br><span class="line">Default region name [None]: ap-northeast-2</span><br><span class="line">Default output format [None]: table</span><br><span class="line"></span><br><span class="line"># 자격 증명 List 확인</span><br><span class="line">$ aws configure list</span><br><span class="line"></span><br><span class="line"># VPC 정보 확인</span><br><span class="line">$ aws ec2 describe-vpcs</span><br></pre></td></tr></table></figure>
+<img width="480" alt="스크린샷 2021-07-08 오전 12 02 56" src="https://user-images.githubusercontent.com/86812249/124787456-75808980-df83-11eb-8989-3418247373c7.png">
+<img width="512" alt="스크린샷 2021-07-08 오전 12 03 40" src="https://user-images.githubusercontent.com/86812249/124787460-76192000-df83-11eb-93fe-23c09759f3b9.png">
+<img width="469" alt="스크린샷 2021-07-08 오전 12 03 49" src="https://user-images.githubusercontent.com/86812249/124787462-76192000-df83-11eb-915d-b2376b64f529.png">
+
+<h2 id="실습-IAM-Role"><a href="#실습-IAM-Role" class="headerlink" title="실습) IAM Role"></a>실습) IAM Role</h2><p>CloudFormation 스택 생성 클릭 후 밑에 링크 클릭</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ap-northeast-2.console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=IamLab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FIAM%2Fiamlab.yaml</span><br></pre></td></tr></table></figure>
+
+<p>맨 하단에 <code>다음</code> 클릭<br><img alt="2021-07-08 오전 12 04 28" src="https://user-images.githubusercontent.com/86812249/124787466-76b1b680-df83-11eb-8f79-d98b7991a216.png"></p>
+<p>하단에 키값 설정 후 <code>다음</code> 클릭<br><img alt="스크린샷 2021-07-08 오전 12 04 43" src="https://user-images.githubusercontent.com/86812249/124787469-774a4d00-df83-11eb-804b-86a999b3ed7f.png"></p>
+<p>기본 값으로 둔 후 -&gt; <code>다음</code> 클릭<br><img alt="스크린샷 2021-07-08 오전 12 04 49" src="https://user-images.githubusercontent.com/86812249/124787471-774a4d00-df83-11eb-9dbc-b4b25eeed46f.png"></p>
+<p>하단에 파란박스 체크 후에 <code>스택 생성</code> 클릭<br><img alt="스크린샷 2021-07-08 오전 12 04 57" src="https://user-images.githubusercontent.com/86812249/124787479-77e2e380-df83-11eb-9612-c4c3ec5f9e58.png"></p>
+<p>만들어졌습니당<br><img alt="스크린샷 2021-07-08 오전 12 05 04" src="https://user-images.githubusercontent.com/86812249/124787481-787b7a00-df83-11eb-8b42-e98cf35fb9a9.png"></p>
+<p>EC2 -&gt; <code>인스턴스</code> 클릭<br>EC2가 생성되고 있네요 !<br><img alt="스크린샷 2021-07-08 오전 12 05 52" src="https://user-images.githubusercontent.com/86812249/124787483-79141080-df83-11eb-824d-dfcf5344fb8b.png"></p>
+<p><code>S3IAMRoleEC2</code>에 들어가보면 IAM 역할에 <code>STGLabInstanceRole</code>이 적용된 게 보이실 겁니다<br><img alt="스크린샷 2021-07-08 오전 12 06 24" src="https://user-images.githubusercontent.com/86812249/124787486-79141080-df83-11eb-9ad1-04ee3afb65aa.png"></p>
+<p><code>BasicEC2 SSH</code> 접속</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># aws cli 사용을 위한 자격 증명 설정 (admin)</span><br><span class="line">$ aws configure</span><br><span class="line">AWS Access Key ID [None]: AKIAIOSFODNN7EX####</span><br><span class="line">AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MD####</span><br><span class="line">Default region name [None]: ap-northeast-2</span><br><span class="line">Default output format [None]: table</span><br><span class="line"></span><br><span class="line"># 자격 증명 List 확인</span><br><span class="line">$ aws configure list</span><br><span class="line"></span><br><span class="line"># ec2 조회</span><br><span class="line">aws ec2 describe-instances</span><br></pre></td></tr></table></figure>
+<img alt="스크린샷 2021-07-08 오전 12 06 27" src="https://user-images.githubusercontent.com/86812249/124787490-79aca700-df83-11eb-988c-c658cbbc7fed.png">
+<img width="307" alt="스크린샷 2021-07-08 오전 12 11 12" src="https://user-images.githubusercontent.com/86812249/124787491-7a453d80-df83-11eb-9ea6-0b778312b2dc.png">
+<img width="514" alt="스크린샷 2021-07-08 오전 12 11 33" src="https://user-images.githubusercontent.com/86812249/124787493-7a453d80-df83-11eb-8edc-57350f6c9766.png">
+
+<p><code>S3IAMRoleEC2</code>에 아이디를 복사</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># S3IAMRoleEC2 재시작</span><br><span class="line">aws ec2 reboot-instances --instance-ids &#x27;S3IAMRoleEC2&#x27;</span><br><span class="line">ping &#x27;S3IAMRoleEC2&#x27;</span><br></pre></td></tr></table></figure>
+<img width="569" alt="스크린샷 2021-07-08 오전 12 12 11" src="https://user-images.githubusercontent.com/86812249/124787494-7addd400-df83-11eb-9382-06345949bf20.png">
+<img alt="스크린샷 2021-07-08 오전 12 14 23" src="https://user-images.githubusercontent.com/86812249/124787497-7b766a80-df83-11eb-9b43-2a5cf94623ff.png">
+<img alt="스크린샷 2021-07-08 오전 12 14 27" src="https://user-images.githubusercontent.com/86812249/124787501-7b766a80-df83-11eb-9eca-db1f36d7b47e.png">
+<img width="568" alt="스크린샷 2021-07-08 오전 12 14 45" src="https://user-images.githubusercontent.com/86812249/124787503-7c0f0100-df83-11eb-9386-6c84d4f7acf2.png">
+<img width="550" alt="스크린샷 2021-07-08 오전 12 14 53" src="https://user-images.githubusercontent.com/86812249/124787507-7ca79780-df83-11eb-91b5-cdb585c7796d.png">
+
+<p>S3IAMRoleEC2 SSH 접속 → 자격 증명 없이도 S3 사용 가능</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 현재 EC2에 적용된 IAM Role(EC2 Profile) 정보 확인</span><br><span class="line">curl http://169.254.169.254/latest/meta-data/iam/security-credentials/STGLabInstanceRole</span><br><span class="line"></span><br><span class="line"># S3 버킷 조회</span><br><span class="line">aws s3 ls</span><br><span class="line"></span><br><span class="line"># S3 버킷 생성</span><br><span class="line">aws s3 mb s3://버킷(유일한 이름) --region ap-northeast-2</span><br><span class="line"></span><br><span class="line"># S3 버킷 삭제</span><br><span class="line">aws s3 rm s3://버킷</span><br></pre></td></tr></table></figure>
+<img width="485" alt="스크린샷 2021-07-08 오전 12 15 53" src="https://user-images.githubusercontent.com/86812249/124787509-7ca79780-df83-11eb-9a1b-e7b3d8cd3327.png">
+<img width="557" alt="스크린샷 2021-07-08 오전 12 17 33" src="https://user-images.githubusercontent.com/86812249/124787513-7dd8c480-df83-11eb-995f-1b78ae0c513a.png">
+<img width="290" alt="스크린샷 2021-07-08 오전 12 17 44" src="https://user-images.githubusercontent.com/86812249/124787517-7e715b00-df83-11eb-97c7-226655a547fb.png">
+<img width="565" alt="스크린샷 2021-07-08 오전 12 18 17" src="https://user-images.githubusercontent.com/86812249/124787521-7e715b00-df83-11eb-93ec-b3d824d04925.png">
+<img width="567" alt="스크린샷 2021-07-08 오전 12 19 28" src="https://user-images.githubusercontent.com/86812249/124787539-80d3b500-df83-11eb-9755-df3e14aa8f67.png">
+<img width="300" alt="스크린샷 2021-07-08 오전 12 19 40" src="https://user-images.githubusercontent.com/86812249/124787540-816c4b80-df83-11eb-948f-1e3bc5f9c8b3.png">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># VPC 정보 확인</span><br><span class="line">$ aws ec2 describe-vpcs</span><br></pre></td></tr></table></figure>
+
+<p>권한이 없어서 VPC 확인을 하지 못합니다<br><img width="566" alt="스크린샷 2021-07-08 오전 12 20 04" src="https://user-images.githubusercontent.com/86812249/124787542-816c4b80-df83-11eb-81a6-ca4e5eff489f.png"></p>
+<h2 id="실습-IAM-Policy"><a href="#실습-IAM-Policy" class="headerlink" title="실습) IAM Policy"></a>실습) IAM Policy</h2><p>IAM → 사용자 → <code>admin</code> 클릭 →  권한에  <code>+ 인라인 정책 추가</code> 클릭<br><img width="290" alt="스크린샷 2021-07-08 오전 12 20 32" src="https://user-images.githubusercontent.com/86812249/124787546-8204e200-df83-11eb-856a-4c969aef775d.png"><br><img width="99" alt="스크린샷 2021-07-08 오전 12 20 48" src="https://user-images.githubusercontent.com/86812249/124787550-829d7880-df83-11eb-80e0-55de6fcbc0d9.png"><br><img width="344" alt="스크린샷 2021-07-08 오전 12 20 52" src="https://user-images.githubusercontent.com/86812249/124787553-829d7880-df83-11eb-94f7-4e9a419f5c76.png"></p>
+<p><code>JSON</code> 클릭 후 아래 내용 입력 -&gt; <code>정책 검토</code> 클릭</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;Version&quot;</span>: <span class="string">&quot;2012-10-17&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;Statement&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;Effect&quot;</span>: <span class="string">&quot;Deny&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;Action&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;ec2:RebootInstances&quot;</span>,</span><br><span class="line">                <span class="string">&quot;ec2:StopInstances&quot;</span>,</span><br><span class="line">                <span class="string">&quot;ec2:TerminateInstances&quot;</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">&quot;Resource&quot;</span>: <span class="string">&quot;*&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img width="144" alt="스크린샷 2021-07-08 오전 12 21 08" src="https://user-images.githubusercontent.com/86812249/124787556-83360f00-df83-11eb-99b8-fc97c93eda88.png">
+<img width="1260" alt="스크린샷 2021-07-08 오전 12 21 28" src="https://user-images.githubusercontent.com/86812249/124787558-83cea580-df83-11eb-8ad5-be23cd801764.png">
+
+<p>이름은 아무거나<br>하단에 <code>정책 생성</code> 클릭<br><img width="1254" alt="스크린샷 2021-07-08 오전 12 22 14" src="https://user-images.githubusercontent.com/86812249/124787565-84ffd280-df83-11eb-9658-623126cb434d.png"></p>
+<p>정책이 생겼습니당<br><img width="699" alt="스크린샷 2021-07-08 오전 12 22 26" src="https://user-images.githubusercontent.com/86812249/124787567-85986900-df83-11eb-9f62-91d193e188d6.png"></p>
+<p>다시 Basic 인스턴스 CLI로 돌아간 후  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># ec2 조회</span><br><span class="line">aws ec2 describe-instances</span><br><span class="line"></span><br><span class="line"># S3IAMRoleEC2 재시작</span><br><span class="line">aws ec2 reboot-instances --instance-ids &#x27;S3IAMRoleEC2&#x27;</span><br></pre></td></tr></table></figure>
+
+<img width="561" alt="스크린샷 2021-07-08 오전 12 22 52" src="https://user-images.githubusercontent.com/86812249/124787571-85986900-df83-11eb-82f8-a95f1ecb14b0.png">
+
+<p>재시작은 안 되는 걸 볼 수 있다. 아까 추가한 인라인 정책 중 Deny 항목에 <strong>ec2:RebootInstances</strong>이 있었기 때문이다<br><img width="609" alt="스크린샷 2021-07-08 오전 12 25 41" src="https://user-images.githubusercontent.com/86812249/124787574-8630ff80-df83-11eb-9f17-34c8efd419ae.png"></p>
+<h2 id="실습이-끝난-후-자원-삭제-꼭-하기"><a href="#실습이-끝난-후-자원-삭제-꼭-하기" class="headerlink" title="실습이 끝난 후, 자원 삭제 꼭 하기 !"></a>실습이 끝난 후, 자원 삭제 꼭 하기 !</h2><ul>
+<li>IAM User 삭제(admin, viewuser)</li>
+<li>CloudFormation 삭제</li>
+</ul>
+<hr/>
+
+<h3 id="참고-자료-AFOS-2기-노션-내용"><a href="#참고-자료-AFOS-2기-노션-내용" class="headerlink" title="참고 자료 : AFOS[2기] 노션 내용"></a>참고 자료 : AFOS[2기] 노션 내용</h3>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Sujeong Hyeon</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/07/12/2021-07-07-AFOS/" target="_blank" title="5주차 - 보안 서비스">http://icebear2n2.github.io/2021/07/12/2021-07-07-AFOS/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/12/2021-06-30-AFOS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">4주차 - 스토리지 서비스</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-3%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95"><span class="nav-number">1.</span> <span class="nav-text">AWS 사용하는 3가지 방법</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%EA%B4%80%EB%A6%AC-%EC%BD%98%EC%86%94%EB%A1%9C-%EB%A6%AC%EC%86%8C%EC%8A%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0"><span class="nav-number">2.</span> <span class="nav-text">1.관리 콘솔로 리소스 만들기</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%EC%BD%94%EB%93%9C-%ED%98%95%ED%83%9C%EC%9D%98-%EB%AA%85%EB%A0%B9%ED%98%95-%EC%9D%B8%ED%94%84%EB%9D%BC-CLI-Command-Line-Interface"><span class="nav-number">3.</span> <span class="nav-text">2.코드 형태의 명령형 인프라 : CLI(Command Line Interface)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%EC%BD%94%EB%93%9C%EB%A1%9C%EC%84%9C%EC%9D%98-%EC%84%A0%EC%96%B8%EC%A0%81-%EC%9D%B8%ED%94%84%EB%9D%BC-AWS-CloudFormation-template-HashiCorp-Configuation-Language-HCL"><span class="nav-number">4.</span> <span class="nav-text">3.코드로서의 선언적 인프라 : AWS CloudFormation template, HashiCorp Configuation Language(HCL)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-AWS-CDK-DOM-%EB%AA%A8%EB%8D%B8-%EA%B8%B0%EB%B0%98-Cloud-Development-Kit"><span class="nav-number">5.</span> <span class="nav-text">4.AWS CDK(DOM 모델 기반, Cloud Development Kit)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B2%B0%EA%B5%AD-API-%EB%AA%A8%EB%93%A0-%EB%B0%A9%EC%8B%9D%EC%9D%80-%EA%B2%B0%EA%B5%AD-AWS-%EB%A6%AC%EC%86%8C%EC%8A%A4%EB%A5%BC-%EC%82%AC%EC%9A%A9-%EC%8B%9C-%ED%98%B9%EC%9D%80-AWS-%EB%A6%AC%EC%86%8C%EC%8A%A4%EB%93%A4%EA%B0%84-%EC%B5%9C%EC%A2%85%EC%A0%81%EC%9C%BC%EB%A1%9C%EB%8A%94-API-Application-Programming-Interface-%EB%A5%BC-%EC%82%AC%EC%9A%A9"><span class="nav-number">5.1.</span> <span class="nav-text">결국 API : 모든 방식은 결국 AWS 리소스를 사용 시 혹은 AWS 리소스들간 최종적으로는 API(Application Programming Interface)를 사용</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS%EC%9D%98-shared-responsibility-model"><span class="nav-number">6.</span> <span class="nav-text">AWS의 shared responsibility model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-IAM-Identify-and-Access-Management"><span class="nav-number">7.</span> <span class="nav-text">AWS IAM(Identify and Access Management)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IAM-User-%EC%82%AC%EC%9A%A9%EC%9E%90-vs-IAM-Group-%EA%B7%B8%EB%A3%B9"><span class="nav-number">8.</span> <span class="nav-text">IAM User(사용자) vs IAM Group(그룹)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-IAM-%EC%A0%95%EC%B1%85-Policy-%EC%9D%98-JSON-%EA%B5%AC%EC%A1%B0"><span class="nav-number">9.</span> <span class="nav-text">AWS IAM 정책(Policy)의 JSON 구조</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IAM-advanced"><span class="nav-number">10.</span> <span class="nav-text">IAM advanced</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-%EA%B3%84%EC%A0%95%EC%9D%98-%ED%99%9C%EB%8F%99-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81-%EB%B0%8F-%EA%B0%90%EC%82%AC"><span class="nav-number">11.</span> <span class="nav-text">AWS 계정의 활동 모니터링 및 감사</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%86%8D%EC%84%B1-%EA%B8%B0%EB%B0%98-%EC%A0%91%EA%B7%BC-%EC%A0%9C%EC%96%B4"><span class="nav-number">12.</span> <span class="nav-text">속성 기반 접근 제어</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Key-take-away"><span class="nav-number">13.</span> <span class="nav-text">Key take away</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-AWS-CLI"><span class="nav-number">14.</span> <span class="nav-text">실습) AWS CLI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-AWS-CloudTrail"><span class="nav-number">15.</span> <span class="nav-text">실습)  AWS CloudTrail</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-User-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EB%A1%9C%EA%B7%B8%EC%9D%B8"><span class="nav-number">16.</span> <span class="nav-text">실습) IAM User 생성 및 로그인</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-admin-%EC%82%AC%EC%9A%A9%EC%9E%90%EB%A1%9C-AWS-CLI-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0"><span class="nav-number">17.</span> <span class="nav-text">실습) admin 사용자로 AWS CLI 사용하기</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-Role"><span class="nav-number">18.</span> <span class="nav-text">실습) IAM Role</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-Policy"><span class="nav-number">19.</span> <span class="nav-text">실습) IAM Policy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5%EC%9D%B4-%EB%81%9D%EB%82%9C-%ED%9B%84-%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C-%EA%BC%AD-%ED%95%98%EA%B8%B0"><span class="nav-number">20.</span> <span class="nav-text">실습이 끝난 후, 자원 삭제 꼭 하기 !</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C-AFOS-2%EA%B8%B0-%EB%85%B8%EC%85%98-%EB%82%B4%EC%9A%A9"><span class="nav-number">20.1.</span> <span class="nav-text">참고 자료 : AFOS[2기] 노션 내용</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 Sujeong&#39;s Blog All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Sujeong&#39;s Blog
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Sujeong Hyeon All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
