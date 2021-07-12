@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>3주차 - 네트워킹 서비스 | Sujeong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="AFOS[2기]" />
+  
+  
+  
+  
+  <meta name="description" content="AWS VPC 란 ? Virtual Private Cloud의 약자 AWS 클라우드 내 논리적으로 독립된 섹션을 제공허여 사용자가 정의한 가상 네트워크상에서 다양한 AWS 리소스를 실행할 수 있게 지원 독립된 가상 클라우드 네트워크 VPC 내에서 IP대역, 인터페이스, 서브넷, 라우팅 테이블, 인터넷 게이트웨이,보안 그룹, 네트워크 ACL 등을 생성하고 제">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3주차 - 네트워킹 서비스">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/12/2021-06-23-AFOS/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="AWS VPC 란 ? Virtual Private Cloud의 약자 AWS 클라우드 내 논리적으로 독립된 섹션을 제공허여 사용자가 정의한 가상 네트워크상에서 다양한 AWS 리소스를 실행할 수 있게 지원 독립된 가상 클라우드 네트워크 VPC 내에서 IP대역, 인터페이스, 서브넷, 라우팅 테이블, 인터넷 게이트웨이,보안 그룹, 네트워크 ACL 등을 생성하고 제">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097802-71287c80-d46b-11eb-8fe0-522e76d2e1fc.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097809-7259a980-d46b-11eb-8801-1bfb2e337852.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097814-74bc0380-d46b-11eb-8a75-da48e68f7990.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097816-74bc0380-d46b-11eb-9141-dcdda659fa20.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097820-75ed3080-d46b-11eb-9235-2f27507f0d0e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097824-7685c700-d46b-11eb-87e5-4e4c4d4fad6d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097825-771e5d80-d46b-11eb-96d0-8aa9d727460d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097828-77b6f400-d46b-11eb-94bb-5463b1eb4611.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097829-77b6f400-d46b-11eb-9b3a-4e6d11710de5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097831-784f8a80-d46b-11eb-8f4c-18531adda049.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097834-784f8a80-d46b-11eb-8762-4267359397ec.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097838-78e82100-d46b-11eb-936c-a87eae53eaf7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097840-7980b780-d46b-11eb-9c7e-db584c4cd117.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097841-7a194e00-d46b-11eb-8cae-1cbf67b39323.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097846-7b4a7b00-d46b-11eb-8a9c-2f13a6a422f2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097850-7be31180-d46b-11eb-9d2e-940d4a92c041.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097851-7c7ba800-d46b-11eb-8295-aaf1106c6553.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097855-7dacd500-d46b-11eb-9926-700810e7f6c4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097857-7e456b80-d46b-11eb-9c17-e4e47a4d5910.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097861-7ede0200-d46b-11eb-9f6f-6445d01cde75.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097864-7f769880-d46b-11eb-9bc2-06cb0895f7a4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097865-7f769880-d46b-11eb-8e68-65039f7796ff.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097867-800f2f00-d46b-11eb-9134-afd950e88a70.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097868-800f2f00-d46b-11eb-821f-a20db9463779.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097870-80a7c580-d46b-11eb-957d-b6bf5ef97fdd.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097879-81405c00-d46b-11eb-9003-4df453dd3eab.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097883-82718900-d46b-11eb-9150-85734da828d5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097888-830a1f80-d46b-11eb-9625-1393e07dc99e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097890-830a1f80-d46b-11eb-8e9f-205ff6bcc550.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097894-83a2b600-d46b-11eb-937b-5703d52e0bab.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097896-843b4c80-d46b-11eb-8092-2ef4a3824c34.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097899-84d3e300-d46b-11eb-9961-5a5267e037e7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097902-856c7980-d46b-11eb-871f-e763b4624377.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097911-869da680-d46b-11eb-8a3f-80dd2f67f57f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097909-869da680-d46b-11eb-8efe-064978fc59c7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097906-856c7980-d46b-11eb-995f-80e40477ddce.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123097915-87363d00-d46b-11eb-9efd-289dd866e145.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106331-82758700-d473-11eb-9e96-428057e6a713.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106334-843f4a80-d473-11eb-98cf-955c560d7b8e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106338-86090e00-d473-11eb-9d38-ba4b809edf34.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106343-86a1a480-d473-11eb-81d9-4dc6e907b938.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106344-873a3b00-d473-11eb-90a8-b018fd2819fa.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106345-873a3b00-d473-11eb-8fa1-f7c994bfb2f9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106346-87d2d180-d473-11eb-9f8d-63a6198fb5e5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106348-886b6800-d473-11eb-9511-91d79ea4fa2d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106351-886b6800-d473-11eb-8c0a-dfa538a1e9be.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106354-8903fe80-d473-11eb-9332-9524749b66fb.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106356-8903fe80-d473-11eb-9ea0-5a39d9f6fed5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106357-899c9500-d473-11eb-8037-6523d222116b.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106359-8a352b80-d473-11eb-9a40-c8ab1145446f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106361-8acdc200-d473-11eb-884e-8bfc61497721.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106364-8acdc200-d473-11eb-8c45-b02a4621554d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106372-8bfeef00-d473-11eb-8bcf-04ab20f3fe17.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106368-8b665880-d473-11eb-9738-982202e7eea4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106376-8bfeef00-d473-11eb-8c01-758153b6d334.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106377-8c978580-d473-11eb-80cf-59c6e8ec1624.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106382-8d301c00-d473-11eb-9b1e-81615d79c64d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106384-8d301c00-d473-11eb-8d8c-4d7d63df50e5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106385-8dc8b280-d473-11eb-904f-7bf8bb00a3f5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106390-8dc8b280-d473-11eb-95c1-ca3e22531989.png">
+<meta property="article:published_time" content="2021-07-12T11:55:53.093Z">
+<meta property="article:modified_time" content="2021-07-12T11:55:56.725Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/76810787/123097802-71287c80-d46b-11eb-8fe0-522e76d2e1fc.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2021-06-23-AFOS" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      3주차 - 네트워킹 서비스
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/07/12/2021-06-23-AFOS/" class="article-date">
+	  <time datetime="2021-07-12T11:55:53.093Z" itemprop="datePublished">2021-07-12</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="AWS-VPC-란"><a href="#AWS-VPC-란" class="headerlink" title="AWS VPC 란 ?"></a>AWS VPC 란 ?</h2><ul>
+<li>Virtual Private Cloud의 약자</li>
+<li>AWS 클라우드 내 논리적으로 독립된 섹션을 제공허여 사용자가 정의한 가상 네트워크상에서 다양한 AWS 리소스를 실행할 수 있게 지원</li>
+<li>독립된 가상 클라우드 네트워크</li>
+<li>VPC 내에서 IP대역, 인터페이스, 서브넷, 라우팅 테이블, 인터넷 게이트웨이,보안 그룹, 네트워크 ACL 등을 생성하고 제어할 수 있음<br/>
+<br/></li>
+</ul>
+<span id="more"></span>
+
+<h2 id="기본-네트워크-개념"><a href="#기본-네트워크-개념" class="headerlink" title="기본 네트워크 개념"></a>기본 네트워크 개념</h2><h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><ul>
+<li>공인 IP : 전 세계 유일한 주소, 인터넷</li>
+<li>사설 IP : 맘껏 사용, 인터넷 사용 시 NAT을 사용해야 함<br/></li>
+</ul>
+<h2 id="IP-통신"><a href="#IP-통신" class="headerlink" title="IP 통신"></a>IP 통신</h2><ul>
+<li>동일 네트워크 : 그냥 됨</li>
+<li>다른 네트워크 : Gateway 필요<br/></li>
+</ul>
+<h2 id="NAT-Network-Address-Translation"><a href="#NAT-Network-Address-Translation" class="headerlink" title="NAT (Network Address Translation)"></a>NAT (Network Address Translation)</h2><ul>
+<li>네트워크 주소(IP) 변환헤주는 기술</li>
+<li>프라이빗 IP 를 퍼블릭 IP로 변환해줌<br/>
+<br/></li>
+</ul>
+<h2 id="VPC-리소스"><a href="#VPC-리소스" class="headerlink" title="VPC 리소스"></a>VPC 리소스</h2><h2 id="서브넷"><a href="#서브넷" class="headerlink" title="서브넷"></a>서브넷</h2><ul>
+<li>네트워크 영역을 부분적으로 나눈 망으로 정의</li>
+<li>AWS의 VPC에서도 서브넷을 통해 네트워크를 분리하여 나눌 수 있음</li>
+<li>서브넷의 IP대역은 VPC의 IP대역에 속해 있어야 하며, <strong>서브넷은 1개의 가용영역(AZ)에 종속되어 있어야 함</strong><br/></li>
+</ul>
+<h2 id="퍼블릭-서브넷"><a href="#퍼블릭-서브넷" class="headerlink" title="퍼블릭 서브넷"></a>퍼블릭 서브넷</h2><ul>
+<li>공인 네트워크 개념</li>
+<li>외부 인터넷 구간과 직접적으로 통신할 수 있는 공공 네트워크<br/></li>
+</ul>
+<h2 id="프라이빗-서브넷"><a href="#프라이빗-서브넷" class="headerlink" title="프라이빗 서브넷"></a>프라이빗 서브넷</h2><ul>
+<li>사설 네트워크 개념</li>
+<li>외부 인터넷 구간과 직접적인 통신을 할 수 없는 폐쇄적인 네트워크<br/></li>
+</ul>
+<h2 id="보안-그룹과-네트워크-ACL"><a href="#보안-그룹과-네트워크-ACL" class="headerlink" title="보안 그룹과 네트워크 ACL"></a>보안 그룹과 네트워크 ACL</h2><ul>
+<li>VPC는 <strong>인스턴스</strong> 레벨과 <strong>서브넷</strong> 레벨 상에서 대상을 필터링 할 수 있는 보안 기술을 사용할 수 있음</li>
+<li>인스턴스 레벨에서의 보안 기술 : 보안 그룹 (Security Group)</li>
+<li>서브넷 레벨에서의 보안 기술 : 네트워크 ACL (Access Control List)<br/>
+<br/></li>
+</ul>
+<hr/>
+
+<h2 id="실습"><a href="#실습" class="headerlink" title="실습"></a>실습</h2><h2 id="1-퍼블릭-서브넷-VPC-생성"><a href="#1-퍼블릭-서브넷-VPC-생성" class="headerlink" title="1) 퍼블릭 서브넷 VPC 생성"></a>1) 퍼블릭 서브넷 VPC 생성</h2><p><code>VPC</code> -&gt; <code>VPC 생성</code> 클릭<br><br/></p>
+<img width="135" alt="스크린샷 2021-06-23 오후 9 20 44" src="https://user-images.githubusercontent.com/76810787/123097802-71287c80-d46b-11eb-8fe0-522e76d2e1fc.png">
+<br/>
+
+<p><strong>VPC 생성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">이름 : 이름-VPC</span><br><span class="line">IPv4 CIDR 블록 : 10.0.0.0/16</span><br></pre></td></tr></table></figure>
+<br/>
+
+<p>나머지 기본값으로 나둔 후 -&gt; <code>VPC 생성</code> 클릭<br><br/></p>
+<img width="915" alt="스크린샷 2021-06-23 오후 9 21 31" src="https://user-images.githubusercontent.com/76810787/123097809-7259a980-d46b-11eb-8801-1bfb2e337852.png">
+<img width="305" alt="스크린샷 2021-06-23 오후 9 21 38" src="https://user-images.githubusercontent.com/76810787/123097814-74bc0380-d46b-11eb-8a75-da48e68f7990.png">
+<br/>
+
+<p><code>VPC</code> -&gt; <code>서브넷</code> -&gt; <code>서브넷 생성</code> 클릭<br><br/></p>
+<img width="223" alt="스크린샷 2021-06-23 오후 9 21 57" src="https://user-images.githubusercontent.com/76810787/123097816-74bc0380-d46b-11eb-9141-dcdda659fa20.png">
+<br/>
+
+<p><strong>서브넷 생성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">VPC ID : 생성한 VPC 선택</span><br><span class="line">서브넷 이름 : 이름-Public-SN</span><br><span class="line">가용영역 : ap-northeast-2a</span><br><span class="line">IPv4 블록 : 10.0.0.0/24</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<br/>
+
+<img width="873" alt="스크린샷 2021-06-23 오후 9 22 22" src="https://user-images.githubusercontent.com/76810787/123097820-75ed3080-d46b-11eb-9235-2f27507f0d0e.png">
+<img width="842" alt="스크린샷 2021-06-23 오후 9 22 58" src="https://user-images.githubusercontent.com/76810787/123097824-7685c700-d46b-11eb-87e5-4e4c4d4fad6d.png">
+<br/>
+
+<p><code>서브넷 생성</code> 클릭<br><br/></p>
+<img width="316" alt="스크린샷 2021-06-23 오후 9 23 03" src="https://user-images.githubusercontent.com/76810787/123097825-771e5d80-d46b-11eb-96d0-8aa9d727460d.png">
+<br/>
+
+<p>서브넷 생성 완료 !<br><br/></p>
+<img width="1112" alt="스크린샷 2021-06-23 오후 9 23 14" src="https://user-images.githubusercontent.com/76810787/123097828-77b6f400-d46b-11eb-94bb-5463b1eb4611.png">
+<br/>
+
+<p><code>VPC</code> -&gt; <code>인터넷 게이트웨이</code> -&gt; <code>인터넷 게이트웨어 생성</code> 클릭<br><br/></p>
+<img width="292" alt="스크린샷 2021-06-23 오후 9 23 29" src="https://user-images.githubusercontent.com/76810787/123097829-77b6f400-d46b-11eb-9b3a-4e6d11710de5.png">
+<br/>
+
+<p><strong>인터넷 게이트웨이 생성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">이름 태그 : 이름-IGW</span><br></pre></td></tr></table></figure>
+<p><code>인터넷 게이트웨어 생성</code> 클릭<br><br/></p>
+<img width="925" alt="스크린샷 2021-06-23 오후 9 23 45" src="https://user-images.githubusercontent.com/76810787/123097831-784f8a80-d46b-11eb-8f4c-18531adda049.png">
+<br/>
+
+<p>인터넷 게이트웨어 생성 후 <code>작업</code> 클릭 -&gt; <code>VPC 연결</code> 클릭<br><br/></p>
+<img width="260" alt="스크린샷 2021-06-23 오후 9 24 01" src="https://user-images.githubusercontent.com/76810787/123097834-784f8a80-d46b-11eb-8762-4267359397ec.png">
+<br/>
+
+<p>생성한 VPC 선택 후 -&gt; <code>인터넷 게이트웨어 연결</code> 클릭<br><br/></p>
+<img width="851" alt="스크린샷 2021-06-23 오후 9 24 16" src="https://user-images.githubusercontent.com/76810787/123097838-78e82100-d46b-11eb-936c-a87eae53eaf7.png">
+<br/>
+
+<p><code>VPC</code> -&gt; <code>라우팅 테이블</code> 클릭 -&gt; <code>라우팅 테이블 생성</code> 클릭<br><br/></p>
+<img width="335" alt="스크린샷 2021-06-23 오후 9 29 11" src="https://user-images.githubusercontent.com/76810787/123097840-7980b780-d46b-11eb-9c7e-db584c4cd117.png">
+<br/>
+
+<p><strong>라우팅 테이블 생성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">이름 : 이름-Public-RT</span><br><span class="line">VPC : 생성한 VPC 선택</span><br></pre></td></tr></table></figure>
+<p><code>라우팅 테이블 생성</code> 클릭<br><br/></p>
+<img width="882" alt="스크린샷 2021-06-23 오후 9 29 32" src="https://user-images.githubusercontent.com/76810787/123097841-7a194e00-d46b-11eb-8cae-1cbf67b39323.png">
+<img width="262" alt="스크린샷 2021-06-23 오후 9 29 37" src="https://user-images.githubusercontent.com/76810787/123097846-7b4a7b00-d46b-11eb-8a9c-2f13a6a422f2.png">
+<br/>
+
+<p>라우팅 테이블 생성 완료 !<br><br/></p>
+<img width="924" alt="스크린샷 2021-06-23 오후 9 29 59" src="https://user-images.githubusercontent.com/76810787/123097850-7be31180-d46b-11eb-9d2e-940d4a92c041.png">
+<br/>
+
+<p>생성한 퍼블릭 라우팅 테이블 클릭 후 -&gt; <code>서브넷 연결</code> 클릭 -&gt; <code>서브넷 연결 편집</code> 클릭<br><br/></p>
+<img width="992" alt="스크린샷 2021-06-23 오후 9 30 28" src="https://user-images.githubusercontent.com/76810787/123097851-7c7ba800-d46b-11eb-8295-aaf1106c6553.png">
+<br/>
+
+<p><strong>서브넷 연결 편집</strong><br><br/></p>
+<p><code>생성한 퍼블릭 서브넷</code> 클릭 후 -&gt; <code>Save associations</code> 클릭<br><br/></p>
+<img width="1347" alt="스크린샷 2021-06-23 오후 9 30 38" src="https://user-images.githubusercontent.com/76810787/123097855-7dacd500-d46b-11eb-9926-700810e7f6c4.png">
+<br/>
+
+<p>다시 생성한 퍼블릭 라우팅 클릭 -&gt; <code>라우팅</code> 클릭 -&gt; <code>라우팅 편집</code> 클릭<br><br/></p>
+<img width="1024" alt="스크린샷 2021-06-23 오후 9 31 07" src="https://user-images.githubusercontent.com/76810787/123097857-7e456b80-d46b-11eb-9c17-e4e47a4d5910.png">
+<br/>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Destination : 0.0.0.0/0</span><br><span class="line">Target : Internet-gateway</span><br></pre></td></tr></table></figure>
+<p><code>변경사항 저장</code> 클릭<br><br/></p>
+<img width="1349" alt="스크린샷 2021-06-23 오후 9 31 39" src="https://user-images.githubusercontent.com/76810787/123097861-7ede0200-d46b-11eb-9f6f-6445d01cde75.png">
+<br/>
+
+<p><code>EC2</code> 클릭 -&gt; <code>인스턴스</code> -&gt; <code>인스턴스 시작</code> 클릭<br><br/></p>
+<img width="302" alt="스크린샷 2021-06-23 오후 9 31 58" src="https://user-images.githubusercontent.com/76810787/123097864-7f769880-d46b-11eb-9bc2-06cb0895f7a4.png">
+<br/>
+
+<p><strong>AMI 선택</strong><br><br/></p>
+<p><code>Linux 2</code> 클릭 후 <code>선택</code> 클릭<br><br/></p>
+<img width="1159" alt="스크린샷 2021-06-23 오후 9 32 06" src="https://user-images.githubusercontent.com/76810787/123097865-7f769880-d46b-11eb-8e68-65039f7796ff.png">
+<br/>
+
+<p><strong>인스턴스 유형 선택</strong><br><br/></p>
+<p>기본 값 -&gt; <code>다음: 인스턴스 세부 정보 구성</code> 클릭<br><br/></p>
+<img width="234" alt="스크린샷 2021-06-23 오후 9 32 15" src="https://user-images.githubusercontent.com/76810787/123097867-800f2f00-d46b-11eb-9134-afd950e88a70.png">
+<img width="716" alt="스크린샷 2021-06-23 오후 9 32 33" src="https://user-images.githubusercontent.com/76810787/123097868-800f2f00-d46b-11eb-821f-a20db9463779.png">
+<br/>
+
+<p><strong>인스턴스 세부 정보 구성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">네트워크 : 생성한 VPC 선택</span><br><span class="line">서브넷 : 퍼블릭 서브넷 선택</span><br><span class="line">퍼블릭 IP 자동 할당 : 활성화</span><br></pre></td></tr></table></figure>
+<p>나머지 기본 값으로 나둔 후 -&gt; <code>다음: 스토리지 추가</code> 클릭<br><br/></p>
+<img width="172" alt="스크린샷 2021-06-23 오후 9 32 47" src="https://user-images.githubusercontent.com/76810787/123097870-80a7c580-d46b-11eb-957d-b6bf5ef97fdd.png">
+<br/>
+
+<p><strong>스토리지 추가</strong><br><br/></p>
+<p>기본 값 -&gt; “다음: 태그 추가` 클릭<br><br/></p>
+<img width="147" alt="스크린샷 2021-06-23 오후 9 32 55" src="https://user-images.githubusercontent.com/76810787/123097879-81405c00-d46b-11eb-9003-4df453dd3eab.png">
+<br/>
+
+<p><strong>태그 추가</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">키 : Name</span><br><span class="line">값 : Public-EC2</span><br></pre></td></tr></table></figure>
+<p><code>검토 및 시작</code> 클릭<br><br/></p>
+<img width="132" alt="스크린샷 2021-06-23 오후 9 33 31" src="https://user-images.githubusercontent.com/76810787/123097883-82718900-d46b-11eb-9150-85734da828d5.png">
+<br/>
+
+<p><code>시작하기</code> 클릭<br><br/></p>
+<img width="114" alt="스크린샷 2021-06-23 오후 9 33 39" src="https://user-images.githubusercontent.com/76810787/123097888-830a1f80-d46b-11eb-9625-1393e07dc99e.png">
+<br/>
+
+<p>체크박스 선택 후 -&gt; <code>인스턴스 시작</code> 클릭<br><br/></p>
+<img width="672" alt="스크린샷 2021-06-23 오후 9 33 53" src="https://user-images.githubusercontent.com/76810787/123097890-830a1f80-d46b-11eb-8e9f-205ff6bcc550.png">
+<br/>
+
+<p>인스턴스 생성 완료 !<br><br/></p>
+<img width="670" alt="스크린샷 2021-06-23 오후 9 34 38" src="https://user-images.githubusercontent.com/76810787/123097894-83a2b600-d46b-11eb-937b-5703d52e0bab.png">
+<br/>
+
+<p>생성한 인스턴스 클릭 후 -&gt; <code>연결</code> 클릭 -&gt; <code>SSH 클라이언트</code> 클릭 후 명령어 복사<br><br/></p>
+<img width="106" alt="스크린샷 2021-06-23 오후 9 34 56" src="https://user-images.githubusercontent.com/76810787/123097896-843b4c80-d46b-11eb-8092-2ef4a3824c34.png">
+<img width="384" alt="스크린샷 2021-06-23 오후 9 35 03" src="https://user-images.githubusercontent.com/76810787/123097899-84d3e300-d46b-11eb-9961-5a5267e037e7.png">
+<br/>
+
+<p>터미널을 킨 후, Key 파일이 있는 폴더 경로로 들어가 아까 복사한 명령어를 넣어주면 접속 완료 !<br><br/></p>
+<img width="419" alt="스크린샷 2021-06-23 오후 9 35 35" src="https://user-images.githubusercontent.com/76810787/123097902-856c7980-d46b-11eb-871f-e763b4624377.png">
+<br/>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#네트워크 인터페이스 확인</span><br><span class="line">ip -br -c addr show</span><br><span class="line">or</span><br><span class="line">ifconfig # 이제 이 명령어 쓰면 아재라네요.. ㅠ</span><br></pre></td></tr></table></figure>
+<br/>
+
+<img width="535" alt="스크린샷 2021-06-23 오후 9 37 15" src="https://user-images.githubusercontent.com/76810787/123097911-869da680-d46b-11eb-8a3f-80dd2f67f57f.png">
+<br/>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 구글로 ping 가는 지 확인</span><br><span class="line">ping 8.8.8.8</span><br></pre></td></tr></table></figure>
+<br/>
+
+<img width="407" alt="스크린샷 2021-06-23 오후 9 36 53" src="https://user-images.githubusercontent.com/76810787/123097909-869da680-d46b-11eb-8efe-064978fc59c7.png">
+<br/>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 외부 접속 시 공인IP 정보 확인</span><br><span class="line">curl ipinfo.io</span><br></pre></td></tr></table></figure>
+<br/>
+
+<img width="543" alt="스크린샷 2021-06-23 오후 9 36 25" src="https://user-images.githubusercontent.com/76810787/123097906-856c7980-d46b-11eb-995f-80e40477ddce.png">
+<br/>
+
+<p>마지막으로 퍼블릭 테이블까지 캡쳐하면 첫번째 실습 끝 !<br><br/></p>
+<img width="1102" alt="스크린샷 2021-06-23 오후 9 37 55" src="https://user-images.githubusercontent.com/76810787/123097915-87363d00-d46b-11eb-9efd-289dd866e145.png">
+<br/>
+
+<h2 id="2-프라이빗-서브넷-VPC-구성"><a href="#2-프라이빗-서브넷-VPC-구성" class="headerlink" title="2) 프라이빗 서브넷 VPC 구성"></a>2) 프라이빗 서브넷 VPC 구성</h2><p><code>VPC</code> -&gt; <code>서브넷</code> -&gt; <code>서브넷 생성</code> 클릭<br><img width="292" alt="스크린샷 2021-06-23 오후 10 25 18" src="https://user-images.githubusercontent.com/76810787/123106331-82758700-d473-11eb-9e96-428057e6a713.png"><br><br/></p>
+<p><strong>서브넷 생성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">VPC ID : 생성한 VPC 선택</span><br><span class="line">서브넷 이름 : 이름-Private-SN</span><br><span class="line">가용영역 : ap-northeast-2c</span><br><span class="line">IPv4 블록 : 10.0.1.0/24</span><br></pre></td></tr></table></figure>
+<p><code>서브넷 생성</code> 클릭<br><br/></p>
+<img width="881" alt="스크린샷 2021-06-23 오후 10 25 27" src="https://user-images.githubusercontent.com/76810787/123106334-843f4a80-d473-11eb-98cf-955c560d7b8e.png">
+<img width="827" alt="스크린샷 2021-06-23 오후 10 26 06" src="https://user-images.githubusercontent.com/76810787/123106338-86090e00-d473-11eb-9d38-ba4b809edf34.png">
+<br/>
+
+<p>프라이빗 서브넷 생성 완료 !<br><br/></p>
+<img width="1095" alt="스크린샷 2021-06-23 오후 10 26 19" src="https://user-images.githubusercontent.com/76810787/123106343-86a1a480-d473-11eb-81d9-4dc6e907b938.png">
+<br/>
+
+<p><code>VPC</code> -&gt; <code>NAT 게이트웨이</code> 클릭 -&gt; <code>NAT 게이트웨이 생성</code> 클릭<br><br/></p>
+<img width="323" alt="스크린샷 2021-06-23 오후 10 26 30" src="https://user-images.githubusercontent.com/76810787/123106344-873a3b00-d473-11eb-90a8-b018fd2819fa.png">
+<br/>
+
+<p><strong>NAT 게이트웨이 생성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">이름 : 이름-NAT</span><br><span class="line">서브넷 : 퍼블릭 서브넷</span><br><span class="line">탄력적 IP 할당 : `탄력적 IP 할당` 클릭</span><br></pre></td></tr></table></figure>
+<p><code>NAT 게이트웨이 생성</code> 클릭<br><br/></p>
+<img width="705" alt="스크린샷 2021-06-23 오후 10 27 11" src="https://user-images.githubusercontent.com/76810787/123106345-873a3b00-d473-11eb-8fa1-f7c994bfb2f9.png">
+<img width="784" alt="스크린샷 2021-06-23 오후 10 27 24" src="https://user-images.githubusercontent.com/76810787/123106346-87d2d180-d473-11eb-9f8d-63a6198fb5e5.png">
+<img width="304" alt="스크린샷 2021-06-23 오후 10 27 33" src="https://user-images.githubusercontent.com/76810787/123106348-886b6800-d473-11eb-9511-91d79ea4fa2d.png">
+<br/>
+
+<p><code>VPC</code> -&gt; <code>라우팅 테이블</code> 클릭 -&gt; <code>라우팅 테이블 생성</code> 클릭<br><br/></p>
+<img width="227" alt="스크린샷 2021-06-23 오후 10 27 45" src="https://user-images.githubusercontent.com/76810787/123106351-886b6800-d473-11eb-8c0a-dfa538a1e9be.png">
+<br/>
+
+<p><strong>라우팅 테이블 생성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">이름 : 이름-Private-RT</span><br><span class="line">VPC : 생성한 VPC 선택</span><br></pre></td></tr></table></figure>
+<p><code>라우팅 테이블 생성</code> 클릭<br><br/></p>
+<img width="859" alt="스크린샷 2021-06-23 오후 10 28 07" src="https://user-images.githubusercontent.com/76810787/123106354-8903fe80-d473-11eb-9332-9524749b66fb.png">
+<br/>
+
+<p>생성한 프라이빗 라우팅 테이블 클릭 후 -&gt; <code>서브넷 연결</code> 클릭 -&gt; <code>서브넷 연결 편집</code> 클릭<br><br/></p>
+<img width="947" alt="스크린샷 2021-06-23 오후 10 28 36" src="https://user-images.githubusercontent.com/76810787/123106356-8903fe80-d473-11eb-9ea0-5a39d9f6fed5.png">
+<br/>
+
+<p><strong>서브넷 연결 편집</strong><br><br/></p>
+<p><code>생성한 프라이빗 서브넷</code> 클릭 후 -&gt; <code>Save associations</code> 클릭<br><br/></p>
+<img width="1345" alt="스크린샷 2021-06-23 오후 10 28 50" src="https://user-images.githubusercontent.com/76810787/123106357-899c9500-d473-11eb-8037-6523d222116b.png">
+<br/>
+
+<p>다시 생성한 프라이빗 라우팅 클릭 -&gt; <code>라우팅</code> 클릭 -&gt; <code>라우팅 편집</code> 클릭<br><br/></p>
+<img width="1039" alt="스크린샷 2021-06-23 오후 10 29 09" src="https://user-images.githubusercontent.com/76810787/123106359-8a352b80-d473-11eb-9a40-c8ab1145446f.png">
+<br/>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Destination : 0.0.0.0/0</span><br><span class="line">Target : NAT-gateway</span><br></pre></td></tr></table></figure>
+<p><code>변경사항 저장</code> 클릭<br><br/></p>
+<img width="1339" alt="스크린샷 2021-06-23 오후 10 29 24" src="https://user-images.githubusercontent.com/76810787/123106361-8acdc200-d473-11eb-884e-8bfc61497721.png">
+<br/>
+
+<p><strong>인스턴스 설정</strong><br><br/></p>
+<p>전부 퍼블릭 인스턴스와 설정이 같고, <code>인스턴스 세부 구성</code>, <code>태그 추가</code> 부분만 다르다<br><br/></p>
+<p><strong>인스턴스 세부 구성</strong><br><br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">네트워크 : 생성한 VPC</span><br><span class="line">서브넷 : Private 서브넷</span><br><span class="line">퍼블릭 IP 자동 할당 : 비활성화</span><br></pre></td></tr></table></figure>
+<br/>
+
+<img width="747" alt="스크린샷 2021-06-23 오후 10 30 50" src="https://user-images.githubusercontent.com/76810787/123106364-8acdc200-d473-11eb-8c45-b02a4621554d.png">
+<br/>
+
+<p>하단에 <code>고급 세부 정보</code>에서 사용자 데이터에 작성</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">(</span><br><span class="line">echo &quot;qwe123&quot;</span><br><span class="line">echo &quot;qwe123&quot;</span><br><span class="line">) | passwd --stdin root</span><br><span class="line">sed -i &quot;s/^PasswordAuthentication no/PasswordAuthentication yes/g&quot; /etc/ssh/sshd_config</span><br><span class="line">sed -i &quot;s/^#PermitRootLogin yes/PermitRootLogin yes/g&quot; /etc/ssh/sshd_config</span><br><span class="line">service sshd restart</span><br></pre></td></tr></table></figure>
+<p> <code>다음: 스토리지 추가</code> 클릭<br> <br/></p>
+<img width="1377" alt="스크린샷 2021-06-23 오후 10 32 38" src="https://user-images.githubusercontent.com/76810787/123106372-8bfeef00-d473-11eb-8bcf-04ab20f3fe17.png">
+<br/>
+
+<p><strong>태그 추가</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">키 : Name</span><br><span class="line">값 : Private-EC2</span><br></pre></td></tr></table></figure>
+
+<p><code>검토 및 시작</code> 클릭<br><br/></p>
+<img width="1378" alt="스크린샷 2021-06-23 오후 10 31 12" src="https://user-images.githubusercontent.com/76810787/123106368-8b665880-d473-11eb-9738-982202e7eea4.png">
+<br/>
+
+<p>퍼블릭 주소를 확인해보면 프라이빗 인스턴스에는 없다는 걸 볼 수 있다<br><br/></p>
+<img width="580" alt="스크린샷 2021-06-23 오후 10 33 37" src="https://user-images.githubusercontent.com/76810787/123106376-8bfeef00-d473-11eb-8c01-758153b6d334.png">
+<br/>
+
+<p>퍼블릭 인스턴스에서 <code>ssh root@프라이빗 주소</code>를 입력하면 접속 완료 !<br><br/></p>
+<img width="565" alt="스크린샷 2021-06-23 오후 10 34 48" src="https://user-images.githubusercontent.com/76810787/123106377-8c978580-d473-11eb-80cf-59c6e8ec1624.png">
+<br/>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#네트워크 인터페이스 확인</span><br><span class="line">ip -br -c addr show</span><br><span class="line">or</span><br><span class="line">ifconfig # 이제 이 명령어 쓰면 아재라네요.. ㅠ</span><br></pre></td></tr></table></figure>
+<br/>
+
+<img width="548" alt="스크린샷 2021-06-23 오후 10 35 25" src="https://user-images.githubusercontent.com/76810787/123106382-8d301c00-d473-11eb-9b1e-81615d79c64d.png">
+<br/>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 구글로 ping 가는 지 확인</span><br><span class="line">ping 8.8.8.8</span><br></pre></td></tr></table></figure>
+<br/>
+
+<img width="408" alt="스크린샷 2021-06-23 오후 10 35 44" src="https://user-images.githubusercontent.com/76810787/123106384-8d301c00-d473-11eb-8d8c-4d7d63df50e5.png">
+<br/>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 외부 접속 시 공인IP 정보 확인</span><br><span class="line">curl ipinfo.io</span><br></pre></td></tr></table></figure>
+<br/>
+
+<img width="519" alt="스크린샷 2021-06-23 오후 10 36 08" src="https://user-images.githubusercontent.com/76810787/123106385-8dc8b280-d473-11eb-904f-7bf8bb00a3f5.png">
+<br/>
+
+<p>마지막으로 프라이빗 테이블까지 캡쳐하면 과제 완료 !<br><img width="1085" alt="스크린샷 2021-06-23 오후 10 36 37" src="https://user-images.githubusercontent.com/76810787/123106390-8dc8b280-d473-11eb-95c1-ca3e22531989.png"><br><br/><br><br/><br><br/></p>
+<h2 id="실습이-끝난-후에-꼭-자원-삭제하기"><a href="#실습이-끝난-후에-꼭-자원-삭제하기" class="headerlink" title="실습이 끝난 후에 꼭 자원 삭제하기 !!!"></a>실습이 끝난 후에 꼭 자원 삭제하기 !!!</h2><ol>
+<li><p>EC2 인스턴스 종료 (EC2 → 인스턴스 → 인스턴스 선택 → 작업 → 인스턴스 상태 → 종료)</p>
+</li>
+<li><p>NAT 게이트웨이 삭제 (VPC → NAT 게이트웨이 → 작업 → NAT 게이트웨이 삭제)</p>
+</li>
+<li><p>탄력적 IP 삭제 (VPC → 탄력적 IP → Actions → 탄력적 IP 주소 <strong>릴리스</strong>)</p>
+</li>
+<li><p>VPC 삭제 (VPC → VPC → 작업 → VPC 삭제)</p>
+</li>
+</ol>
+<br/>
+<br/>
+<br/>
+
+<hr/>
+
+<h3 id="참고-자료-AFOS-2기-노션-내용"><a href="#참고-자료-AFOS-2기-노션-내용" class="headerlink" title="참고 자료 : AFOS[2기] 노션 내용"></a>참고 자료 : AFOS[2기] 노션 내용</h3>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Sujeong Hyeon</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/07/12/2021-06-23-AFOS/" target="_blank" title="3주차 - 네트워킹 서비스">http://icebear2n2.github.io/2021/07/12/2021-06-23-AFOS/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/12/2021-06-16-AFOS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2주차 - 컴퓨팅 서비스</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-VPC-%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">AWS VPC 란 ?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B8%B0%EB%B3%B8-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%EA%B0%9C%EB%85%90"><span class="nav-number">2.</span> <span class="nav-text">기본 네트워크 개념</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP"><span class="nav-number">3.</span> <span class="nav-text">IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-%ED%86%B5%EC%8B%A0"><span class="nav-number">4.</span> <span class="nav-text">IP 통신</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT-Network-Address-Translation"><span class="nav-number">5.</span> <span class="nav-text">NAT (Network Address Translation)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VPC-%EB%A6%AC%EC%86%8C%EC%8A%A4"><span class="nav-number">6.</span> <span class="nav-text">VPC 리소스</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%84%9C%EB%B8%8C%EB%84%B7"><span class="nav-number">7.</span> <span class="nav-text">서브넷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%ED%8D%BC%EB%B8%94%EB%A6%AD-%EC%84%9C%EB%B8%8C%EB%84%B7"><span class="nav-number">8.</span> <span class="nav-text">퍼블릭 서브넷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%ED%94%84%EB%9D%BC%EC%9D%B4%EB%B9%97-%EC%84%9C%EB%B8%8C%EB%84%B7"><span class="nav-number">9.</span> <span class="nav-text">프라이빗 서브넷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%B3%B4%EC%95%88-%EA%B7%B8%EB%A3%B9%EA%B3%BC-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-ACL"><span class="nav-number">10.</span> <span class="nav-text">보안 그룹과 네트워크 ACL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5"><span class="nav-number">11.</span> <span class="nav-text">실습</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%ED%8D%BC%EB%B8%94%EB%A6%AD-%EC%84%9C%EB%B8%8C%EB%84%B7-VPC-%EC%83%9D%EC%84%B1"><span class="nav-number">12.</span> <span class="nav-text">1) 퍼블릭 서브넷 VPC 생성</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%ED%94%84%EB%9D%BC%EC%9D%B4%EB%B9%97-%EC%84%9C%EB%B8%8C%EB%84%B7-VPC-%EA%B5%AC%EC%84%B1"><span class="nav-number">13.</span> <span class="nav-text">2) 프라이빗 서브넷 VPC 구성</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5%EC%9D%B4-%EB%81%9D%EB%82%9C-%ED%9B%84%EC%97%90-%EA%BC%AD-%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0"><span class="nav-number">14.</span> <span class="nav-text">실습이 끝난 후에 꼭 자원 삭제하기 !!!</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C-AFOS-2%EA%B8%B0-%EB%85%B8%EC%85%98-%EB%82%B4%EC%9A%A9"><span class="nav-number">14.1.</span> <span class="nav-text">참고 자료 : AFOS[2기] 노션 내용</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 Sujeong&#39;s Blog All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Sujeong&#39;s Blog
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Sujeong Hyeon All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
