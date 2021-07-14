@@ -3,20 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Sujeong&#39;s Blog</title>
+  <title>6주차 - 데이터베이스 서비스 | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="AFOS[2기]" />
   
   
   
-  <meta property="og:type" content="article">
-<meta property="og:title" content="Sujeong&#39;s Blog">
+  
+  <meta name="description" content="DBMS 란?데이터베이스 데이터의 집합 데이터의 저장공간  DBMS 데이터베이스를 관리&#x2F;운영하는 역할(시스템)  DBMS 종류 MySQL MariaDB PostgreSQL Oracle SQL Server DB2 Access SQLite등등 ..  DBMS 특징 데이터의 무결성, 보안, 데이터 중복의 최소화, 프로그래밍 언어를 통하여 응용ㅇ 프로그램 제작 및">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6주차 - 데이터베이스 서비스">
 <meta property="og:url" content="http://icebear2n2.github.io/2021/07/14/2021-07-14-AFOS/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="DBMS 란?데이터베이스 데이터의 집합 데이터의 저장공간  DBMS 데이터베이스를 관리&#x2F;운영하는 역할(시스템)  DBMS 종류 MySQL MariaDB PostgreSQL Oracle SQL Server DB2 Access SQLite등등 ..  DBMS 특징 데이터의 무결성, 보안, 데이터 중복의 최소화, 프로그래밍 언어를 통하여 응용ㅇ 프로그램 제작 및">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-14T12:37:51.012Z">
-<meta property="article:modified_time" content="2021-07-14T12:38:09.271Z">
+<meta property="article:modified_time" content="2021-07-14T13:09:27.052Z">
 <meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
@@ -171,6 +176,16 @@
   <div id="articleInner" class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      6주차 - 데이터베이스 서비스
+    </h1>
+  
+
+      </header>
+    
     <div class="article-meta">
       
 	<a href="/2021/07/14/2021-07-14-AFOS/" class="article-date">
@@ -178,6 +193,8 @@
 	</a>
 
       
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
       
 	<a class="article-views">
 	<span id="busuanzi_container_page_pv">
@@ -190,7 +207,89 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="DBMS-란"><a href="#DBMS-란" class="headerlink" title="DBMS 란?"></a>DBMS 란?</h2><h3 id="데이터베이스"><a href="#데이터베이스" class="headerlink" title="데이터베이스"></a>데이터베이스</h3><ul>
+<li>데이터의 집합</li>
+<li>데이터의 저장공간</li>
+</ul>
+<h3 id="DBMS"><a href="#DBMS" class="headerlink" title="DBMS"></a>DBMS</h3><ul>
+<li>데이터베이스를 관리/운영하는 역할(시스템)</li>
+</ul>
+<h3 id="DBMS-종류"><a href="#DBMS-종류" class="headerlink" title="DBMS 종류"></a>DBMS 종류</h3><ul>
+<li>MySQL</li>
+<li>MariaDB</li>
+<li>PostgreSQL</li>
+<li>Oracle</li>
+<li>SQL Server</li>
+<li>DB2</li>
+<li>Access</li>
+<li>SQLite<br>등등 ..</li>
+</ul>
+<h3 id="DBMS-특징"><a href="#DBMS-특징" class="headerlink" title="DBMS 특징"></a>DBMS 특징</h3><ul>
+<li>데이터의 무결성, 보안, 데이터 중복의 최소화, 프로그래밍 언어를 통하여 응용ㅇ 프로그램 제작 및 수정이 쉬워짐(자동화 등)</li>
+</ul>
+<h3 id="데이터베이스의-발전"><a href="#데이터베이스의-발전" class="headerlink" title="데이터베이스의 발전"></a>데이터베이스의 발전</h3><ul>
+<li>오프라인 -&gt; 파일 시스템 사용 -&gt; 데이터베이스 관리 시스템(DBMS)</li>
+</ul>
+<h3 id="DBMS-분류"><a href="#DBMS-분류" class="headerlink" title="DBMS 분류"></a>DBMS 분류</h3><ul>
+<li>계층형 DBMS</li>
+<li>망형 DBMS</li>
+<li>관계형 DBMS(MySQL, Oracle 등)</li>
+<li>객체 지향형 DBMS</li>
+<li>객체 관계형 DBMS</li>
+</ul>
+<h3 id="관계형-Relational-DBMS"><a href="#관계형-Relational-DBMS" class="headerlink" title="관계형(Relational) DBMS"></a>관계형(Relational) DBMS</h3><ul>
+<li>데이터베이스 테이블 이라고 불리는 최소 단위로 구성되어 있음</li>
+<li>이 테이블은 하나 이상의 열로 구성되어 있음</li>
+<li>테이블을 부르는 다른 용어로 릴레이션(Relation), 엔티티(Entity) 등이 있다.</li>
+</ul>
+<h3 id="SQL-개요-데이터베이스를-조작하는-언어"><a href="#SQL-개요-데이터베이스를-조작하는-언어" class="headerlink" title="SQL 개요 - 데이터베이스를 조작하는 언어"></a>SQL 개요 - 데이터베이스를 조작하는 언어</h3><ul>
+<li>DBMS 제작 회사와 독립적</li>
+<li>다른 시스템으로 이식성이 좋음</li>
+<li>표준이 계속 발전함 - SQL은 국제 표준화 기관에서 표준화된 내용을 계속 발표</li>
+<li>대화식 언어</li>
+<li>분산형 클라이언트/서버 구조</li>
+</ul>
+<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><ul>
+<li>Oracle 사에서 제작한 DBMS 소프트웨어로 오픈 소스로 제공</li>
+<li>비상업용이나 교육용으로 제한 없이 사용되지만 상용으로 사용시 라이선스 취득 비용 필요</li>
+<li>초기 MySQL 개발자들이 독립해서 만든 MariaDB 사용을 권장, MariaDB는 MySQL 과 대부분 호환됨</li>
+</ul>
+<h3 id="MySQL-에디션-및-기능-비교"><a href="#MySQL-에디션-및-기능-비교" class="headerlink" title="MySQL 에디션 및 기능 비교"></a>MySQL 에디션 및 기능 비교</h3><ul>
+<li>무료인 Community 에디션은 Enterprise 에디션과 기능상 차이는 거의 없음</li>
+</ul>
+<h2 id="AWS-데이터베이스-서비스-amp-주요-기능"><a href="#AWS-데이터베이스-서비스-amp-주요-기능" class="headerlink" title="AWS 데이터베이스 서비스 &amp; 주요 기능"></a>AWS 데이터베이스 서비스 &amp; 주요 기능</h2><h3 id="Cloud-DB-진화-순서대로"><a href="#Cloud-DB-진화-순서대로" class="headerlink" title="Cloud DB 진화 (순서대로)"></a>Cloud DB 진화 (순서대로)</h3><ol>
+<li>On-Premises<ul>
+<li>MySQL</li>
+</ul>
+</li>
+<li>Less Cloud<ul>
+<li>MySQL on EC2</li>
+</ul>
+</li>
+<li>Managed<ul>
+<li>RDS MySQL/Aurora</li>
+</ul>
+</li>
+<li>Serverless<ul>
+<li>Aurora Serverless</li>
+<li>DynamoDB</li>
+</ul>
+</li>
+</ol>
+<h3 id="서버리스-DB"><a href="#서버리스-DB" class="headerlink" title="서버리스 DB"></a>서버리스 DB</h3><ul>
+<li>서버 및 클러스터 관리 전혀 필요 없음</li>
+<li>사용량에 따라 자동으로 확장 가능</li>
+<li>고 가용성 및 자동 장애 복구 지원</li>
+<li>컴퓨팅 사용량 기준으로만 과금</li>
+</ul>
+<h3 id="Amazon-Aurora"><a href="#Amazon-Aurora" class="headerlink" title="Amazon Aurora"></a>Amazon Aurora</h3><ul>
+<li>클라우드를 위해 구축된 MySQL 및 PostSQL 호환 관계형 데이터베이스</li>
+<li>1/10 비용으로 상용 데이터베이스 수준의 성능 및 가용성 제공</li>
+</ul>
+<h3 id="Amazon-DynamoDB"><a href="#Amazon-DynamoDB" class="headerlink" title="Amazon DynamoDB"></a>Amazon DynamoDB</h3><ul>
+<li>어떤 규모에서든 빠르고 유연한 Key-Value NoSQL 데이터베이스</li>
+</ul>
+<h2 id="실습1"><a href="#실습1" class="headerlink" title="실습1)"></a>실습1)</h2>
       
     </div>
     <footer class="article-footer">
@@ -203,7 +302,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/07/14/2021-07-14-AFOS/" target="_blank" title="">http://icebear2n2.github.io/2021/07/14/2021-07-14-AFOS/</a>
+          <a href="/2021/07/14/2021-07-14-AFOS/" target="_blank" title="6주차 - 데이터베이스 서비스">http://icebear2n2.github.io/2021/07/14/2021-07-14-AFOS/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -246,6 +345,8 @@
       
       
         
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
+
       
 
     </footer>
@@ -271,7 +372,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DBMS-%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">DBMS 란?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4"><span class="nav-number">1.1.</span> <span class="nav-text">데이터베이스</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS"><span class="nav-number">1.2.</span> <span class="nav-text">DBMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS-%EC%A2%85%EB%A5%98"><span class="nav-number">1.3.</span> <span class="nav-text">DBMS 종류</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS-%ED%8A%B9%EC%A7%95"><span class="nav-number">1.4.</span> <span class="nav-text">DBMS 특징</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EC%9D%98-%EB%B0%9C%EC%A0%84"><span class="nav-number">1.5.</span> <span class="nav-text">데이터베이스의 발전</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS-%EB%B6%84%EB%A5%98"><span class="nav-number">1.6.</span> <span class="nav-text">DBMS 분류</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B4%80%EA%B3%84%ED%98%95-Relational-DBMS"><span class="nav-number">1.7.</span> <span class="nav-text">관계형(Relational) DBMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-%EA%B0%9C%EC%9A%94-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EB%A5%BC-%EC%A1%B0%EC%9E%91%ED%95%98%EB%8A%94-%EC%96%B8%EC%96%B4"><span class="nav-number">1.8.</span> <span class="nav-text">SQL 개요 - 데이터베이스를 조작하는 언어</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL"><span class="nav-number">2.</span> <span class="nav-text">MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-%EC%97%90%EB%94%94%EC%85%98-%EB%B0%8F-%EA%B8%B0%EB%8A%A5-%EB%B9%84%EA%B5%90"><span class="nav-number">2.1.</span> <span class="nav-text">MySQL 에디션 및 기능 비교</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EC%84%9C%EB%B9%84%EC%8A%A4-amp-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5"><span class="nav-number">3.</span> <span class="nav-text">AWS 데이터베이스 서비스 &amp; 주요 기능</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cloud-DB-%EC%A7%84%ED%99%94-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C"><span class="nav-number">3.1.</span> <span class="nav-text">Cloud DB 진화 (순서대로)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%9C%EB%B2%84%EB%A6%AC%EC%8A%A4-DB"><span class="nav-number">3.2.</span> <span class="nav-text">서버리스 DB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-Aurora"><span class="nav-number">3.3.</span> <span class="nav-text">Amazon Aurora</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-DynamoDB"><span class="nav-number">3.4.</span> <span class="nav-text">Amazon DynamoDB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B51"><span class="nav-number">4.</span> <span class="nav-text">실습1)</span></a></li></ol>
     
     </div>
   </aside>
