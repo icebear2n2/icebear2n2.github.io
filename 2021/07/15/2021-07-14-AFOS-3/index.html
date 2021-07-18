@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>6주차 - 데이터베이스 서비스 | Sujeong&#39;s Blog</title>
+  <title>6주차-3 amazon rds 실습 | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="keywords" content="AFOS[2기]" />
@@ -11,67 +11,13 @@
   
   
   
-  <meta name="description" content="DBMS 란?데이터베이스 데이터의 집합 데이터의 저장공간  DBMS 데이터베이스를 관리&#x2F;운영하는 역할(시스템)  DBMS 종류 MySQL MariaDB PostgreSQL Oracle SQL Server DB2 Access SQLite등등 ..  DBMS 특징 데이터의 무결성, 보안, 데이터 중복의 최소화, 프로그래밍 언어를 통하여 응용ㅇ 프로그램 제작 및">
+  <meta name="description" content="실습2)  Amazon RDS 실습RDS -&gt; 데이터베이스 -&gt; 데이터베이스 생성 클릭 RDS DB 1 생성 12345678910111213141516생성 방식 : **표준 생성**엔진 옵션 : **MySQL**템플릿 : **프리 티어**DB 인스턴스 식별자 : ***beas1** (현재 AWS 리전에서 AWS 계정이 소유하는 모든 DB 인스턴스">
 <meta property="og:type" content="article">
-<meta property="og:title" content="6주차 - 데이터베이스 서비스">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/07/14/2021-07-14-AFOS/index.html">
+<meta property="og:title" content="6주차-3 Amazon RDS 실습">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/15/2021-07-14-AFOS-3/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="DBMS 란?데이터베이스 데이터의 집합 데이터의 저장공간  DBMS 데이터베이스를 관리&#x2F;운영하는 역할(시스템)  DBMS 종류 MySQL MariaDB PostgreSQL Oracle SQL Server DB2 Access SQLite등등 ..  DBMS 특징 데이터의 무결성, 보안, 데이터 중복의 최소화, 프로그래밍 언어를 통하여 응용ㅇ 프로그램 제작 및">
+<meta property="og:description" content="실습2)  Amazon RDS 실습RDS -&gt; 데이터베이스 -&gt; 데이터베이스 생성 클릭 RDS DB 1 생성 12345678910111213141516생성 방식 : **표준 생성**엔진 옵션 : **MySQL**템플릿 : **프리 티어**DB 인스턴스 식별자 : ***beas1** (현재 AWS 리전에서 AWS 계정이 소유하는 모든 DB 인스턴스">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659192-87264bb2-32b0-4d41-a8a3-c4681853f260.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659203-d2a4fb70-2a98-479d-b4fe-202aba1a7614.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659207-49c45819-4126-44c3-af88-2d19ed6d3498.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659209-96fae96b-dcba-4c20-b678-5124558b35b7.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659211-0a8702e8-3ced-4803-9571-10de996f4caa.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659213-b3004f56-9e3c-4a75-931d-a435b22568da.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659215-564ffa1c-1628-4d2f-b86a-cb77427fd673.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659216-94a9c4b1-3261-490c-8c58-1738dd8deb2f.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659218-f4455832-314e-4921-a1ee-9325888fad79.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659221-ca461efc-5351-4af6-8360-2165dd0e0825.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659224-126f3840-bdfc-4d23-a09b-7633d3c55cf4.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659226-26807007-7e59-45c9-a5f6-b5a78720e60c.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659229-66072272-467a-4e3e-9f16-dbf55d0a74d2.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659230-6ea9ec21-1480-4661-a598-6ea9b9a1342e.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659232-9bad22b7-d008-403d-96e3-ed3a87761a05.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659235-b3abb029-47bf-4818-b25b-200a1aac548e.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659238-3d409269-88c5-49ab-8abb-24ccb8a2a76e.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659241-159aad6d-0d36-44e2-8c59-58a5b319437b.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659242-3f4093b5-a3cd-42b2-b5d6-f5600c7c111e.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659243-f778732c-6a67-42fb-b5c8-79fba2d7f5b2.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659248-38b90d21-04d2-498c-a675-558ebdf00e3c.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659249-aa01aab5-5809-4f8c-9bd5-71794e64a373.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659250-b0d28d85-74fa-4fa2-90fe-2fa26f9fde5f.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659251-74f6ff70-dfaf-40f9-b91e-82f09cb55a84.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659253-e46ab7c5-b3fa-485d-b347-a6c652413f6d.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659255-34ac7a5f-ff96-4380-a4ee-355d4b1f4e1e.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659257-d3a82eea-4a69-4ff6-9c91-ff04e55dae6f.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659259-0dca49c9-17c7-4a89-8e64-3724360a2859.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659260-4d782599-ee69-4ad3-a6ff-00fa45381b61.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659264-c8f31d14-bac1-4b55-a3d8-389606ecb5cf.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659266-f8647494-90b6-41f5-95a6-559ba0124fc4.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659269-9dc59f70-8c17-4a43-b20a-d66a7655b049.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659272-08a4d22e-acc4-487a-84be-6f776a5e8624.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659274-6dbc0d56-45b3-4a17-a3f8-3cfa6adc4bc7.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659276-d519b64c-553c-41b5-8699-a8e92fc5d907.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659278-459b4f1c-04a9-4e2a-98d6-ba7f165b6975.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659279-99de7272-f3ef-4cff-9665-a915d6c238fa.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659280-3edb024f-3ceb-40b9-8770-e0ead70078d8.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659281-944dabd6-e41b-40e6-a957-41b988e319df.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659282-bab63dcd-b6e9-455f-8f72-29f3f732cbdb.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659283-662dabf3-593f-4410-8e7b-e2d930d2a469.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659286-855a20a7-7eb2-441b-85e9-17f00480ef07.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659289-33e04fc5-9abf-47bf-a9bd-3e2cfa6d8a4b.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659293-4746a539-e7e1-4ab4-b278-d25106f82a75.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659297-cfede565-6fa8-4ee8-b01c-55ac73681b28.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659299-3f4f3bc4-2671-432e-9598-172c86606b74.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659300-6d0942ce-6c9b-4575-80c2-3a58ac4618a1.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659301-37b3ba66-5c6c-4878-8018-a90be2c8f8e9.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659307-8248bfdf-9205-413c-91d3-0234cbb55c20.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659310-ea33ecfd-d6ae-4fb5-92e5-8070c7306363.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659312-26bd48f1-0a26-4ad7-8185-2c60b3f22a57.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659314-0c13697c-e396-4df1-a153-00d3d1527814.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659316-cc048c3b-d3fe-43e0-8683-aac11f147792.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659318-a9331fab-6897-4f55-bc16-274ea2fb7c42.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659321-076e1e37-e694-4d53-8fe0-e8bd79b486b3.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659323-6b1ed569-b4b9-4e20-87b0-e215cd6a4e69.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659328-15b09223-97c3-4fb6-b9c2-ef73f10260f0.png">
@@ -137,12 +83,12 @@ images.githubusercontent.com/87232411/125671726-79aca13d-04cf-4f78-89ea-32142743
 <meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125675567-8bb214bc-7fef-43ed-a1c8-601e73d67a4f.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125675573-037f449c-8880-4a74-8d80-97720ced578f.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125677034-dc4f5f45-7d16-4d94-9b41-7327b04cb3de.png">
-<meta property="article:published_time" content="2021-07-14T12:37:51.012Z">
-<meta property="article:modified_time" content="2021-07-18T03:56:16.885Z">
+<meta property="article:published_time" content="2021-07-14T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-07-18T09:24:26.259Z">
 <meta property="article:author" content="Sujeong Hyeon">
 <meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://user-images.githubusercontent.com/87232411/125659192-87264bb2-32b0-4d41-a8a3-c4681853f260.png">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/87232411/125659321-076e1e37-e694-4d53-8fe0-e8bd79b486b3.png">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -292,7 +238,7 @@ images.githubusercontent.com/87232411/125671726-79aca13d-04cf-4f78-89ea-32142743
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-07-14-AFOS" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-2021-07-14-AFOS-3" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -300,7 +246,7 @@ images.githubusercontent.com/87232411/125671726-79aca13d-04cf-4f78-89ea-32142743
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      6주차 - 데이터베이스 서비스
+      6주차-3 Amazon RDS 실습
     </h1>
   
 
@@ -308,8 +254,8 @@ images.githubusercontent.com/87232411/125671726-79aca13d-04cf-4f78-89ea-32142743
     
     <div class="article-meta">
       
-	<a href="/2021/07/14/2021-07-14-AFOS/" class="article-date">
-	  <time datetime="2021-07-14T12:37:51.012Z" itemprop="datePublished">2021-07-14</time>
+	<a href="/2021/07/15/2021-07-14-AFOS-3/" class="article-date">
+	  <time datetime="2021-07-14T15:00:00.000Z" itemprop="datePublished">2021-07-15</time>
 	</a>
 
       
@@ -327,172 +273,7 @@ images.githubusercontent.com/87232411/125671726-79aca13d-04cf-4f78-89ea-32142743
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="DBMS-란"><a href="#DBMS-란" class="headerlink" title="DBMS 란?"></a>DBMS 란?</h2><h3 id="데이터베이스"><a href="#데이터베이스" class="headerlink" title="데이터베이스"></a>데이터베이스</h3><ul>
-<li>데이터의 집합</li>
-<li>데이터의 저장공간</li>
-</ul>
-<h3 id="DBMS"><a href="#DBMS" class="headerlink" title="DBMS"></a>DBMS</h3><ul>
-<li>데이터베이스를 관리/운영하는 역할(시스템)</li>
-</ul>
-<h3 id="DBMS-종류"><a href="#DBMS-종류" class="headerlink" title="DBMS 종류"></a>DBMS 종류</h3><ul>
-<li>MySQL</li>
-<li>MariaDB</li>
-<li>PostgreSQL</li>
-<li>Oracle</li>
-<li>SQL Server</li>
-<li>DB2</li>
-<li>Access</li>
-<li>SQLite<br>등등 ..</li>
-</ul>
-<h3 id="DBMS-특징"><a href="#DBMS-특징" class="headerlink" title="DBMS 특징"></a>DBMS 특징</h3><ul>
-<li>데이터의 무결성, 보안, 데이터 중복의 최소화, 프로그래밍 언어를 통하여 응용ㅇ 프로그램 제작 및 수정이 쉬워짐(자동화 등)</li>
-</ul>
-<h3 id="데이터베이스의-발전"><a href="#데이터베이스의-발전" class="headerlink" title="데이터베이스의 발전"></a>데이터베이스의 발전</h3><ul>
-<li>오프라인 -&gt; 파일 시스템 사용 -&gt; 데이터베이스 관리 시스템(DBMS)</li>
-</ul>
-<h3 id="DBMS-분류"><a href="#DBMS-분류" class="headerlink" title="DBMS 분류"></a>DBMS 분류</h3><ul>
-<li>계층형 DBMS</li>
-<li>망형 DBMS</li>
-<li>관계형 DBMS(MySQL, Oracle 등)</li>
-<li>객체 지향형 DBMS</li>
-<li>객체 관계형 DBMS</li>
-</ul>
-<h3 id="관계형-Relational-DBMS"><a href="#관계형-Relational-DBMS" class="headerlink" title="관계형(Relational) DBMS"></a>관계형(Relational) DBMS</h3><ul>
-<li>데이터베이스 테이블 이라고 불리는 최소 단위로 구성되어 있음</li>
-<li>이 테이블은 하나 이상의 열로 구성되어 있음</li>
-<li>테이블을 부르는 다른 용어로 릴레이션(Relation), 엔티티(Entity) 등이 있다.</li>
-</ul>
-<h3 id="SQL-개요-데이터베이스를-조작하는-언어"><a href="#SQL-개요-데이터베이스를-조작하는-언어" class="headerlink" title="SQL 개요 - 데이터베이스를 조작하는 언어"></a>SQL 개요 - 데이터베이스를 조작하는 언어</h3><ul>
-<li>DBMS 제작 회사와 독립적</li>
-<li>다른 시스템으로 이식성이 좋음</li>
-<li>표준이 계속 발전함 - SQL은 국제 표준화 기관에서 표준화된 내용을 계속 발표</li>
-<li>대화식 언어</li>
-<li>분산형 클라이언트/서버 구조</li>
-</ul>
-<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><ul>
-<li>Oracle 사에서 제작한 DBMS 소프트웨어로 오픈 소스로 제공</li>
-<li>비상업용이나 교육용으로 제한 없이 사용되지만 상용으로 사용시 라이선스 취득 비용 필요</li>
-<li>초기 MySQL 개발자들이 독립해서 만든 MariaDB 사용을 권장, MariaDB는 MySQL 과 대부분 호환됨</li>
-</ul>
-<h3 id="MySQL-에디션-및-기능-비교"><a href="#MySQL-에디션-및-기능-비교" class="headerlink" title="MySQL 에디션 및 기능 비교"></a>MySQL 에디션 및 기능 비교</h3><ul>
-<li>무료인 Community 에디션은 Enterprise 에디션과 기능상 차이는 거의 없음</li>
-</ul>
-<h2 id="AWS-데이터베이스-서비스-amp-주요-기능"><a href="#AWS-데이터베이스-서비스-amp-주요-기능" class="headerlink" title="AWS 데이터베이스 서비스 &amp; 주요 기능"></a>AWS 데이터베이스 서비스 &amp; 주요 기능</h2><h3 id="Cloud-DB-진화-순서대로"><a href="#Cloud-DB-진화-순서대로" class="headerlink" title="Cloud DB 진화 (순서대로)"></a>Cloud DB 진화 (순서대로)</h3><ol>
-<li>On-Premises<ul>
-<li>MySQL</li>
-</ul>
-</li>
-<li>Less Cloud<ul>
-<li>MySQL on EC2</li>
-</ul>
-</li>
-<li>Managed<ul>
-<li>RDS MySQL/Aurora</li>
-</ul>
-</li>
-<li>Serverless<ul>
-<li>Aurora Serverless</li>
-<li>DynamoDB</li>
-</ul>
-</li>
-</ol>
-<h3 id="서버리스-DB"><a href="#서버리스-DB" class="headerlink" title="서버리스 DB"></a>서버리스 DB</h3><ul>
-<li>서버 및 클러스터 관리 전혀 필요 없음</li>
-<li>사용량에 따라 자동으로 확장 가능</li>
-<li>고 가용성 및 자동 장애 복구 지원</li>
-<li>컴퓨팅 사용량 기준으로만 과금</li>
-</ul>
-<h3 id="Amazon-Aurora"><a href="#Amazon-Aurora" class="headerlink" title="Amazon Aurora"></a>Amazon Aurora</h3><ul>
-<li>클라우드를 위해 구축된 MySQL 및 PostSQL 호환 관계형 데이터베이스</li>
-<li>1/10 비용으로 상용 데이터베이스 수준의 성능 및 가용성 제공</li>
-</ul>
-<h3 id="Amazon-DynamoDB"><a href="#Amazon-DynamoDB" class="headerlink" title="Amazon DynamoDB"></a>Amazon DynamoDB</h3><ul>
-<li>어떤 규모에서든 빠르고 유연한 Key-Value NoSQL 데이터베이스<br/>
-<br/>
-<br/></li>
-</ul>
-<h2 id="실습1-MariaDB-접속-및-기본-사용"><a href="#실습1-MariaDB-접속-및-기본-사용" class="headerlink" title="실습1) MariaDB 접속 및 기본 사용"></a>실습1) MariaDB 접속 및 기본 사용</h2><p>CloudFormation 스택 생성하기 - 링크 클릭 후 템플릿 파일로 기본 환경 자동 배포<br><a target="_blank" rel="noopener" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=DBLab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FDB%2Faws-db.yaml">https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=DBLab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FDB%2Faws-db.yaml</a></p>
-<p> <code>다음</code> 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659192-87264bb2-32b0-4d41-a8a3-c4681853f260.png" alt="스크린샷 2021-07-15 오전 1 01 45"></p>
-<p>키 설정 후 <code> 다음</code> 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659203-d2a4fb70-2a98-479d-b4fe-202aba1a7614.png" alt="스크린샷 2021-07-15 오전 1 01 51"></p>
-<p>기본 값으로 두고 <code>다음</code> 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659207-49c45819-4126-44c3-af88-2d19ed6d3498.png" alt="스크린샷 2021-07-15 오전 1 01 58"></p>
-<p><code>스택 생성</code> 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659209-96fae96b-dcba-4c20-b678-5124558b35b7.png" alt="스크린샷 2021-07-15 오전 1 02 04"></p>
-<p>DBLab이 생성되었습니다<br><img src="https://user-images.githubusercontent.com/87232411/125659211-0a8702e8-3ced-4803-9571-10de996f4caa.png" alt="스크린샷 2021-07-15 오전 1 03 36"></p>
-<p>SSH로 WebSrv 접속 후  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># IP확인 및 DBSrv ping 테스트</span></span><br><span class="line">ip a</span><br><span class="line">ping 10.1.2.10</span><br><span class="line"></span><br><span class="line"><span class="comment"># DBSrv 로 MySQL 접속 (계정 정보: root/qwe123)</span></span><br><span class="line">mysql -h 10.1.2.10 -uroot -pqwe123</span><br></pre></td></tr></table></figure>
-<img width="563" alt="스크린샷 2021-07-15 오전 1 06 18" src="https://user-images.githubusercontent.com/87232411/125659213-b3004f56-9e3c-4a75-931d-a435b22568da.png">
-<img width="500" alt="스크린샷 2021-07-15 오전 1 06 33" src="https://user-images.githubusercontent.com/87232411/125659215-564ffa1c-1628-4d2f-b86a-cb77427fd673.png">
-<img width="562" alt="스크린샷 2021-07-15 오전 1 06 53" src="https://user-images.githubusercontent.com/87232411/125659216-94a9c4b1-3261-490c-8c58-1738dd8deb2f.png">
-
-<p>SSH로 DBSrv에 접속 후</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># IP확인</span></span><br><span class="line">ip a</span><br><span class="line"></span><br><span class="line"><span class="comment"># MySQL 접속 (계정 정보: root/qwe123)</span></span><br><span class="line">mysql -uroot -pqwe123</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<img width="560" alt="스크린샷 2021-07-15 오전 1 07 06" src="https://user-images.githubusercontent.com/87232411/125659218-f4455832-314e-4921-a1ee-9325888fad79.png">
-<img width="562" alt="스크린샷 2021-07-15 오전 1 07 17" src="https://user-images.githubusercontent.com/87232411/125659221-ca461efc-5351-4af6-8360-2165dd0e0825.png">
-
-<h3 id="MariaDB-에서-기본적인-SQL문-사용해보기"><a href="#MariaDB-에서-기본적인-SQL문-사용해보기" class="headerlink" title="MariaDB 에서 기본적인 SQL문 사용해보기"></a>MariaDB 에서 기본적인 SQL문 사용해보기</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># DB 서버의 상태 정보</span><br><span class="line">MariaDB [(<span class="keyword">none</span>)]<span class="operator">&gt;</span> status;</span><br><span class="line"></span><br><span class="line"># 데이터베이스(<span class="operator">=</span>스키마) 확인</span><br><span class="line"><span class="keyword">SHOW</span> DATABASES;</span><br><span class="line"></span><br><span class="line"># employees 데이터베이스 선택 하기</span><br><span class="line">USE employees;</span><br><span class="line">MariaDB [(<span class="keyword">none</span>)]<span class="operator">&gt;</span> <span class="operator">*</span><span class="operator">*</span>USE employees;<span class="operator">*</span><span class="operator">*</span></span><br><span class="line">MariaDB [<span class="operator">*</span><span class="operator">*</span>employees<span class="operator">*</span><span class="operator">*</span>]<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"># 테이블 확인</span><br><span class="line"><span class="keyword">SHOW</span> TABLES;</span><br><span class="line"></span><br><span class="line"># 테이블 필드와 타입 등 정보 확인</span><br><span class="line"><span class="keyword">DESC</span> employees;</span><br><span class="line"></span><br><span class="line"># employees 테이블 조회 하기</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees LIMIT <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"># 특정 열(컬럼<span class="operator">=</span>필드) 기준 오름<span class="operator">/</span>내림차순으로 정렬 조회 하기</span><br><span class="line"># <span class="comment">-- 공백이 있는 개체의 이름 사용 시는 백틱(backtick) `` 으로 묶어줘야 하나의 이름으로 인식함</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees <span class="keyword">ORDER</span> <span class="keyword">BY</span> `emp_no` <span class="keyword">DESC</span> LIMIT <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"># 특정 행(<span class="operator">=</span>로우<span class="operator">=</span>레코드)만 출력 <span class="operator">-</span> Mary 이름(first_name) , Baba 성(last_name)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> first_name <span class="operator">=</span> <span class="string">&#x27;Mary&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<img width="564" alt="스크린샷 2021-07-15 오전 1 07 35" src="https://user-images.githubusercontent.com/87232411/125659224-126f3840-bdfc-4d23-a09b-7633d3c55cf4.png">
-<img width="323" alt="스크린샷 2021-07-15 오전 1 07 50" src="https://user-images.githubusercontent.com/87232411/125659226-26807007-7e59-45c9-a5f6-b5a78720e60c.png">
-<img width="499" alt="스크린샷 2021-07-15 오전 1 08 06" src="https://user-images.githubusercontent.com/87232411/125659229-66072272-467a-4e3e-9f16-dbf55d0a74d2.png">
-<img width="339" alt="스크린샷 2021-07-15 오전 1 08 22" src="https://user-images.githubusercontent.com/87232411/125659230-6ea9ec21-1480-4661-a598-6ea9b9a1342e.png">
-<img width="527" alt="스크린샷 2021-07-15 오전 1 09 45" src="https://user-images.githubusercontent.com/87232411/125659232-9bad22b7-d008-403d-96e3-ed3a87761a05.png">
-<img width="552" alt="스크린샷 2021-07-15 오전 1 10 12" src="https://user-images.githubusercontent.com/87232411/125659235-b3abb029-47bf-4818-b25b-200a1aac548e.png">
-<img width="519" alt="스크린샷 2021-07-15 오전 1 10 22" src="https://user-images.githubusercontent.com/87232411/125659238-3d409269-88c5-49ab-8abb-24ccb8a2a76e.png">
-<img width="559" alt="스크린샷 2021-07-15 오전 1 10 34" src="https://user-images.githubusercontent.com/87232411/125659241-159aad6d-0d36-44e2-8c59-58a5b319437b.png">
-<img width="540" alt="스크린샷 2021-07-15 오전 1 10 58" src="https://user-images.githubusercontent.com/87232411/125659242-3f4093b5-a3cd-42b2-b5d6-f5600c7c111e.png">
-
-<h3 id="생성-및-데이터-레코드-생성-변경"><a href="#생성-및-데이터-레코드-생성-변경" class="headerlink" title="생성 및 데이터(레코드) 생성 변경"></a>생성 및 데이터(레코드) 생성 변경</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"># 스키마(<span class="operator">=</span>데이터베이스) 생성</span><br><span class="line"><span class="keyword">CREATE</span> SCHEMA `shopdb`;</span><br><span class="line"><span class="operator">*</span><span class="operator">*</span><span class="keyword">SHOW</span> DATABASES;<span class="operator">*</span><span class="operator">*</span></span><br><span class="line">USE shopdb;</span><br><span class="line"></span><br><span class="line"># 테이블 생성 <span class="operator">-</span> (Workbench) GUI 설정 보여주기 <span class="operator">-</span> 아래 복붙해서 적용하기</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `shopdb`.`memberTBL` (</span><br><span class="line">  `memberID` <span class="type">CHAR</span>(<span class="number">8</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `memberName` <span class="type">CHAR</span>(<span class="number">5</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `memberAddress` <span class="type">CHAR</span>(<span class="number">20</span>) <span class="keyword">NULL</span>,</span><br><span class="line">  `age` <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`memberID`));</span><br><span class="line"></span><br><span class="line"># 테이블 정보 확인</span><br><span class="line"><span class="keyword">DESC</span> memberTBL;</span><br><span class="line"></span><br><span class="line"># 데이터 넣기 <span class="operator">-</span> (Workbench) GUI 설정 보여주기 <span class="operator">-</span> (카톡 멤버 정보 받기) <span class="operator">-</span> 아래 복붙해서 적용하기</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> memberTBL;</span><br><span class="line"></span><br><span class="line"># 행(<span class="operator">=</span>데이터<span class="operator">=</span>레코드) <span class="number">1</span>개 넣기</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;icebear2n2&#x27;</span>, <span class="string">&#x27;아이수베어&#x27;</span>, <span class="string">&#x27;제주도 제주시&#x27;</span>, <span class="string">&#x27;19&#x27;</span>);</span><br><span class="line"></span><br><span class="line">## 카톡 멤버 정보 받아서 넣기</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;Gasida&#x27;</span>, <span class="string">&#x27;가시다&#x27;</span>, <span class="string">&#x27;서울 잠실동 분당구&#x27;</span>, <span class="string">&#x27;30&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;User4&#x27;</span>, <span class="string">&#x27;유나&#x27;</span>, <span class="string">&#x27;경기 성남시 분당구&#x27;</span>, <span class="string">&#x27;27&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;Minyoung&#x27;</span>, <span class="string">&#x27;민영&#x27;</span>, <span class="string">&#x27;경기도 부천시 중동&#x27;</span>, <span class="string">&#x27;30&#x27;</span>); </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;Eunji&#x27;</span>, <span class="string">&#x27;은지&#x27;</span>, <span class="string">&#x27;인천 남구 주안동&#x27;</span>, <span class="string">&#x27;28&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;Yujeong&#x27;</span>, <span class="string">&#x27;유정&#x27;</span>, <span class="string">&#x27;서울 은평구 증산동&#x27;</span>, <span class="string">&#x27;29&#x27;</span>); </span><br><span class="line"></span><br><span class="line"># 조회</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> memberTBL;</span><br><span class="line"><span class="keyword">SELECT</span> memberName, memberAddress <span class="keyword">FROM</span> memberTBL;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> memberTBL <span class="keyword">WHERE</span> age <span class="operator">=</span> <span class="number">27</span>;</span><br><span class="line"></span><br><span class="line"># 행(<span class="operator">=</span>데이터<span class="operator">=</span>레코드) 변경(<span class="operator">=</span>업데이트)</span><br><span class="line">UPDATE memberTBL <span class="keyword">SET</span> memberID<span class="operator">=</span><span class="string">&#x27;Yuna&#x27;</span> <span class="keyword">WHERE</span> memberName<span class="operator">=</span><span class="string">&#x27;유나&#x27;</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> memberTBL;</span><br></pre></td></tr></table></figure>
-<img width="335" alt="스크린샷 2021-07-15 오전 1 11 25" src="https://user-images.githubusercontent.com/87232411/125659243-f778732c-6a67-42fb-b5c8-79fba2d7f5b2.png">
-<img width="320" alt="스크린샷 2021-07-15 오전 1 11 36" src="https://user-images.githubusercontent.com/87232411/125659248-38b90d21-04d2-498c-a675-558ebdf00e3c.png">
-<img width="267" alt="스크린샷 2021-07-15 오전 1 11 48" src="https://user-images.githubusercontent.com/87232411/125659249-aa01aab5-5809-4f8c-9bd5-71794e64a373.png">
-<img width="435" alt="스크린샷 2021-07-15 오전 1 12 00" src="https://user-images.githubusercontent.com/87232411/125659250-b0d28d85-74fa-4fa2-90fe-2fa26f9fde5f.png">
-<img width="474" alt="스크린샷 2021-07-15 오전 1 12 13" src="https://user-images.githubusercontent.com/87232411/125659251-74f6ff70-dfaf-40f9-b91e-82f09cb55a84.png">
-<img width="356" alt="스크린샷 2021-07-15 오전 1 12 57" src="https://user-images.githubusercontent.com/87232411/125659253-e46ab7c5-b3fa-485d-b347-a6c652413f6d.png">
-<img width="695" alt="스크린샷 2021-07-15 오전 1 14 55" src="https://user-images.githubusercontent.com/87232411/125659255-34ac7a5f-ff96-4380-a4ee-355d4b1f4e1e.png">
-<img width="696" alt="스크린샷 2021-07-15 오전 1 15 43" src="https://user-images.githubusercontent.com/87232411/125659257-d3a82eea-4a69-4ff6-9c91-ff04e55dae6f.png">
-<img width="505" alt="스크린샷 2021-07-15 오전 1 16 10" src="https://user-images.githubusercontent.com/87232411/125659259-0dca49c9-17c7-4a89-8e64-3724360a2859.png">
-<img width="564" alt="스크린샷 2021-07-15 오전 1 17 00" src="https://user-images.githubusercontent.com/87232411/125659260-4d782599-ee69-4ad3-a6ff-00fa45381b61.png">
-<img width="500" alt="스크린샷 2021-07-15 오전 1 17 21" src="https://user-images.githubusercontent.com/87232411/125659264-c8f31d14-bac1-4b55-a3d8-389606ecb5cf.png">
-<img width="583" alt="스크린샷 2021-07-15 오전 1 17 32" src="https://user-images.githubusercontent.com/87232411/125659266-f8647494-90b6-41f5-95a6-559ba0124fc4.png">
-<img width="527" alt="스크린샷 2021-07-15 오전 1 17 41" src="https://user-images.githubusercontent.com/87232411/125659269-9dc59f70-8c17-4a43-b20a-d66a7655b049.png">
-
-<h3 id="트리-파일-확인"><a href="#트리-파일-확인" class="headerlink" title="트리 파일 확인"></a>트리 파일 확인</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tree /var/www/html</span><br></pre></td></tr></table></figure>
-<img width="396" alt="스크린샷 2021-07-15 오전 1 19 05" src="https://user-images.githubusercontent.com/87232411/125659272-08a4d22e-acc4-487a-84be-6f776a5e8624.png">
-
-<h3 id="심화-옵션-HTTP-WebEC2-PublicIP-php-mysql-1-php-형식으로-접속"><a href="#심화-옵션-HTTP-WebEC2-PublicIP-php-mysql-1-php-형식으로-접속" class="headerlink" title="심화 옵션)HTTP://WebEC2_PublicIP/php_mysql/1.php 형식으로 접속"></a>심화 옵션)HTTP://WebEC2_PublicIP/php_mysql/1.php 형식으로 접속</h3><p><code>1.php</code> 접속<br><img width="486" alt="스크린샷 2021-07-15 오전 1 19 37" src="https://user-images.githubusercontent.com/87232411/125659274-6dbc0d56-45b3-4a17-a3f8-3cfa6adc4bc7.png"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl localhost/php_mysql/1.php</span><br></pre></td></tr></table></figure>
-<img width="380" alt="스크린샷 2021-07-15 오전 1 20 21" src="https://user-images.githubusercontent.com/87232411/125659276-d519b64c-553c-41b5-8699-a8e92fc5d907.png">
-
-<p><code>2.php</code> 접속</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> mysql -h <span class="number">10.1</span>.<span class="number">2.10</span> -uroot -pqwe123 -e <span class="string">&quot;show databases;&quot;</span>; date; sleep <span class="number">1</span>; done </span><br></pre></td></tr></table></figure>
-<img width="691" alt="스크린샷 2021-07-15 오전 1 22 08" src="https://user-images.githubusercontent.com/87232411/125659278-459b4f1c-04a9-4e2a-98d6-ba7f165b6975.png">
-<img width="505" alt="스크린샷 2021-07-15 오전 1 22 19" src="https://user-images.githubusercontent.com/87232411/125659279-99de7272-f3ef-4cff-9665-a915d6c238fa.png">
-
-<p><code>3.php</code> 접속</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> mysql -h <span class="number">10.1</span>.<span class="number">2.10</span> -uroot -pqwe123 -e <span class="string">&quot;USE sqlDB2;show tables;&quot;</span>; date; sleep <span class="number">1</span>; done</span><br></pre></td></tr></table></figure>
-<img width="640" alt="스크린샷 2021-07-15 오전 1 22 40" src="https://user-images.githubusercontent.com/87232411/125659280-3edb024f-3ceb-40b9-8770-e0ead70078d8.png">
-<img width="471" alt="스크린샷 2021-07-15 오전 1 22 55" src="https://user-images.githubusercontent.com/87232411/125659281-944dabd6-e41b-40e6-a957-41b988e319df.png">
-
-<p><code>4.php</code> 접속</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> mysql -h <span class="number">10.1</span>.<span class="number">2.10</span> -uroot -pqwe123 -e <span class="string">&quot;USE sqlDB2;select * from userTbl;&quot;</span>; date; sleep <span class="number">1</span>; done</span><br></pre></td></tr></table></figure>
-<img width="664" alt="스크린샷 2021-07-15 오전 1 23 09" src="https://user-images.githubusercontent.com/87232411/125659282-bab63dcd-b6e9-455f-8f72-29f3f732cbdb.png">
-<img width="466" alt="스크린샷 2021-07-15 오전 1 23 18" src="https://user-images.githubusercontent.com/87232411/125659283-662dabf3-593f-4410-8e7b-e2d930d2a469.png">
-
-<p><code>5.php</code> 접속<br><img width="645" alt="스크린샷 2021-07-15 오전 1 23 33" src="https://user-images.githubusercontent.com/87232411/125659286-855a20a7-7eb2-441b-85e9-17f00480ef07.png"></p>
-<p>직접 레코드 추가 후 웹 페이지(5.php) 반영 확인</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql <span class="operator">-</span>h <span class="number">10.1</span><span class="number">.2</span><span class="number">.10</span> <span class="operator">-</span>uroot <span class="operator">-</span>pqwe123</span><br><span class="line">USE sqlDB2;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> userTbl <span class="keyword">VALUES</span> (<span class="string">&#x27;AAA&#x27;</span>, <span class="string">&#x27;가시다&#x27;</span>, <span class="number">2000</span>, <span class="string">&#x27;전주&#x27;</span>, <span class="string">&#x27;019&#x27;</span>, <span class="string">&#x27;1234567&#x27;</span>, <span class="number">179</span>, <span class="string">&#x27;2015-5-5&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<img width="473" alt="스크린샷 2021-07-15 오전 1 23 45" src="https://user-images.githubusercontent.com/87232411/125659289-33e04fc5-9abf-47bf-a9bd-3e2cfa6d8a4b.png">
-<img width="586" alt="스크린샷 2021-07-15 오전 1 24 26" src="https://user-images.githubusercontent.com/87232411/125659293-4746a539-e7e1-4ab4-b278-d25106f82a75.png">
-<img width="698" alt="스크린샷 2021-07-15 오전 1 25 21" src="https://user-images.githubusercontent.com/87232411/125659297-cfede565-6fa8-4ee8-b01c-55ac73681b28.png">
-
-<p>다시 5.php를 조회해보면 내가 추가된 걸 볼 수 있다<br><img width="473" alt="스크린샷 2021-07-15 오전 1 25 31" src="https://user-images.githubusercontent.com/87232411/125659299-3f4f3bc4-2671-432e-9598-172c86606b74.png"></p>
-<h2 id="심화-옵션-회원-관리-시스템"><a href="#심화-옵션-회원-관리-시스템" class="headerlink" title="심화 옵션) 회원 관리 시스템"></a>심화 옵션) 회원 관리 시스템</h2><p><a target="_blank" rel="noopener" href="http://webec2_publicip/usermgmt/main.html">HTTP://WebEC2_PublicIP/usermgmt/main.html</a> 형식으로 접속<br><img src="https://user-images.githubusercontent.com/87232411/125659300-6d0942ce-6c9b-4575-80c2-3a58ac4618a1.png" alt="스크린샷 2021-07-15 오전 1 26 44"></p>
-<p><code>신규 회원 등록</code>을 누른 후에 정보를 입력<br><img src="https://user-images.githubusercontent.com/87232411/125659301-37b3ba66-5c6c-4878-8018-a90be2c8f8e9.png" alt="스크린샷 2021-07-15 오전 1 27 24"></p>
-<p>오 등록이 되었습니다<br><img src="https://user-images.githubusercontent.com/87232411/125659307-8248bfdf-9205-413c-91d3-0234cbb55c20.png" alt="스크린샷 2021-07-15 오전 1 27 35"></p>
-<p>회원을 조회해보니 가시다님이랑 제가 있네요 ㅎㅎ<br><img src="https://user-images.githubusercontent.com/87232411/125659310-ea33ecfd-d6ae-4fb5-92e5-8070c7306363.png" alt="스크린샷 2021-07-15 오전 1 27 46"></p>
-<p>자 회원 삭제를 해줍시다<br><img src="https://user-images.githubusercontent.com/87232411/125659312-26bd48f1-0a26-4ad7-8185-2c60b3f22a57.png" alt="스크린샷 2021-07-15 오전 1 27 52"></p>
-<p><code>회원 삭제</code>를 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659314-0c13697c-e396-4df1-a153-00d3d1527814.png" alt="스크린샷 2021-07-15 오전 1 27 57"></p>
-<p>삭제 되었네요<br><img src="https://user-images.githubusercontent.com/87232411/125659316-cc048c3b-d3fe-43e0-8683-aac11f147792.png" alt="스크린샷 2021-07-15 오전 1 28 01"></p>
-<p>보시다시피 제가 사라졌습니다<br><img src="https://user-images.githubusercontent.com/87232411/125659318-a9331fab-6897-4f55-bc16-274ea2fb7c42.png" alt="스크린샷 2021-07-15 오전 1 28 06"><br><br/><br><br/><br><br/></p>
-<h2 id="실습2-Amazon-RDS-실습"><a href="#실습2-Amazon-RDS-실습" class="headerlink" title="실습2)  Amazon RDS 실습"></a>실습2)  Amazon RDS 실습</h2><p><code>RDS</code> -&gt; <code>데이터베이스</code> -&gt; <code>데이터베이스 생성</code> 클릭<br><img width="229" alt="스크린샷 2021-07-15 오전 1 28 41" src="https://user-images.githubusercontent.com/87232411/125659321-076e1e37-e694-4d53-8fe0-e8bd79b486b3.png"></p>
+        <h2 id="실습2-Amazon-RDS-실습"><a href="#실습2-Amazon-RDS-실습" class="headerlink" title="실습2)  Amazon RDS 실습"></a>실습2)  Amazon RDS 실습</h2><p><code>RDS</code> -&gt; <code>데이터베이스</code> -&gt; <code>데이터베이스 생성</code> 클릭<br><img width="229" alt="스크린샷 2021-07-15 오전 1 28 41" src="https://user-images.githubusercontent.com/87232411/125659321-076e1e37-e694-4d53-8fe0-e8bd79b486b3.png"></p>
 <p>RDS DB 1 생성</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">생성 방식 : **표준 생성**</span><br><span class="line">엔진 옵션 : **MySQL**</span><br><span class="line">템플릿 : **프리 티어**</span><br><span class="line">DB 인스턴스 식별자 : ***beas1** (현재 AWS 리전에서 AWS 계정이 소유하는 모든 DB 인스턴스에 대해 유일, 각자 편하게 설정)*</span><br><span class="line">마스터 사용자 이름 : **root**</span><br><span class="line">마스터 암호(암호확인) : **qwe12345**</span><br><span class="line">DB 인스턴스 클래스 : 버스터블 클래스(t 클래스 포함) **db.t2.micro**</span><br><span class="line">VPC : **DB-VPC1**</span><br><span class="line">퍼블릭 액세스 가능 : **아니요**</span><br><span class="line">VPC 보안 그룹 : ##-**VPC1SG3**-## 포함된것 선택 , 기본 default 는 제거</span><br><span class="line">가용 영역 : **ap-northeast-2a**</span><br><span class="line">추가 구성 : **클릭**</span><br><span class="line">- 초기 데이터베이스 이름 : **sample**</span><br><span class="line">- DB 파라미터 그룹 : ****##-**mydbparametergroup**-## 포함된것 선택</span><br><span class="line">- 백업 보존 기간 : 0일</span><br><span class="line">- 유지 관리 기간 : 선택 기간 → 일요일 , 01 :00 , 0.5시간</span><br></pre></td></tr></table></figure>
 
@@ -595,7 +376,7 @@ images.githubusercontent.com/87232411/125671726-79aca13d-04cf-4f78-89ea-32142743
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/07/14/2021-07-14-AFOS/" target="_blank" title="6주차 - 데이터베이스 서비스">http://icebear2n2.github.io/2021/07/14/2021-07-14-AFOS/</a>
+          <a href="/2021/07/15/2021-07-14-AFOS-3/" target="_blank" title="6주차-3 Amazon RDS 실습">http://icebear2n2.github.io/2021/07/15/2021-07-14-AFOS-3/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -658,9 +439,9 @@ images.githubusercontent.com/87232411/125671726-79aca13d-04cf-4f78-89ea-32142743
     </a>
   
   
-    <a href="/2021/07/12/2021-07-07-AFOS/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/07/14/2021-07-14-AFOS-2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">5주차 - 보안 서비스</div>
+      <div class="article-nav-title">6주차-2 MariaDB 접속 및 기본 사용 실습</div>
     </a>
   
 </nav>
@@ -674,7 +455,7 @@ images.githubusercontent.com/87232411/125671726-79aca13d-04cf-4f78-89ea-32142743
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DBMS-%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">DBMS 란?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4"><span class="nav-number">1.1.</span> <span class="nav-text">데이터베이스</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS"><span class="nav-number">1.2.</span> <span class="nav-text">DBMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS-%EC%A2%85%EB%A5%98"><span class="nav-number">1.3.</span> <span class="nav-text">DBMS 종류</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS-%ED%8A%B9%EC%A7%95"><span class="nav-number">1.4.</span> <span class="nav-text">DBMS 특징</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EC%9D%98-%EB%B0%9C%EC%A0%84"><span class="nav-number">1.5.</span> <span class="nav-text">데이터베이스의 발전</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DBMS-%EB%B6%84%EB%A5%98"><span class="nav-number">1.6.</span> <span class="nav-text">DBMS 분류</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B4%80%EA%B3%84%ED%98%95-Relational-DBMS"><span class="nav-number">1.7.</span> <span class="nav-text">관계형(Relational) DBMS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-%EA%B0%9C%EC%9A%94-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EB%A5%BC-%EC%A1%B0%EC%9E%91%ED%95%98%EB%8A%94-%EC%96%B8%EC%96%B4"><span class="nav-number">1.8.</span> <span class="nav-text">SQL 개요 - 데이터베이스를 조작하는 언어</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL"><span class="nav-number">2.</span> <span class="nav-text">MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-%EC%97%90%EB%94%94%EC%85%98-%EB%B0%8F-%EA%B8%B0%EB%8A%A5-%EB%B9%84%EA%B5%90"><span class="nav-number">2.1.</span> <span class="nav-text">MySQL 에디션 및 기능 비교</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EC%84%9C%EB%B9%84%EC%8A%A4-amp-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5"><span class="nav-number">3.</span> <span class="nav-text">AWS 데이터베이스 서비스 &amp; 주요 기능</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cloud-DB-%EC%A7%84%ED%99%94-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C"><span class="nav-number">3.1.</span> <span class="nav-text">Cloud DB 진화 (순서대로)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%84%9C%EB%B2%84%EB%A6%AC%EC%8A%A4-DB"><span class="nav-number">3.2.</span> <span class="nav-text">서버리스 DB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-Aurora"><span class="nav-number">3.3.</span> <span class="nav-text">Amazon Aurora</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-DynamoDB"><span class="nav-number">3.4.</span> <span class="nav-text">Amazon DynamoDB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B51-MariaDB-%EC%A0%91%EC%86%8D-%EB%B0%8F-%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9"><span class="nav-number">4.</span> <span class="nav-text">실습1) MariaDB 접속 및 기본 사용</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MariaDB-%EC%97%90%EC%84%9C-%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9D%B8-SQL%EB%AC%B8-%EC%82%AC%EC%9A%A9%ED%95%B4%EB%B3%B4%EA%B8%B0"><span class="nav-number">4.1.</span> <span class="nav-text">MariaDB 에서 기본적인 SQL문 사용해보기</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%83%9D%EC%84%B1-%EB%B0%8F-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%A0%88%EC%BD%94%EB%93%9C-%EC%83%9D%EC%84%B1-%EB%B3%80%EA%B2%BD"><span class="nav-number">4.2.</span> <span class="nav-text">생성 및 데이터(레코드) 생성 변경</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%8A%B8%EB%A6%AC-%ED%8C%8C%EC%9D%BC-%ED%99%95%EC%9D%B8"><span class="nav-number">4.3.</span> <span class="nav-text">트리 파일 확인</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%8B%AC%ED%99%94-%EC%98%B5%EC%85%98-HTTP-WebEC2-PublicIP-php-mysql-1-php-%ED%98%95%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%A0%91%EC%86%8D"><span class="nav-number">4.4.</span> <span class="nav-text">심화 옵션)HTTP:&#x2F;&#x2F;WebEC2_PublicIP&#x2F;php_mysql&#x2F;1.php 형식으로 접속</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%AC%ED%99%94-%EC%98%B5%EC%85%98-%ED%9A%8C%EC%9B%90-%EA%B4%80%EB%A6%AC-%EC%8B%9C%EC%8A%A4%ED%85%9C"><span class="nav-number">5.</span> <span class="nav-text">심화 옵션) 회원 관리 시스템</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B52-Amazon-RDS-%EC%8B%A4%EC%8A%B5"><span class="nav-number">6.</span> <span class="nav-text">실습2)  Amazon RDS 실습</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDS-Muti-AZ-%EC%8B%A4%EC%8A%B5-%EC%A7%84%ED%96%89-1%EB%B2%88-RDS"><span class="nav-number">6.1.</span> <span class="nav-text">RDS Muti-AZ 실습 진행 (1번 RDS)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5%EC%9D%B4-%EB%81%9D%EB%82%9C-%ED%9B%84-%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C-%EA%BC%AD-%ED%95%98%EA%B8%B0"><span class="nav-number">7.</span> <span class="nav-text">실습이 끝난 후, 자원 삭제 꼭 하기 !</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C-AFOS-2%EA%B8%B0-%EB%85%B8%EC%85%98-%EB%82%B4%EC%9A%A9"><span class="nav-number">7.1.</span> <span class="nav-text">참고 자료 : AFOS[2기] 노션 내용</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B52-Amazon-RDS-%EC%8B%A4%EC%8A%B5"><span class="nav-number">1.</span> <span class="nav-text">실습2)  Amazon RDS 실습</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDS-Muti-AZ-%EC%8B%A4%EC%8A%B5-%EC%A7%84%ED%96%89-1%EB%B2%88-RDS"><span class="nav-number">1.1.</span> <span class="nav-text">RDS Muti-AZ 실습 진행 (1번 RDS)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5%EC%9D%B4-%EB%81%9D%EB%82%9C-%ED%9B%84-%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C-%EA%BC%AD-%ED%95%98%EA%B8%B0"><span class="nav-number">2.</span> <span class="nav-text">실습이 끝난 후, 자원 삭제 꼭 하기 !</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C-AFOS-2%EA%B8%B0-%EB%85%B8%EC%85%98-%EB%82%B4%EC%9A%A9"><span class="nav-number">2.1.</span> <span class="nav-text">참고 자료 : AFOS[2기] 노션 내용</span></a></li></ol></li></ol>
     
     </div>
   </aside>

@@ -3,28 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>cncf project - coredns(graduated project) | Sujeong&#39;s Blog</title>
+  <title>3주차-1 네트워킹 서비스 | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="CNCF" />
+  <meta name="keywords" content="AFOS[2기]" />
   
   
   
   
-  <meta name="description" content="CoreDNS란?CoreDNS는 플러그인을 연결하는 Go 언어로 작성된 DNS 서버&#x2F;Forwarder 이다.각 플러그인은 (DNS)기능을 수행한다. CoreDNS는 빠르고 유연한 DNS 서버이다.CoreDNS를 사용하면 플러그인을 활용하여 DNS 데이터로 원하는 작업을 수행할 수 있다.일부 기능이 없는 경우 즉시 제공되며 플러그인을 작성하여 추가할">
+  <meta name="description" content="AWS VPC 란 ? Virtual Private Cloud의 약자 AWS 클라우드 내 논리적으로 독립된 섹션을 제공허여 사용자가 정의한 가상 네트워크상에서 다양한 AWS 리소스를 실행할 수 있게 지원 독립된 가상 클라우드 네트워크 VPC 내에서 IP대역, 인터페이스, 서브넷, 라우팅 테이블, 인터넷 게이트웨이,보안 그룹, 네트워크 ACL 등을 생성하고 제">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CNCF Project - CoreDNS(Graduated Project)">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/07/18/2021-07-18-CNCF-3/index.html">
+<meta property="og:title" content="3주차-1 네트워킹 서비스">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/06/23/2021-06-23-AFOS-1/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="CoreDNS란?CoreDNS는 플러그인을 연결하는 Go 언어로 작성된 DNS 서버&#x2F;Forwarder 이다.각 플러그인은 (DNS)기능을 수행한다. CoreDNS는 빠르고 유연한 DNS 서버이다.CoreDNS를 사용하면 플러그인을 활용하여 DNS 데이터로 원하는 작업을 수행할 수 있다.일부 기능이 없는 경우 즉시 제공되며 플러그인을 작성하여 추가할">
+<meta property="og:description" content="AWS VPC 란 ? Virtual Private Cloud의 약자 AWS 클라우드 내 논리적으로 독립된 섹션을 제공허여 사용자가 정의한 가상 네트워크상에서 다양한 AWS 리소스를 실행할 수 있게 지원 독립된 가상 클라우드 네트워크 VPC 내에서 IP대역, 인터페이스, 서브넷, 라우팅 테이블, 인터넷 게이트웨이,보안 그룹, 네트워크 ACL 등을 생성하고 제">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://icebear2n2.github.io/css/images/CoreDNS.png">
-<meta property="article:published_time" content="2021-07-18T04:45:54.014Z">
-<meta property="article:modified_time" content="2021-07-18T05:15:49.912Z">
+<meta property="article:published_time" content="2021-06-23T13:00:00.000Z">
+<meta property="article:modified_time" content="2021-07-18T09:23:29.823Z">
 <meta property="article:author" content="Sujeong Hyeon">
-<meta property="article:tag" content="CNCF">
+<meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/CoreDNS.png">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -174,7 +172,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-07-18-CNCF-3" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-2021-06-23-AFOS-1" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -182,7 +180,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      CNCF Project - CoreDNS(Graduated Project)
+      3주차-1 네트워킹 서비스
     </h1>
   
 
@@ -190,12 +188,12 @@
     
     <div class="article-meta">
       
-	<a href="/2021/07/18/2021-07-18-CNCF-3/" class="article-date">
-	  <time datetime="2021-07-18T04:45:54.014Z" itemprop="datePublished">2021-07-18</time>
+	<a href="/2021/06/23/2021-06-23-AFOS-1/" class="article-date">
+	  <time datetime="2021-06-23T13:00:00.000Z" itemprop="datePublished">2021-06-23</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/CNCF/">CNCF</a>
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
 
       
 	<a class="article-views">
@@ -209,19 +207,50 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <br/>
-<br/>
+        <h2 id="AWS-VPC-란"><a href="#AWS-VPC-란" class="headerlink" title="AWS VPC 란 ?"></a>AWS VPC 란 ?</h2><ul>
+<li>Virtual Private Cloud의 약자</li>
+<li>AWS 클라우드 내 논리적으로 독립된 섹션을 제공허여 사용자가 정의한 가상 네트워크상에서 다양한 AWS 리소스를 실행할 수 있게 지원</li>
+<li>독립된 가상 클라우드 네트워크</li>
+<li>VPC 내에서 IP대역, 인터페이스, 서브넷, 라우팅 테이블, 인터넷 게이트웨이,보안 그룹, 네트워크 ACL 등을 생성하고 제어할 수 있음<br/>
+<br/></li>
+</ul>
+<span id="more"></span>
 
-<img src="/css/images/CoreDNS.png">
+<h2 id="기본-네트워크-개념"><a href="#기본-네트워크-개념" class="headerlink" title="기본 네트워크 개념"></a>기본 네트워크 개념</h2><h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><ul>
+<li>공인 IP : 전 세계 유일한 주소, 인터넷</li>
+<li>사설 IP : 맘껏 사용, 인터넷 사용 시 NAT을 사용해야 함<br/></li>
+</ul>
+<h2 id="IP-통신"><a href="#IP-통신" class="headerlink" title="IP 통신"></a>IP 통신</h2><ul>
+<li>동일 네트워크 : 그냥 됨</li>
+<li>다른 네트워크 : Gateway 필요<br/></li>
+</ul>
+<h2 id="NAT-Network-Address-Translation"><a href="#NAT-Network-Address-Translation" class="headerlink" title="NAT (Network Address Translation)"></a>NAT (Network Address Translation)</h2><ul>
+<li>네트워크 주소(IP) 변환헤주는 기술</li>
+<li>프라이빗 IP 를 퍼블릭 IP로 변환해줌<br/>
+<br/></li>
+</ul>
+<h2 id="VPC-리소스"><a href="#VPC-리소스" class="headerlink" title="VPC 리소스"></a>VPC 리소스</h2><h2 id="서브넷"><a href="#서브넷" class="headerlink" title="서브넷"></a>서브넷</h2><ul>
+<li>네트워크 영역을 부분적으로 나눈 망으로 정의</li>
+<li>AWS의 VPC에서도 서브넷을 통해 네트워크를 분리하여 나눌 수 있음</li>
+<li>서브넷의 IP대역은 VPC의 IP대역에 속해 있어야 하며, <strong>서브넷은 1개의 가용영역(AZ)에 종속되어 있어야 함</strong><br/></li>
+</ul>
+<h2 id="퍼블릭-서브넷"><a href="#퍼블릭-서브넷" class="headerlink" title="퍼블릭 서브넷"></a>퍼블릭 서브넷</h2><ul>
+<li>공인 네트워크 개념</li>
+<li>외부 인터넷 구간과 직접적으로 통신할 수 있는 공공 네트워크<br/></li>
+</ul>
+<h2 id="프라이빗-서브넷"><a href="#프라이빗-서브넷" class="headerlink" title="프라이빗 서브넷"></a>프라이빗 서브넷</h2><ul>
+<li>사설 네트워크 개념</li>
+<li>외부 인터넷 구간과 직접적인 통신을 할 수 없는 폐쇄적인 네트워크<br/></li>
+</ul>
+<h2 id="보안-그룹과-네트워크-ACL"><a href="#보안-그룹과-네트워크-ACL" class="headerlink" title="보안 그룹과 네트워크 ACL"></a>보안 그룹과 네트워크 ACL</h2><ul>
+<li>VPC는 <strong>인스턴스</strong> 레벨과 <strong>서브넷</strong> 레벨 상에서 대상을 필터링 할 수 있는 보안 기술을 사용할 수 있음</li>
+<li>인스턴스 레벨에서의 보안 기술 : 보안 그룹 (Security Group)</li>
+<li>서브넷 레벨에서의 보안 기술 : 네트워크 ACL (Access Control List)<br/>
+<br/></li>
+</ul>
+<hr/>
 
-<h2 id="CoreDNS란"><a href="#CoreDNS란" class="headerlink" title="CoreDNS란?"></a>CoreDNS란?</h2><p>CoreDNS는 플러그인을 연결하는 Go 언어로 작성된 DNS 서버/Forwarder 이다.<br>각 플러그인은 (DNS)기능을 수행한다.</p>
-<p>CoreDNS는 빠르고 유연한 DNS 서버이다.<br>CoreDNS를 사용하면 플러그인을 활용하여 DNS 데이터로 원하는 작업을 수행할 수 있다.<br>일부 기능이 없는 경우 즉시 제공되며 플러그인을 작성하여 추가할 수 있다.</p>
-<p>CoreDNS는 k8s 클러스터의 DNS 역할을 수행할 수 있다.<br>사용자는 기존 Deployment인 kube-dns를 교체하거나, 클러스터를 배포하고 업그레이드하는 Kubeadm과 같은 툴을 사용하여 클러스터 안의 kube-dns 대신 CoreDNS를 사용할 수 있다.</p>
-<hr>
-
-<p><strong>참고 자료: <a target="_blank" rel="noopener" href="https://github.com/coredns/coredns">https://github.com/coredns/coredns</a>, <a target="_blank" rel="noopener" href="https://kubernetes.io/ko/docs/tasks/administer-cluster/coredns/">https://kubernetes.io/ko/docs/tasks/administer-cluster/coredns/</a></strong></p>
-<p><strong>사진 출처: <a target="_blank" rel="noopener" href="https://github.com/coredns/coredns">https://github.com/coredns/coredns</a></strong></p>
-
+<h3 id="참고-자료-AFOS-2기-노션-내용"><a href="#참고-자료-AFOS-2기-노션-내용" class="headerlink" title="참고 자료 : AFOS[2기] 노션 내용"></a>참고 자료 : AFOS[2기] 노션 내용</h3>
       
     </div>
     <footer class="article-footer">
@@ -234,7 +263,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/07/18/2021-07-18-CNCF-3/" target="_blank" title="CNCF Project - CoreDNS(Graduated Project)">http://icebear2n2.github.io/2021/07/18/2021-07-18-CNCF-3/</a>
+          <a href="/2021/06/23/2021-06-23-AFOS-1/" target="_blank" title="3주차-1 네트워킹 서비스">http://icebear2n2.github.io/2021/06/23/2021-06-23-AFOS-1/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -277,7 +306,7 @@
       
       
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CNCF/" rel="tag">CNCF</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
 
       
 
@@ -287,19 +316,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/07/18/2021-07-18-Terraform-1/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/06/23/2021-06-23-AFOS-2/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Terraform 소개
+          3주차-2 서브넷 VPC 구성 실습
         
       </div>
     </a>
   
   
-    <a href="/2021/07/17/2021-07-17-CNCF-2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/06/16/2021-06-16-AFOS-2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">CNCF Project - Containerd(Graduated Project)</div>
+      <div class="article-nav-title">2주차-2 인스턴스 배포 실습</div>
     </a>
   
 </nav>
@@ -313,7 +342,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreDNS%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">CoreDNS란?</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-VPC-%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">AWS VPC 란 ?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B8%B0%EB%B3%B8-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%EA%B0%9C%EB%85%90"><span class="nav-number">2.</span> <span class="nav-text">기본 네트워크 개념</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP"><span class="nav-number">3.</span> <span class="nav-text">IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-%ED%86%B5%EC%8B%A0"><span class="nav-number">4.</span> <span class="nav-text">IP 통신</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT-Network-Address-Translation"><span class="nav-number">5.</span> <span class="nav-text">NAT (Network Address Translation)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VPC-%EB%A6%AC%EC%86%8C%EC%8A%A4"><span class="nav-number">6.</span> <span class="nav-text">VPC 리소스</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%84%9C%EB%B8%8C%EB%84%B7"><span class="nav-number">7.</span> <span class="nav-text">서브넷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%ED%8D%BC%EB%B8%94%EB%A6%AD-%EC%84%9C%EB%B8%8C%EB%84%B7"><span class="nav-number">8.</span> <span class="nav-text">퍼블릭 서브넷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%ED%94%84%EB%9D%BC%EC%9D%B4%EB%B9%97-%EC%84%9C%EB%B8%8C%EB%84%B7"><span class="nav-number">9.</span> <span class="nav-text">프라이빗 서브넷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%B3%B4%EC%95%88-%EA%B7%B8%EB%A3%B9%EA%B3%BC-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-ACL"><span class="nav-number">10.</span> <span class="nav-text">보안 그룹과 네트워크 ACL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C-AFOS-2%EA%B8%B0-%EB%85%B8%EC%85%98-%EB%82%B4%EC%9A%A9"><span class="nav-number">10.1.</span> <span class="nav-text">참고 자료 : AFOS[2기] 노션 내용</span></a></li></ol></li></ol>
     
     </div>
   </aside>

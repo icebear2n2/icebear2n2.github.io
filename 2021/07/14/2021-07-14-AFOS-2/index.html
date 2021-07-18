@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>6주차-2 mariadb 접속 및 기본 사용 실습 | Sujeong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="AFOS[2기]" />
+  
+  
+  
+  
+  <meta name="description" content="CloudFormation 스택 생성하기 - 링크 클릭 후 템플릿 파일로 기본 환경 자동 배포https:&#x2F;&#x2F;console.aws.amazon.com&#x2F;cloudformation&#x2F;home?region&#x3D;ap-northeast-2#&#x2F;stacks&#x2F;new?stackName&#x3D;DBLab&amp;templateURL&#x3D;https:%2F%2Fs3.ap-northeast-2.a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6주차-2 MariaDB 접속 및 기본 사용 실습">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/14/2021-07-14-AFOS-2/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="CloudFormation 스택 생성하기 - 링크 클릭 후 템플릿 파일로 기본 환경 자동 배포https:&#x2F;&#x2F;console.aws.amazon.com&#x2F;cloudformation&#x2F;home?region&#x3D;ap-northeast-2#&#x2F;stacks&#x2F;new?stackName&#x3D;DBLab&amp;templateURL&#x3D;https:%2F%2Fs3.ap-northeast-2.a">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659192-87264bb2-32b0-4d41-a8a3-c4681853f260.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659203-d2a4fb70-2a98-479d-b4fe-202aba1a7614.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659207-49c45819-4126-44c3-af88-2d19ed6d3498.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659209-96fae96b-dcba-4c20-b678-5124558b35b7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659211-0a8702e8-3ced-4803-9571-10de996f4caa.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659213-b3004f56-9e3c-4a75-931d-a435b22568da.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659215-564ffa1c-1628-4d2f-b86a-cb77427fd673.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659216-94a9c4b1-3261-490c-8c58-1738dd8deb2f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659218-f4455832-314e-4921-a1ee-9325888fad79.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659221-ca461efc-5351-4af6-8360-2165dd0e0825.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659224-126f3840-bdfc-4d23-a09b-7633d3c55cf4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659226-26807007-7e59-45c9-a5f6-b5a78720e60c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659229-66072272-467a-4e3e-9f16-dbf55d0a74d2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659230-6ea9ec21-1480-4661-a598-6ea9b9a1342e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659232-9bad22b7-d008-403d-96e3-ed3a87761a05.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659235-b3abb029-47bf-4818-b25b-200a1aac548e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659238-3d409269-88c5-49ab-8abb-24ccb8a2a76e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659241-159aad6d-0d36-44e2-8c59-58a5b319437b.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659242-3f4093b5-a3cd-42b2-b5d6-f5600c7c111e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659243-f778732c-6a67-42fb-b5c8-79fba2d7f5b2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659248-38b90d21-04d2-498c-a675-558ebdf00e3c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659249-aa01aab5-5809-4f8c-9bd5-71794e64a373.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659250-b0d28d85-74fa-4fa2-90fe-2fa26f9fde5f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659251-74f6ff70-dfaf-40f9-b91e-82f09cb55a84.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659253-e46ab7c5-b3fa-485d-b347-a6c652413f6d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659255-34ac7a5f-ff96-4380-a4ee-355d4b1f4e1e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659257-d3a82eea-4a69-4ff6-9c91-ff04e55dae6f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659259-0dca49c9-17c7-4a89-8e64-3724360a2859.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659260-4d782599-ee69-4ad3-a6ff-00fa45381b61.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659264-c8f31d14-bac1-4b55-a3d8-389606ecb5cf.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659266-f8647494-90b6-41f5-95a6-559ba0124fc4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659269-9dc59f70-8c17-4a43-b20a-d66a7655b049.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659272-08a4d22e-acc4-487a-84be-6f776a5e8624.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659274-6dbc0d56-45b3-4a17-a3f8-3cfa6adc4bc7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659276-d519b64c-553c-41b5-8699-a8e92fc5d907.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659278-459b4f1c-04a9-4e2a-98d6-ba7f165b6975.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659279-99de7272-f3ef-4cff-9665-a915d6c238fa.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659280-3edb024f-3ceb-40b9-8770-e0ead70078d8.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659281-944dabd6-e41b-40e6-a957-41b988e319df.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659282-bab63dcd-b6e9-455f-8f72-29f3f732cbdb.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659283-662dabf3-593f-4410-8e7b-e2d930d2a469.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659286-855a20a7-7eb2-441b-85e9-17f00480ef07.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659289-33e04fc5-9abf-47bf-a9bd-3e2cfa6d8a4b.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659293-4746a539-e7e1-4ab4-b278-d25106f82a75.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659297-cfede565-6fa8-4ee8-b01c-55ac73681b28.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659299-3f4f3bc4-2671-432e-9598-172c86606b74.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659300-6d0942ce-6c9b-4575-80c2-3a58ac4618a1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659301-37b3ba66-5c6c-4878-8018-a90be2c8f8e9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659307-8248bfdf-9205-413c-91d3-0234cbb55c20.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659310-ea33ecfd-d6ae-4fb5-92e5-8070c7306363.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659312-26bd48f1-0a26-4ad7-8185-2c60b3f22a57.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659314-0c13697c-e396-4df1-a153-00d3d1527814.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659316-cc048c3b-d3fe-43e0-8683-aac11f147792.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/125659318-a9331fab-6897-4f55-bc16-274ea2fb7c42.png">
+<meta property="article:published_time" content="2021-07-14T14:00:00.000Z">
+<meta property="article:modified_time" content="2021-07-18T09:24:19.442Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/87232411/125659192-87264bb2-32b0-4d41-a8a3-c4681853f260.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/SB_logo.PNG">
+  <link rel="apple-touch-icon" href="/css/images/SB_logo.PNG">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/SB_logo.PNG">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2021-07-14-AFOS-2" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      6주차-2 MariaDB 접속 및 기본 사용 실습
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/07/14/2021-07-14-AFOS-2/" class="article-date">
+	  <time datetime="2021-07-14T14:00:00.000Z" itemprop="datePublished">2021-07-14</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>CloudFormation 스택 생성하기 - 링크 클릭 후 템플릿 파일로 기본 환경 자동 배포<br><a target="_blank" rel="noopener" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=DBLab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FDB%2Faws-db.yaml">https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=DBLab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FDB%2Faws-db.yaml</a></p>
+<p> <code>다음</code> 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659192-87264bb2-32b0-4d41-a8a3-c4681853f260.png" alt="스크린샷 2021-07-15 오전 1 01 45"></p>
+<p>키 설정 후 <code> 다음</code> 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659203-d2a4fb70-2a98-479d-b4fe-202aba1a7614.png" alt="스크린샷 2021-07-15 오전 1 01 51"></p>
+<p>기본 값으로 두고 <code>다음</code> 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659207-49c45819-4126-44c3-af88-2d19ed6d3498.png" alt="스크린샷 2021-07-15 오전 1 01 58"></p>
+<p><code>스택 생성</code> 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659209-96fae96b-dcba-4c20-b678-5124558b35b7.png" alt="스크린샷 2021-07-15 오전 1 02 04"></p>
+<p>DBLab이 생성되었습니다<br><img src="https://user-images.githubusercontent.com/87232411/125659211-0a8702e8-3ced-4803-9571-10de996f4caa.png" alt="스크린샷 2021-07-15 오전 1 03 36"></p>
+<p>SSH로 WebSrv 접속 후  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># IP확인 및 DBSrv ping 테스트</span></span><br><span class="line">ip a</span><br><span class="line">ping 10.1.2.10</span><br><span class="line"></span><br><span class="line"><span class="comment"># DBSrv 로 MySQL 접속 (계정 정보: root/qwe123)</span></span><br><span class="line">mysql -h 10.1.2.10 -uroot -pqwe123</span><br></pre></td></tr></table></figure>
+<img width="563" alt="스크린샷 2021-07-15 오전 1 06 18" src="https://user-images.githubusercontent.com/87232411/125659213-b3004f56-9e3c-4a75-931d-a435b22568da.png">
+<img width="500" alt="스크린샷 2021-07-15 오전 1 06 33" src="https://user-images.githubusercontent.com/87232411/125659215-564ffa1c-1628-4d2f-b86a-cb77427fd673.png">
+<img width="562" alt="스크린샷 2021-07-15 오전 1 06 53" src="https://user-images.githubusercontent.com/87232411/125659216-94a9c4b1-3261-490c-8c58-1738dd8deb2f.png">
+
+<p>SSH로 DBSrv에 접속 후</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># IP확인</span></span><br><span class="line">ip a</span><br><span class="line"></span><br><span class="line"><span class="comment"># MySQL 접속 (계정 정보: root/qwe123)</span></span><br><span class="line">mysql -uroot -pqwe123</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<img width="560" alt="스크린샷 2021-07-15 오전 1 07 06" src="https://user-images.githubusercontent.com/87232411/125659218-f4455832-314e-4921-a1ee-9325888fad79.png">
+<img width="562" alt="스크린샷 2021-07-15 오전 1 07 17" src="https://user-images.githubusercontent.com/87232411/125659221-ca461efc-5351-4af6-8360-2165dd0e0825.png">
+
+<h3 id="MariaDB-에서-기본적인-SQL문-사용해보기"><a href="#MariaDB-에서-기본적인-SQL문-사용해보기" class="headerlink" title="MariaDB 에서 기본적인 SQL문 사용해보기"></a>MariaDB 에서 기본적인 SQL문 사용해보기</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># DB 서버의 상태 정보</span><br><span class="line">MariaDB [(<span class="keyword">none</span>)]<span class="operator">&gt;</span> status;</span><br><span class="line"></span><br><span class="line"># 데이터베이스(<span class="operator">=</span>스키마) 확인</span><br><span class="line"><span class="keyword">SHOW</span> DATABASES;</span><br><span class="line"></span><br><span class="line"># employees 데이터베이스 선택 하기</span><br><span class="line">USE employees;</span><br><span class="line">MariaDB [(<span class="keyword">none</span>)]<span class="operator">&gt;</span> <span class="operator">*</span><span class="operator">*</span>USE employees;<span class="operator">*</span><span class="operator">*</span></span><br><span class="line">MariaDB [<span class="operator">*</span><span class="operator">*</span>employees<span class="operator">*</span><span class="operator">*</span>]<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"># 테이블 확인</span><br><span class="line"><span class="keyword">SHOW</span> TABLES;</span><br><span class="line"></span><br><span class="line"># 테이블 필드와 타입 등 정보 확인</span><br><span class="line"><span class="keyword">DESC</span> employees;</span><br><span class="line"></span><br><span class="line"># employees 테이블 조회 하기</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees LIMIT <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"># 특정 열(컬럼<span class="operator">=</span>필드) 기준 오름<span class="operator">/</span>내림차순으로 정렬 조회 하기</span><br><span class="line"># <span class="comment">-- 공백이 있는 개체의 이름 사용 시는 백틱(backtick) `` 으로 묶어줘야 하나의 이름으로 인식함</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees <span class="keyword">ORDER</span> <span class="keyword">BY</span> `emp_no` <span class="keyword">DESC</span> LIMIT <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"># 특정 행(<span class="operator">=</span>로우<span class="operator">=</span>레코드)만 출력 <span class="operator">-</span> Mary 이름(first_name) , Baba 성(last_name)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> first_name <span class="operator">=</span> <span class="string">&#x27;Mary&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<img width="564" alt="스크린샷 2021-07-15 오전 1 07 35" src="https://user-images.githubusercontent.com/87232411/125659224-126f3840-bdfc-4d23-a09b-7633d3c55cf4.png">
+<img width="323" alt="스크린샷 2021-07-15 오전 1 07 50" src="https://user-images.githubusercontent.com/87232411/125659226-26807007-7e59-45c9-a5f6-b5a78720e60c.png">
+<img width="499" alt="스크린샷 2021-07-15 오전 1 08 06" src="https://user-images.githubusercontent.com/87232411/125659229-66072272-467a-4e3e-9f16-dbf55d0a74d2.png">
+<img width="339" alt="스크린샷 2021-07-15 오전 1 08 22" src="https://user-images.githubusercontent.com/87232411/125659230-6ea9ec21-1480-4661-a598-6ea9b9a1342e.png">
+<img width="527" alt="스크린샷 2021-07-15 오전 1 09 45" src="https://user-images.githubusercontent.com/87232411/125659232-9bad22b7-d008-403d-96e3-ed3a87761a05.png">
+<img width="552" alt="스크린샷 2021-07-15 오전 1 10 12" src="https://user-images.githubusercontent.com/87232411/125659235-b3abb029-47bf-4818-b25b-200a1aac548e.png">
+<img width="519" alt="스크린샷 2021-07-15 오전 1 10 22" src="https://user-images.githubusercontent.com/87232411/125659238-3d409269-88c5-49ab-8abb-24ccb8a2a76e.png">
+<img width="559" alt="스크린샷 2021-07-15 오전 1 10 34" src="https://user-images.githubusercontent.com/87232411/125659241-159aad6d-0d36-44e2-8c59-58a5b319437b.png">
+<img width="540" alt="스크린샷 2021-07-15 오전 1 10 58" src="https://user-images.githubusercontent.com/87232411/125659242-3f4093b5-a3cd-42b2-b5d6-f5600c7c111e.png">
+
+<h3 id="생성-및-데이터-레코드-생성-변경"><a href="#생성-및-데이터-레코드-생성-변경" class="headerlink" title="생성 및 데이터(레코드) 생성 변경"></a>생성 및 데이터(레코드) 생성 변경</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"># 스키마(<span class="operator">=</span>데이터베이스) 생성</span><br><span class="line"><span class="keyword">CREATE</span> SCHEMA `shopdb`;</span><br><span class="line"><span class="operator">*</span><span class="operator">*</span><span class="keyword">SHOW</span> DATABASES;<span class="operator">*</span><span class="operator">*</span></span><br><span class="line">USE shopdb;</span><br><span class="line"></span><br><span class="line"># 테이블 생성 <span class="operator">-</span> (Workbench) GUI 설정 보여주기 <span class="operator">-</span> 아래 복붙해서 적용하기</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `shopdb`.`memberTBL` (</span><br><span class="line">  `memberID` <span class="type">CHAR</span>(<span class="number">8</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `memberName` <span class="type">CHAR</span>(<span class="number">5</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `memberAddress` <span class="type">CHAR</span>(<span class="number">20</span>) <span class="keyword">NULL</span>,</span><br><span class="line">  `age` <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`memberID`));</span><br><span class="line"></span><br><span class="line"># 테이블 정보 확인</span><br><span class="line"><span class="keyword">DESC</span> memberTBL;</span><br><span class="line"></span><br><span class="line"># 데이터 넣기 <span class="operator">-</span> (Workbench) GUI 설정 보여주기 <span class="operator">-</span> (카톡 멤버 정보 받기) <span class="operator">-</span> 아래 복붙해서 적용하기</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> memberTBL;</span><br><span class="line"></span><br><span class="line"># 행(<span class="operator">=</span>데이터<span class="operator">=</span>레코드) <span class="number">1</span>개 넣기</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;icebear2n2&#x27;</span>, <span class="string">&#x27;아이수베어&#x27;</span>, <span class="string">&#x27;제주도 제주시&#x27;</span>, <span class="string">&#x27;19&#x27;</span>);</span><br><span class="line"></span><br><span class="line">## 카톡 멤버 정보 받아서 넣기</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;Gasida&#x27;</span>, <span class="string">&#x27;가시다&#x27;</span>, <span class="string">&#x27;서울 잠실동 분당구&#x27;</span>, <span class="string">&#x27;30&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;User4&#x27;</span>, <span class="string">&#x27;유나&#x27;</span>, <span class="string">&#x27;경기 성남시 분당구&#x27;</span>, <span class="string">&#x27;27&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;Minyoung&#x27;</span>, <span class="string">&#x27;민영&#x27;</span>, <span class="string">&#x27;경기도 부천시 중동&#x27;</span>, <span class="string">&#x27;30&#x27;</span>); </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;Eunji&#x27;</span>, <span class="string">&#x27;은지&#x27;</span>, <span class="string">&#x27;인천 남구 주안동&#x27;</span>, <span class="string">&#x27;28&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> memberTBL <span class="keyword">VALUES</span> (<span class="string">&#x27;Yujeong&#x27;</span>, <span class="string">&#x27;유정&#x27;</span>, <span class="string">&#x27;서울 은평구 증산동&#x27;</span>, <span class="string">&#x27;29&#x27;</span>); </span><br><span class="line"></span><br><span class="line"># 조회</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> memberTBL;</span><br><span class="line"><span class="keyword">SELECT</span> memberName, memberAddress <span class="keyword">FROM</span> memberTBL;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> memberTBL <span class="keyword">WHERE</span> age <span class="operator">=</span> <span class="number">27</span>;</span><br><span class="line"></span><br><span class="line"># 행(<span class="operator">=</span>데이터<span class="operator">=</span>레코드) 변경(<span class="operator">=</span>업데이트)</span><br><span class="line">UPDATE memberTBL <span class="keyword">SET</span> memberID<span class="operator">=</span><span class="string">&#x27;Yuna&#x27;</span> <span class="keyword">WHERE</span> memberName<span class="operator">=</span><span class="string">&#x27;유나&#x27;</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> memberTBL;</span><br></pre></td></tr></table></figure>
+<img width="335" alt="스크린샷 2021-07-15 오전 1 11 25" src="https://user-images.githubusercontent.com/87232411/125659243-f778732c-6a67-42fb-b5c8-79fba2d7f5b2.png">
+<img width="320" alt="스크린샷 2021-07-15 오전 1 11 36" src="https://user-images.githubusercontent.com/87232411/125659248-38b90d21-04d2-498c-a675-558ebdf00e3c.png">
+<img width="267" alt="스크린샷 2021-07-15 오전 1 11 48" src="https://user-images.githubusercontent.com/87232411/125659249-aa01aab5-5809-4f8c-9bd5-71794e64a373.png">
+<img width="435" alt="스크린샷 2021-07-15 오전 1 12 00" src="https://user-images.githubusercontent.com/87232411/125659250-b0d28d85-74fa-4fa2-90fe-2fa26f9fde5f.png">
+<img width="474" alt="스크린샷 2021-07-15 오전 1 12 13" src="https://user-images.githubusercontent.com/87232411/125659251-74f6ff70-dfaf-40f9-b91e-82f09cb55a84.png">
+<img width="356" alt="스크린샷 2021-07-15 오전 1 12 57" src="https://user-images.githubusercontent.com/87232411/125659253-e46ab7c5-b3fa-485d-b347-a6c652413f6d.png">
+<img width="695" alt="스크린샷 2021-07-15 오전 1 14 55" src="https://user-images.githubusercontent.com/87232411/125659255-34ac7a5f-ff96-4380-a4ee-355d4b1f4e1e.png">
+<img width="696" alt="스크린샷 2021-07-15 오전 1 15 43" src="https://user-images.githubusercontent.com/87232411/125659257-d3a82eea-4a69-4ff6-9c91-ff04e55dae6f.png">
+<img width="505" alt="스크린샷 2021-07-15 오전 1 16 10" src="https://user-images.githubusercontent.com/87232411/125659259-0dca49c9-17c7-4a89-8e64-3724360a2859.png">
+<img width="564" alt="스크린샷 2021-07-15 오전 1 17 00" src="https://user-images.githubusercontent.com/87232411/125659260-4d782599-ee69-4ad3-a6ff-00fa45381b61.png">
+<img width="500" alt="스크린샷 2021-07-15 오전 1 17 21" src="https://user-images.githubusercontent.com/87232411/125659264-c8f31d14-bac1-4b55-a3d8-389606ecb5cf.png">
+<img width="583" alt="스크린샷 2021-07-15 오전 1 17 32" src="https://user-images.githubusercontent.com/87232411/125659266-f8647494-90b6-41f5-95a6-559ba0124fc4.png">
+<img width="527" alt="스크린샷 2021-07-15 오전 1 17 41" src="https://user-images.githubusercontent.com/87232411/125659269-9dc59f70-8c17-4a43-b20a-d66a7655b049.png">
+
+<h3 id="트리-파일-확인"><a href="#트리-파일-확인" class="headerlink" title="트리 파일 확인"></a>트리 파일 확인</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tree /var/www/html</span><br></pre></td></tr></table></figure>
+<img width="396" alt="스크린샷 2021-07-15 오전 1 19 05" src="https://user-images.githubusercontent.com/87232411/125659272-08a4d22e-acc4-487a-84be-6f776a5e8624.png">
+
+<h3 id="심화-옵션-HTTP-WebEC2-PublicIP-php-mysql-1-php-형식으로-접속"><a href="#심화-옵션-HTTP-WebEC2-PublicIP-php-mysql-1-php-형식으로-접속" class="headerlink" title="심화 옵션)HTTP://WebEC2_PublicIP/php_mysql/1.php 형식으로 접속"></a>심화 옵션)HTTP://WebEC2_PublicIP/php_mysql/1.php 형식으로 접속</h3><p><code>1.php</code> 접속<br><img width="486" alt="스크린샷 2021-07-15 오전 1 19 37" src="https://user-images.githubusercontent.com/87232411/125659274-6dbc0d56-45b3-4a17-a3f8-3cfa6adc4bc7.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl localhost/php_mysql/1.php</span><br></pre></td></tr></table></figure>
+<img width="380" alt="스크린샷 2021-07-15 오전 1 20 21" src="https://user-images.githubusercontent.com/87232411/125659276-d519b64c-553c-41b5-8699-a8e92fc5d907.png">
+
+<p><code>2.php</code> 접속</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> mysql -h <span class="number">10.1</span>.<span class="number">2.10</span> -uroot -pqwe123 -e <span class="string">&quot;show databases;&quot;</span>; date; sleep <span class="number">1</span>; done </span><br></pre></td></tr></table></figure>
+<img width="691" alt="스크린샷 2021-07-15 오전 1 22 08" src="https://user-images.githubusercontent.com/87232411/125659278-459b4f1c-04a9-4e2a-98d6-ba7f165b6975.png">
+<img width="505" alt="스크린샷 2021-07-15 오전 1 22 19" src="https://user-images.githubusercontent.com/87232411/125659279-99de7272-f3ef-4cff-9665-a915d6c238fa.png">
+
+<p><code>3.php</code> 접속</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> mysql -h <span class="number">10.1</span>.<span class="number">2.10</span> -uroot -pqwe123 -e <span class="string">&quot;USE sqlDB2;show tables;&quot;</span>; date; sleep <span class="number">1</span>; done</span><br></pre></td></tr></table></figure>
+<img width="640" alt="스크린샷 2021-07-15 오전 1 22 40" src="https://user-images.githubusercontent.com/87232411/125659280-3edb024f-3ceb-40b9-8770-e0ead70078d8.png">
+<img width="471" alt="스크린샷 2021-07-15 오전 1 22 55" src="https://user-images.githubusercontent.com/87232411/125659281-944dabd6-e41b-40e6-a957-41b988e319df.png">
+
+<p><code>4.php</code> 접속</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> mysql -h <span class="number">10.1</span>.<span class="number">2.10</span> -uroot -pqwe123 -e <span class="string">&quot;USE sqlDB2;select * from userTbl;&quot;</span>; date; sleep <span class="number">1</span>; done</span><br></pre></td></tr></table></figure>
+<img width="664" alt="스크린샷 2021-07-15 오전 1 23 09" src="https://user-images.githubusercontent.com/87232411/125659282-bab63dcd-b6e9-455f-8f72-29f3f732cbdb.png">
+<img width="466" alt="스크린샷 2021-07-15 오전 1 23 18" src="https://user-images.githubusercontent.com/87232411/125659283-662dabf3-593f-4410-8e7b-e2d930d2a469.png">
+
+<p><code>5.php</code> 접속<br><img width="645" alt="스크린샷 2021-07-15 오전 1 23 33" src="https://user-images.githubusercontent.com/87232411/125659286-855a20a7-7eb2-441b-85e9-17f00480ef07.png"></p>
+<p>직접 레코드 추가 후 웹 페이지(5.php) 반영 확인</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql <span class="operator">-</span>h <span class="number">10.1</span><span class="number">.2</span><span class="number">.10</span> <span class="operator">-</span>uroot <span class="operator">-</span>pqwe123</span><br><span class="line">USE sqlDB2;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> userTbl <span class="keyword">VALUES</span> (<span class="string">&#x27;AAA&#x27;</span>, <span class="string">&#x27;가시다&#x27;</span>, <span class="number">2000</span>, <span class="string">&#x27;전주&#x27;</span>, <span class="string">&#x27;019&#x27;</span>, <span class="string">&#x27;1234567&#x27;</span>, <span class="number">179</span>, <span class="string">&#x27;2015-5-5&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<img width="473" alt="스크린샷 2021-07-15 오전 1 23 45" src="https://user-images.githubusercontent.com/87232411/125659289-33e04fc5-9abf-47bf-a9bd-3e2cfa6d8a4b.png">
+<img width="586" alt="스크린샷 2021-07-15 오전 1 24 26" src="https://user-images.githubusercontent.com/87232411/125659293-4746a539-e7e1-4ab4-b278-d25106f82a75.png">
+<img width="698" alt="스크린샷 2021-07-15 오전 1 25 21" src="https://user-images.githubusercontent.com/87232411/125659297-cfede565-6fa8-4ee8-b01c-55ac73681b28.png">
+
+<p>다시 5.php를 조회해보면 내가 추가된 걸 볼 수 있다<br><img width="473" alt="스크린샷 2021-07-15 오전 1 25 31" src="https://user-images.githubusercontent.com/87232411/125659299-3f4f3bc4-2671-432e-9598-172c86606b74.png"></p>
+<h2 id="심화-옵션-회원-관리-시스템"><a href="#심화-옵션-회원-관리-시스템" class="headerlink" title="심화 옵션) 회원 관리 시스템"></a>심화 옵션) 회원 관리 시스템</h2><p><a target="_blank" rel="noopener" href="http://webec2_publicip/usermgmt/main.html">HTTP://WebEC2_PublicIP/usermgmt/main.html</a> 형식으로 접속<br><img src="https://user-images.githubusercontent.com/87232411/125659300-6d0942ce-6c9b-4575-80c2-3a58ac4618a1.png" alt="스크린샷 2021-07-15 오전 1 26 44"></p>
+<p><code>신규 회원 등록</code>을 누른 후에 정보를 입력<br><img src="https://user-images.githubusercontent.com/87232411/125659301-37b3ba66-5c6c-4878-8018-a90be2c8f8e9.png" alt="스크린샷 2021-07-15 오전 1 27 24"></p>
+<p>오 등록이 되었습니다<br><img src="https://user-images.githubusercontent.com/87232411/125659307-8248bfdf-9205-413c-91d3-0234cbb55c20.png" alt="스크린샷 2021-07-15 오전 1 27 35"></p>
+<p>회원을 조회해보니 가시다님이랑 제가 있네요 ㅎㅎ<br><img src="https://user-images.githubusercontent.com/87232411/125659310-ea33ecfd-d6ae-4fb5-92e5-8070c7306363.png" alt="스크린샷 2021-07-15 오전 1 27 46"></p>
+<p>자 회원 삭제를 해줍시다<br><img src="https://user-images.githubusercontent.com/87232411/125659312-26bd48f1-0a26-4ad7-8185-2c60b3f22a57.png" alt="스크린샷 2021-07-15 오전 1 27 52"></p>
+<p><code>회원 삭제</code>를 클릭<br><img src="https://user-images.githubusercontent.com/87232411/125659314-0c13697c-e396-4df1-a153-00d3d1527814.png" alt="스크린샷 2021-07-15 오전 1 27 57"></p>
+<p>삭제 되었네요<br><img src="https://user-images.githubusercontent.com/87232411/125659316-cc048c3b-d3fe-43e0-8683-aac11f147792.png" alt="스크린샷 2021-07-15 오전 1 28 01"></p>
+<p>보시다시피 제가 사라졌습니다<br><img src="https://user-images.githubusercontent.com/87232411/125659318-a9331fab-6897-4f55-bc16-274ea2fb7c42.png" alt="스크린샷 2021-07-15 오전 1 28 06"></p>
+<hr/>
+
+<h3 id="참고-자료-AFOS-2기-노션-내용"><a href="#참고-자료-AFOS-2기-노션-내용" class="headerlink" title="참고 자료 : AFOS[2기] 노션 내용"></a>참고 자료 : AFOS[2기] 노션 내용</h3>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Sujeong Hyeon</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/07/14/2021-07-14-AFOS-2/" target="_blank" title="6주차-2 MariaDB 접속 및 기본 사용 실습">http://icebear2n2.github.io/2021/07/14/2021-07-14-AFOS-2/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'github-blog-hwgpw6lhq3';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/07/15/2021-07-14-AFOS-3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          6주차-3 Amazon RDS 실습
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/07/14/2021-07-14-AFOS-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">6주차-1 데이터베이스 서비스</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MariaDB-%EC%97%90%EC%84%9C-%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9D%B8-SQL%EB%AC%B8-%EC%82%AC%EC%9A%A9%ED%95%B4%EB%B3%B4%EA%B8%B0"><span class="nav-number">1.</span> <span class="nav-text">MariaDB 에서 기본적인 SQL문 사용해보기</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%83%9D%EC%84%B1-%EB%B0%8F-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%A0%88%EC%BD%94%EB%93%9C-%EC%83%9D%EC%84%B1-%EB%B3%80%EA%B2%BD"><span class="nav-number">2.</span> <span class="nav-text">생성 및 데이터(레코드) 생성 변경</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%ED%8A%B8%EB%A6%AC-%ED%8C%8C%EC%9D%BC-%ED%99%95%EC%9D%B8"><span class="nav-number">3.</span> <span class="nav-text">트리 파일 확인</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%8B%AC%ED%99%94-%EC%98%B5%EC%85%98-HTTP-WebEC2-PublicIP-php-mysql-1-php-%ED%98%95%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%A0%91%EC%86%8D"><span class="nav-number">4.</span> <span class="nav-text">심화 옵션)HTTP:&#x2F;&#x2F;WebEC2_PublicIP&#x2F;php_mysql&#x2F;1.php 형식으로 접속</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%AC%ED%99%94-%EC%98%B5%EC%85%98-%ED%9A%8C%EC%9B%90-%EA%B4%80%EB%A6%AC-%EC%8B%9C%EC%8A%A4%ED%85%9C"><span class="nav-number"></span> <span class="nav-text">심화 옵션) 회원 관리 시스템</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C-AFOS-2%EA%B8%B0-%EB%85%B8%EC%85%98-%EB%82%B4%EC%9A%A9"><span class="nav-number">1.</span> <span class="nav-text">참고 자료 : AFOS[2기] 노션 내용</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 Sujeong&#39;s Blog All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-202243823-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">Set up</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              Resize Page Font
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            Resize Page Font Successfully
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              Night Mode
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            Press the button again to turn it off.
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Sujeong&#39;s Blog
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Sujeong Hyeon All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>2주차-1 컴퓨팅 서비스 | Sujeong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="AFOS[2기]" />
+  
+  
+  
+  
+  <meta name="description" content="AWS 글로벌 인프라 AWS는 전 세계에 분포되어 있는 데이터 센터에서 다양한 서비스를 제공하고 있는 클라우드 플랫폼 현재 AWS는 25개의 리전, 80개의 가용영역, 230개 이상의 POP을 운영 중 각각의 리전은 이중화된 100G 케이블 (해저 케이블)로 연결 됨, 암호화되어 전달">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2주차-1 컴퓨팅 서비스">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/06/16/2021-06-16-AFOS-1/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="AWS 글로벌 인프라 AWS는 전 세계에 분포되어 있는 데이터 센터에서 다양한 서비스를 제공하고 있는 클라우드 플랫폼 현재 AWS는 25개의 리전, 80개의 가용영역, 230개 이상의 POP을 운영 중 각각의 리전은 이중화된 100G 케이블 (해저 케이블)로 연결 됨, 암호화되어 전달">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-16T13:00:00.000Z">
+<meta property="article:modified_time" content="2021-07-18T09:23:01.122Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/SB_logo.PNG">
+  <link rel="apple-touch-icon" href="/css/images/SB_logo.PNG">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/SB_logo.PNG">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2021-06-16-AFOS-1" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      2주차-1 컴퓨팅 서비스
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/06/16/2021-06-16-AFOS-1/" class="article-date">
+	  <time datetime="2021-06-16T13:00:00.000Z" itemprop="datePublished">2021-06-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="AWS-글로벌-인프라"><a href="#AWS-글로벌-인프라" class="headerlink" title="AWS 글로벌 인프라"></a>AWS 글로벌 인프라</h2><ul>
+<li>AWS는 전 세계에 분포되어 있는 데이터 센터에서 다양한 서비스를 제공하고 있는 클라우드 플랫폼</li>
+<li>현재 AWS는 25개의 리전, 80개의 가용영역, 230개 이상의 POP을 운영 중</li>
+<li>각각의 리전은 이중화된 100G 케이블 (해저 케이블)로 연결 됨, 암호화되어 전달<br/>
+<br/></li>
+</ul>
+<span id="more"></span>
+
+<ul>
+<li>대륙별 국가별로 데이터 센터를 두는 이유는 운영 주체 구분/ 거리에 따른 지연/ 법적 규제 및 데이터 거버넌스/ 리전 내에서 사용 가능한 서비스/ 비용(리전 별로 다름) 등이 있다.<br/>
+<br/></li>
+</ul>
+<h3 id="Latency"><a href="#Latency" class="headerlink" title="Latency"></a>Latency</h3><ul>
+<li>패킷을 전송하는 곳에서 전달받는 곳까지 이동하는 데 걸리는 시간이다</li>
+<li>1초 = 1000ms</li>
+<li>레이턴시를 극복하기 위해 대륙별 지역 서버를 배치한다. (ex. 게임 서버) <br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="AWS-리전-amp-가용영역-amp-Edge"><a href="#AWS-리전-amp-가용영역-amp-Edge" class="headerlink" title="AWS 리전 &amp; 가용영역 &amp; Edge"></a>AWS 리전 &amp; 가용영역 &amp; Edge</h2><h3 id="Region"><a href="#Region" class="headerlink" title="Region"></a>Region</h3><ul>
+<li>지리적인 영역 내에서 격리 됨, 여러 개의 가용 영역(AZ)의 모음</li>
+<li>리전은 최소 2개의 가용 영역으로 구성 (최대 6개의 가용 영역 구성)<br/>
+<br/></li>
+</ul>
+<h3 id="가용-영역-AZ-Availabilty-Zone"><a href="#가용-영역-AZ-Availabilty-Zone" class="headerlink" title="가용 영역 (AZ, Availabilty Zone)"></a>가용 영역 (AZ, Availabilty Zone)</h3><ul>
+<li><p>한 개 이상의 데이터 센터들의 모음</p>
+</li>
+<li><p>각 센터는 광통신 전용망으로 연결 됨</p>
+</li>
+<li><p>가용 영역과 인터넷 연결을 위한 이중화된 트랜짓 센터가 있음</p>
+<br/></li>
+<li><p>트랜짓 센터 : AWS 글로벌 백본 네트워크에 연결이 되고, 엣지 POP을 통해 CDN 등 서비스를 실행</p>
+</li>
+<li><p>CDN (Contents Delivery Network) : 사용자에게 웹 콘텐츠를 효율적으로 제공할 수 있게 전 세계에 분산되어 있는 서버 네트워크</p>
+<ul>
+<li>ex. <code>CloudFront, Global Accelerator</code><br/></li>
+</ul>
+</li>
+<li><p>AZ에서도 장애가 날 수 있다. 그러므로 <strong>서비스 구성 시 여러 가용 영역에 분산하여 처리할 수 있도록 구성</strong>을 권장</p>
+<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="Edge"><a href="#Edge" class="headerlink" title="Edge"></a>Edge</h2><ul>
+<li>외부 인터넷과 AWS 글로벌 네트워크망과 연결하는 별도의 센터</li>
+<li>Edge는 <code>Edge Location</code>과 리전별 <code>Edge Cache</code>로 구성</li>
+<li><code>CloudFront</code> 와 같은 CDN 서비스의 데이터 캐시 기능을 제공<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="EC2란-Elastic-Compute-Cloud"><a href="#EC2란-Elastic-Compute-Cloud" class="headerlink" title="EC2란 ? (Elastic Compute Cloud)"></a>EC2란 ? (Elastic Compute Cloud)</h2><ul>
+<li><strong>Amazon EC2</strong> 는 AWS 클라우드에서 확장 가능 컴퓨팅 용량을 제공</li>
+<li>EC2를 사용하면 선투자 필요 X, 더 빠르게 애플리케이션 개발/배포</li>
+<li>원하는 만큼의 가상서버 (=인스턴스, Instance)를 구축하고 보안 및 네트워크 구성과 스토리지 관리 가능</li>
+<li>EC2는 변동 사항에 따라 신속하게 규모를 확장/축소할 수 있어 서버 트래픽 예측 필요성이 줄어듬<br/></li>
+</ul>
+<h3 id="EC2-제공-기능"><a href="#EC2-제공-기능" class="headerlink" title="EC2 제공 기능"></a>EC2 제공 기능</h3><ul>
+<li>인스턴스 : 가상 컴퓨팅 환경</li>
+<li>Amazon Machine Image (AMI) : 서버에 필요한 운영체제와 소프트웨어들이 구성된 상태로 제공되는 템플릿 (인스턴스 쉽게 제작 가능)</li>
+<li>인스턴스 유형(Type) : 인스턴스를 위한 CPU, Memory, Storage, Networking 용량의 여러가지 구성 제공</li>
+<li>키 페어를 사용하여 인스턴스 로그인 정보 보호 (AWS는 Public Key를 저장, 사용자는 Private Key를 안전한 장소에 보관하는 방식)</li>
+<li>Amazon Elastic Block Store(Amazon EBS) 볼륨을 사용해 영구 스토리지 볼륨에 데이터 저장</li>
+<li>인스턴스와 Amzon EBS 볼륨 등의 리소스를 다른 물리적 장소에서 액세스 할 수 있는 리전 및 가용 영역</li>
+<li>보안 그룹을 사용해 인스턴스에 연결할 수 있는 프로토콜, 포트, 소스 IP 범위를 지정하는 방화벽 기능</li>
+<li>탄력적 IP 주소 (Elastic IP) : 동적 클라우드 컴퓨팅을 위한 고정 IPv4 주소</li>
+<li>태그 : 사용자가 생성하여 Amazon EC2 리소스에 할당하여 구분하는 용도</li>
+<li>VPC (Virtual Private Clouds) : AWS에서 고객의 네트워크와 간편히 연결할 수 있는 가상 네트워크<br/>
+<br/></li>
+</ul>
+<h3 id="인스턴스-유형-Types"><a href="#인스턴스-유형-Types" class="headerlink" title="인스턴스 유형 (Types)"></a>인스턴스 유형 (Types)</h3><ul>
+<li>인스턴스를 실행할 때 인스턴스 유형에 따라 인스턴스에 사용되는 호스트 컴퓨터의 하드웨어가 결정</li>
+<li>각 인스턴스 유형은 다른 컴퓨팅, 메모리, 스토리지 용량을 제공 (이 용량애 따라 서로 다른 인스턴스 패밀리로 분류 됨)<br/>
+<br/></li>
+</ul>
+<h3 id="인스턴스-구입-옵션"><a href="#인스턴스-구입-옵션" class="headerlink" title="인스턴스 구입 옵션"></a>인스턴스 구입 옵션</h3><ul>
+<li>온디맨드 인스턴스 : 시작 후, 인스턴스에 대한 비용을 초 단위로 지불</li>
+<li>Saving Plans : 1년 or 3년 기간 동안 시간당 USD로 일관된 컴퓨팅 사용량을 약정하여 Amazon EC2 비용을 절감 가능</li>
+<li>예약 인스턴스(RI) : 1년 or 3년 기간 동안 약정</li>
+<li>스팟 인스턴스(Spot) : 미 사용 EC2 인스턴스를 요청 (EC2 비용 대폭 감소)</li>
+<li>전용 호스트 : 인스턴스를 실행을 전담하는 실제 호스트 비용 지불, 기존의 소켓, 코어 또는 VM 소프트웨어 별 라이선스를 가져와 비용 절감</li>
+<li>용량 예약 : 원하는 기간 동안 특정 가용 영역의 EC2 인스턴스에 대한 용량 예약<br/>
+<br/></li>
+</ul>
+<h3 id="AMI-Amazon-Machine-Image"><a href="#AMI-Amazon-Machine-Image" class="headerlink" title="AMI (Amazon Machine Image)"></a>AMI (Amazon Machine Image)</h3><ul>
+<li>소프트웨어 구성이 기재된 템플릿 (ex. OS, 애플리케이션 서버, 애플리케이션)</li>
+<li>AMI에서 인스턴스 바로 실행 가능 (이 인스턴스는 AMI 사본으로, 클라우드에서 실행되는 가상 서버)<br/>
+<br/></li>
+</ul>
+<h3 id="인스턴스-중지"><a href="#인스턴스-중지" class="headerlink" title="인스턴스 중지"></a>인스턴스 중지</h3><ul>
+<li>정상적인 실행 종료 과정이 이루어지고 Stopped 상태가 됨</li>
+<li>인스턴스의 모든 Amazon EBS 볼륨이 연결된 상태로 유지, 나중에 언제든지 시작 가능</li>
+<li>중지되어 있는 상태 동안 추가 사용량에 대한 요금 부과 X (중지 -&gt; 실행 : 최소 1분의 요금 부과)</li>
+<li>인스턴스 유형 변경 가능 (요금 부과)<br/>
+<br/></li>
+</ul>
+<h3 id="인스턴스-종료"><a href="#인스턴스-종료" class="headerlink" title="인스턴스 종료"></a>인스턴스 종료</h3><ul>
+<li>인스턴스 삭제</li>
+<li>루트 디바이스 볼륨은 삭제 됨 but, Amazon EBS 볼륨은 기본적으로 유지</li>
+<li>인스턴스 종료를 비활성화 시키면 실수로 인스턴스를 종료하는 일을 방지 가능<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="EC2-Storage"><a href="#EC2-Storage" class="headerlink" title="EC2 Storage"></a>EC2 Storage</h2><h3 id="Amazon-EBS-Elastic-Block-Store"><a href="#Amazon-EBS-Elastic-Block-Store" class="headerlink" title="Amazon EBS (Elastic Block Store)"></a>Amazon EBS (Elastic Block Store)</h3><ul>
+<li><p>내구성이 있는 블록 수준 스토리지 볼륨을 제공</p>
+</li>
+<li><p>실행 중인 인스턴스에 연결하는 것이 가능</p>
+</li>
+<li><p>한 인스턴스에서 EBS 볼륨을 분리한 다음 다른 인스턴스에 연결하는 것도 가능</p>
+</li>
+<li><p>인스턴스에 연결된 볼륨의 구성을 동적으로 변경 가능</p>
+</li>
+<li><p>EBS 암호화 기능을 사용하여 EBS 볼륨을 암호화된 볼륨으로 생성 가능</p>
+</li>
+<li><p>EBS 볼륨의 스냅샷을 생성하여 Amazon S3에 저장하면 데이터의 백업 사본을 유지 가능</p>
+<br/></li>
+<li><p>EBS Snapshot : 백업 기능, 증분식 백업이여서 마지막 스냅샷 이후 변경된 디바이스의 블록만이 저장 됨</p>
+<br/>
+<br/></li>
+</ul>
+<h2 id="Amazon-EC2-인스턴스-스토어-Instance-Storage"><a href="#Amazon-EC2-인스턴스-스토어-Instance-Storage" class="headerlink" title="Amazon EC2 인스턴스 스토어 (Instance Storage)"></a>Amazon EC2 인스턴스 스토어 (Instance Storage)</h2><ul>
+<li>호스트 컴퓨터에 물리적으로 연결된 디스크의 스토리지</li>
+<li>인스턴스에서 블록 수준의 <strong>임시 스토리지</strong>를 제공</li>
+<li>인스턴스 스토어에 저장된 데이터는 연관 인스턴스의 수명 기간 동안에만 유지 됨</li>
+<li>해당 인스턴스를 중단하거나 최대 절전 모드로 전환하거나 종료하면 <strong>인스턴스 스토어의 볼륨의 데이터가 손실</strong> 됨<br/>
+<br/></li>
+</ul>
+<h3 id="Amazon-EFS-Elastic-File-System"><a href="#Amazon-EFS-Elastic-File-System" class="headerlink" title="Amazon EFS (Elastic File System)"></a>Amazon EFS (Elastic File System)</h3><ul>
+<li>EC2에서 사용할 수 있는 <strong>리눅스 환경</strong>에 확장 가능한 파일 스토리지를 제공</li>
+<li>EFS 파일 시스템을 만든 후 파일 시스템을 마운트하도록 인스턴스를 구성 가능</li>
+<li>EBS는 단일 인스턴스에서만 연결 가능하지만, EFS는 <strong>여러 인스턴스에서 연결 가능</strong><br/>
+<br/></li>
+</ul>
+<h3 id="Amazon-S3-Simple-Storage-Service"><a href="#Amazon-S3-Simple-Storage-Service" class="headerlink" title="Amazon S3 (Simple Storage Service)"></a>Amazon S3 (Simple Storage Service)</h3><ul>
+<li>저렴하고 신뢰성 있는 데이터 스토리지 인프라에 액세스 가능</li>
+<li>S3는 언제든지 EC2 내 또는 웹의 어디서나 원하는 데이터의 양을 저장하고, 가져올 수 있게 해주어서 웹 규모의 컴퓨팅 작업을 쉽게 수행할 수 있도록 설계 됨</li>
+<li>데이터 및 애플리케이션의 백업 사본을 저장 가능<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="EBS-볼륨-유형-SSD-HDD"><a href="#EBS-볼륨-유형-SSD-HDD" class="headerlink" title="EBS 볼륨 유형 (SSD, HDD)"></a>EBS 볼륨 유형 (SSD, HDD)</h2><h3 id="SSD-Solid-State-Drive"><a href="#SSD-Solid-State-Drive" class="headerlink" title="SSD(Solid-State Drive)"></a>SSD(Solid-State Drive)</h3><ul>
+<li>주요 성능 특성이 IOPS인 작은 I/O 크기의 읽기/ 쓰기 작업을 자주 처리하는 트랜잭션 워크로드에 최적화 됨</li>
+<li>범용 SSD : 가격과 성능 간의 균형을 제공, 대부분의 워크로드에 이 볼륨을 사용하는 것이 좋음</li>
+<li>프로비저닝된 IOPS SSD : 지연 시간이 짧거나, 처리량이 많은 미션 크리티컬 워크로드에 적합한 고성능을 제공<br/>
+<br/></li>
+</ul>
+<h3 id="HDD-Hard-Disk-Drive"><a href="#HDD-Hard-Disk-Drive" class="headerlink" title="HDD (Hard Disk Drive)"></a>HDD (Hard Disk Drive)</h3><ul>
+<li>주요 성능 특성이 처리량인 대규모 스트리밍 워크로드에 최적화되어 있음</li>
+<li>처리량에 최적화된 HDD : 자주 액세스하는 처리량 집약적 워크로드에 적합한 저비용 HDD</li>
+<li>Cold HDD : 자주 액세스하지 않는 워크로드에 적합한 가장 저렴한 HDD<br/>
+<br/></li>
+</ul>
+<h3 id="이전-세대"><a href="#이전-세대" class="headerlink" title="이전 세대"></a>이전 세대</h3><ul>
+<li>데이터를 자주 액세스하지 않고 성능이 중요하지 않은 소규모 데이터 세트가 있는 워크로드에 사용할 수 있는 하드 디스크 드라이브</li>
+<li><strong>이전 세대 사용은 비권장</strong><br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="CloudWatch-모니터링"><a href="#CloudWatch-모니터링" class="headerlink" title="CloudWatch 모니터링"></a>CloudWatch 모니터링</h2><ul>
+<li>Amaozon CloudWatch는 AWS 리소스와 AWS에서 실시간으로 실행 중인 애플리케이션을 모니터링</li>
+<li>지표를 감시해 알림을 보내거나 임계값을 위반한 경우, 모니터링 중인 리소스를 자동으로 변경하는 경보를 생성 가능<br/>
+<br/></li>
+</ul>
+<hr/>
+
+<h3 id="참고-자료-AFOS-2기-노션-내용"><a href="#참고-자료-AFOS-2기-노션-내용" class="headerlink" title="참고 자료 : AFOS[2기] 노션 내용"></a>참고 자료 : AFOS[2기] 노션 내용</h3>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Sujeong Hyeon</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/06/16/2021-06-16-AFOS-1/" target="_blank" title="2주차-1 컴퓨팅 서비스">http://icebear2n2.github.io/2021/06/16/2021-06-16-AFOS-1/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'github-blog-hwgpw6lhq3';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/06/16/2021-06-16-AFOS-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          2주차-2 인스턴스 배포 실습
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/09/2021-06-09-AFOS-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">1주차-2 EC2(가상 서버) 배포 및 사용 - 실습</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-%EA%B8%80%EB%A1%9C%EB%B2%8C-%EC%9D%B8%ED%94%84%EB%9D%BC"><span class="nav-number">1.</span> <span class="nav-text">AWS 글로벌 인프라</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Latency"><span class="nav-number">1.1.</span> <span class="nav-text">Latency</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-%EB%A6%AC%EC%A0%84-amp-%EA%B0%80%EC%9A%A9%EC%98%81%EC%97%AD-amp-Edge"><span class="nav-number">2.</span> <span class="nav-text">AWS 리전 &amp; 가용영역 &amp; Edge</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Region"><span class="nav-number">2.1.</span> <span class="nav-text">Region</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B0%80%EC%9A%A9-%EC%98%81%EC%97%AD-AZ-Availabilty-Zone"><span class="nav-number">2.2.</span> <span class="nav-text">가용 영역 (AZ, Availabilty Zone)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Edge"><span class="nav-number">3.</span> <span class="nav-text">Edge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EC2%EB%9E%80-Elastic-Compute-Cloud"><span class="nav-number">4.</span> <span class="nav-text">EC2란 ? (Elastic Compute Cloud)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EC2-%EC%A0%9C%EA%B3%B5-%EA%B8%B0%EB%8A%A5"><span class="nav-number">4.1.</span> <span class="nav-text">EC2 제공 기능</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%9C%A0%ED%98%95-Types"><span class="nav-number">4.2.</span> <span class="nav-text">인스턴스 유형 (Types)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EA%B5%AC%EC%9E%85-%EC%98%B5%EC%85%98"><span class="nav-number">4.3.</span> <span class="nav-text">인스턴스 구입 옵션</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AMI-Amazon-Machine-Image"><span class="nav-number">4.4.</span> <span class="nav-text">AMI (Amazon Machine Image)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%A4%91%EC%A7%80"><span class="nav-number">4.5.</span> <span class="nav-text">인스턴스 중지</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%A2%85%EB%A3%8C"><span class="nav-number">4.6.</span> <span class="nav-text">인스턴스 종료</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EC2-Storage"><span class="nav-number">5.</span> <span class="nav-text">EC2 Storage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-EBS-Elastic-Block-Store"><span class="nav-number">5.1.</span> <span class="nav-text">Amazon EBS (Elastic Block Store)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Amazon-EC2-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%8A%A4%ED%86%A0%EC%96%B4-Instance-Storage"><span class="nav-number">6.</span> <span class="nav-text">Amazon EC2 인스턴스 스토어 (Instance Storage)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-EFS-Elastic-File-System"><span class="nav-number">6.1.</span> <span class="nav-text">Amazon EFS (Elastic File System)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Amazon-S3-Simple-Storage-Service"><span class="nav-number">6.2.</span> <span class="nav-text">Amazon S3 (Simple Storage Service)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EBS-%EB%B3%BC%EB%A5%A8-%EC%9C%A0%ED%98%95-SSD-HDD"><span class="nav-number">7.</span> <span class="nav-text">EBS 볼륨 유형 (SSD, HDD)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSD-Solid-State-Drive"><span class="nav-number">7.1.</span> <span class="nav-text">SSD(Solid-State Drive)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDD-Hard-Disk-Drive"><span class="nav-number">7.2.</span> <span class="nav-text">HDD (Hard Disk Drive)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9D%B4%EC%A0%84-%EC%84%B8%EB%8C%80"><span class="nav-number">7.3.</span> <span class="nav-text">이전 세대</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CloudWatch-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81"><span class="nav-number">8.</span> <span class="nav-text">CloudWatch 모니터링</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C-AFOS-2%EA%B8%B0-%EB%85%B8%EC%85%98-%EB%82%B4%EC%9A%A9"><span class="nav-number">8.1.</span> <span class="nav-text">참고 자료 : AFOS[2기] 노션 내용</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 Sujeong&#39;s Blog All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-202243823-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">Set up</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              Resize Page Font
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            Resize Page Font Successfully
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              Night Mode
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            Press the button again to turn it off.
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Sujeong&#39;s Blog
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Sujeong Hyeon All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

@@ -3,19 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | Sujeong&#39;s Blog</title>
+  <title>terraform 소개 | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="Terraform" />
   
   
   
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Sujeong&#39;s Blog">
-<meta property="og:url" content="http://icebear2n2.github.io/archives/index.html">
+  
+  <meta name="description" content="Infrastructure as Code (IaC)코드를 통해 인프라를 관리하고 프로비저닝하는 것을 말한다. IaC를 상요하면 구성을 편집하고 배포하기가 더 쉬워지고, 매번 동일한 환경을 프로비저닝하도록 보장한다. IaC는 구성 사양을 코드화하고 문서화함으로써, 구성 변경 사항을 문서화하지 않고 임시로 변경하는 일을 막을 수 있다. Terrafo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Terraform 소개">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/18/2021-07-18-Terraform-1/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="Infrastructure as Code (IaC)코드를 통해 인프라를 관리하고 프로비저닝하는 것을 말한다. IaC를 상요하면 구성을 편집하고 배포하기가 더 쉬워지고, 매번 동일한 환경을 프로비저닝하도록 보장한다. IaC는 구성 사양을 코드화하고 문서화함으로써, 구성 변경 사항을 문서화하지 않고 임시로 변경하는 일을 막을 수 있다. Terrafo">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/terraform.svg">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/terraform-iac.png">
+<meta property="article:published_time" content="2021-07-18T05:21:11.339Z">
+<meta property="article:modified_time" content="2021-07-18T08:32:26.187Z">
 <meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="Terraform">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/terraform.svg">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -64,8 +74,6 @@
   
 
   
-    <link rel="stylesheet" href="/css/archive.css" >
-  
   
   
 
@@ -73,7 +81,7 @@
 
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -96,7 +104,7 @@
             
               <a class="brand" style="
                  margin-top: 0px;"  
-                 >
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/SB_logo.PNG">
               </a>
             
@@ -167,328 +175,151 @@
             
       <div id="content" class="outer">
         
-          <section id="main">
-  <div class="archives-tags-wrap"><blockquote><span>There are 18 posts in total till now.</span></blockquote>
+          <section id="main" style="float:none;"><article id="post-2021-07-18-Terraform-1" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Terraform 소개
+    </h1>
+  
 
-
-<!-- 分页显示 -->
-
-	
-	
-		
-		
-		  
-		  
-		  <section class="archives-wrap">
-		    <div class="archive-year-wrap">
-		      <h1><a href="/archives/2021" class="archive-year">2021</a></h1>
-		    </div>
-		    <div class="archives">
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+      </header>
+    
+    <div class="article-meta">
       
-	<a href="/2021/07/18/2021-07-18-Terraform-1/" class="archive-article-date">
+	<a href="/2021/07/18/2021-07-18-Terraform-1/" class="article-date">
 	  <time datetime="2021-07-18T05:21:11.339Z" itemprop="datePublished">2021-07-18</time>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/18/2021-07-18-Terraform-1/">Terraform 소개</a>
-    </h1>
-  
+    <a class="article-category-link" href="/categories/Terraform/">Terraform</a>
 
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
       
-	<a href="/2021/07/18/2021-07-18-CNCF-3/" class="archive-article-date">
-	  <time datetime="2021-07-18T04:45:54.014Z" itemprop="datePublished">2021-07-18</time>
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/18/2021-07-18-CNCF-3/">CNCF Project - CoreDNS(Graduated Project)</a>
-    </h1>
-  
 
-    </header>
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <br/>
+<br/>
+
+<img width=400 src="/css/images/terraform.svg">
+<br/>
+
+<h2 id="Infrastructure-as-Code-IaC"><a href="#Infrastructure-as-Code-IaC" class="headerlink" title="Infrastructure as Code (IaC)"></a>Infrastructure as Code (IaC)</h2><p>코드를 통해 인프라를 관리하고 프로비저닝하는 것을 말한다.</p>
+<p>IaC를 상요하면 구성을 편집하고 배포하기가 더 쉬워지고, 매번 동일한 환경을 프로비저닝하도록 보장한다.</p>
+<p>IaC는 구성 사양을 코드화하고 문서화함으로써, 구성 변경 사항을 문서화하지 않고 임시로 변경하는 일을 막을 수 있다.</p>
+<h2 id="Terraform이란"><a href="#Terraform이란" class="headerlink" title="Terraform이란?"></a>Terraform이란?</h2><p>코드 도구로서의 HashiCorp의 인프라이다.</p>
+<p>사용자가 읽을 수 있는 선언적 구성 파일에서 리소스와 인프라를 정의하고, 인프라의 수명 주기를 관리할 수 있다.</p>
+<p>Terraform은 인프라애서 안전하게 협업하기 위해 구성을 버전 제어에 커밋할 수 있다.<br><img src="/css/images/terraform-iac.png"></p>
+<h2 id="Terraform으로-인프라를-배포하려면"><a href="#Terraform으로-인프라를-배포하려면" class="headerlink" title="Terraform으로 인프라를 배포하려면?"></a>Terraform으로 인프라를 배포하려면?</h2><h3 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h3><p>프로젝트의 인프라를 식별</p>
+<h3 id="Author"><a href="#Author" class="headerlink" title="Author"></a>Author</h3><p>인프라에 대한 구성을 작성</p>
+<h3 id="Initialize"><a href="#Initialize" class="headerlink" title="Initialize"></a>Initialize</h3><p>Terraform이 인프라를 관리하는 데 필요한 플러그인을 설치</p>
+<h3 id="Plan"><a href="#Plan" class="headerlink" title="Plan"></a>Plan</h3><p>구성과 일치하도록 Terraform이 수행할 변경 사항을 미리 본다</p>
+<h3 id="Apply"><a href="#Apply" class="headerlink" title="Apply"></a>Apply</h3><p>계획된 변경을 수행</p>
+<hr/>
+
+<p><strong>참고 자료: <a target="_blank" rel="noopener" href="https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/aws-get-started">https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/aws-get-started</a>, <a target="_blank" rel="noopener" href="https://www.redhat.com/ko/topics/automation/what-is-infrastructure-as-code-iac">https://www.redhat.com/ko/topics/automation/what-is-infrastructure-as-code-iac</a></strong></p>
+<p><strong>사진 출처: <a target="_blank" rel="noopener" href="https://github.com/hashicorp/terraform">https://github.com/hashicorp/terraform</a></strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Sujeong Hyeon</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/07/18/2021-07-18-Terraform-1/" target="_blank" title="Terraform 소개">http://icebear2n2.github.io/2021/07/18/2021-07-18-Terraform-1/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'github-blog-hwgpw6lhq3';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Terraform/" rel="tag">Terraform</a></li></ul>
+
+      
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/07/18/2021-07-18-CNCF-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CNCF Project - CoreDNS(Graduated Project)</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/17/2021-07-17-CNCF-2/" class="archive-article-date">
-	  <time datetime="2021-07-17T04:55:44.626Z" itemprop="datePublished">2021-07-17</time>
-	</a>
 
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/17/2021-07-17-CNCF-2/">CNCF Project - Containerd(Graduated Project)</a>
-    </h1>
-  
+<!-- Table of Contents -->
 
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/16/2021-07-16-CNCF-1/" class="archive-article-date">
-	  <time datetime="2021-07-16T13:35:27.412Z" itemprop="datePublished">2021-07-16</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/16/2021-07-16-CNCF-1/">CNCF(Cloud Native Computing Foundation)</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/15/2021-07-14-AFOS-3/" class="archive-article-date">
-	  <time datetime="2021-07-14T15:00:00.000Z" itemprop="datePublished">2021-07-15</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/15/2021-07-14-AFOS-3/">6주차-3 Amazon RDS 실습</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/14/2021-07-14-AFOS-2/" class="archive-article-date">
-	  <time datetime="2021-07-14T14:00:00.000Z" itemprop="datePublished">2021-07-14</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/14/2021-07-14-AFOS-2/">6주차-2 MariaDB 접속 및 기본 사용 실습</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/14/2021-07-14-AFOS-1/" class="archive-article-date">
-	  <time datetime="2021-07-14T13:00:00.000Z" itemprop="datePublished">2021-07-14</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/14/2021-07-14-AFOS-1/">6주차-1 데이터베이스 서비스</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/07/2021-07-07-AFOS-2/" class="archive-article-date">
-	  <time datetime="2021-07-07T14:00:00.000Z" itemprop="datePublished">2021-07-07</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/07/2021-07-07-AFOS-2/">5주차-2 보안 실습</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/07/2021-07-07-AFOS-1/" class="archive-article-date">
-	  <time datetime="2021-07-07T13:00:00.000Z" itemprop="datePublished">2021-07-07</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/07/2021-07-07-AFOS-1/">5주차-1 보안 서비스</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/01/2021-06-30-AFOS-3/" class="archive-article-date">
-	  <time datetime="2021-06-30T15:00:00.000Z" itemprop="datePublished">2021-07-01</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/01/2021-06-30-AFOS-3/">4주차-3 AWS S3 실습</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-	
-		</div></section>
-	
-
-	<!-- 页数指示器 -->
-	
-	  <nav id="page-nav">
-	    
-	    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &amp;raquo;</a>
-	  </nav>
-	
-
-
-
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Infrastructure-as-Code-IaC"><span class="nav-number">1.</span> <span class="nav-text">Infrastructure as Code (IaC)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terraform%EC%9D%B4%EB%9E%80"><span class="nav-number">2.</span> <span class="nav-text">Terraform이란?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terraform%EC%9C%BC%EB%A1%9C-%EC%9D%B8%ED%94%84%EB%9D%BC%EB%A5%BC-%EB%B0%B0%ED%8F%AC%ED%95%98%EB%A0%A4%EB%A9%B4"><span class="nav-number">3.</span> <span class="nav-text">Terraform으로 인프라를 배포하려면?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scope"><span class="nav-number">3.1.</span> <span class="nav-text">Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Author"><span class="nav-number">3.2.</span> <span class="nav-text">Author</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Initialize"><span class="nav-number">3.3.</span> <span class="nav-text">Initialize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Plan"><span class="nav-number">3.4.</span> <span class="nav-text">Plan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apply"><span class="nav-number">3.5.</span> <span class="nav-text">Apply</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
 
 </section>
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Connect</h3>
-    <div class="widget widget_athemes_social_icons">
-
-    	<ul class="clearfix widget-social-icons">   
-    	
-          
-     			  <li><a target="_blank" rel="noopener" href="https://github.com/icebear2n2" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a></li> 
-          
-   		
-          
-     			  <li><a href="icebear2n2" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a></li> 
-          
-   		
-          
-            <li><a href="mailto:icebear2n2@gmail.com?subject=请联系我&body=我能帮你什么" title="email"><i class="fa fa-envelope" aria-hidden="true"></i></a></li> 
-          
-   		
-   		</ul>
-
-
-   		<!--
-   		<ul class="clearfix widget-social-icons">   		
-   		<li class="widget-si-twitter"><a target="_blank" rel="noopener" href="http://twitter.com" title="Twitter"><i class="ico-twitter"></i></a></li> 
-		<li class="widget-si-facebook"><a target="_blank" rel="noopener" href="http://facebook.com" title="Facebook"><i class="ico-facebook"></i></a></li>
-			<li class="widget-si-gplus"><a target="_blank" rel="noopener" href="http://plus.google.com" title="Google+"><i class="ico-gplus"></i></a></li>
-			<li class="widget-si-pinterest"><a target="_blank" rel="noopener" href="http://pinterest.com" title="Pinterest"><i class="ico-pinterest"></i></a></li>
-			<li class="widget-si-flickr"><a target="_blank" rel="noopener" href="http://flickr.com" title="Flickr"><i class="ico-flickr"></i></a></li>
-			<li class="widget-si-instagram"><a target="_blank" rel="noopener" href="http://instagram.com" title="Instagram"><i class="ico-instagram"></i></a></li>
-		</ul> -->
-
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AWS/">AWS</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CNCF/">CNCF</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Terraform/">Terraform</a><span class="category-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNCF/" rel="tag">CNCF</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Terraform/" rel="tag">Terraform</a><span class="tag-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/AFOS-2%EA%B8%B0/" style="font-size: 20px;">AFOS[2기]</a> <a href="/tags/CNCF/" style="font-size: 15px;">CNCF</a> <a href="/tags/Terraform/" style="font-size: 10px;">Terraform</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">8</span></li></ul>
-    </div>
-  </div>
-
-
-  
-</aside>
         
       </div>
       
@@ -590,6 +421,10 @@
 
 
 
+  
+<script src="/js/dialog.js"></script>
+
+
 
 
 <!-- Google Analytics -->
@@ -686,6 +521,8 @@ ga('send', 'pageview');
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>
