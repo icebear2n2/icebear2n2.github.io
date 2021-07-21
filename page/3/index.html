@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>tag: cncf | Sujeong&#39;s Blog</title>
+  <title>Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
@@ -11,7 +11,7 @@
   
   <meta property="og:type" content="website">
 <meta property="og:title" content="Sujeong&#39;s Blog">
-<meta property="og:url" content="http://icebear2n2.github.io/tags/CNCF/index.html">
+<meta property="og:url" content="http://icebear2n2.github.io/page/3/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Sujeong Hyeon">
@@ -52,19 +52,13 @@
   <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    
-<link rel="stylesheet" href="/css/dialog.css">
-
+    <link rel="stylesheet" href="/css/home.css" >
   
 
   
 
   
-    <link rel="stylesheet" href="/css/header-post.css" >
-  
 
-  
-    <link rel="stylesheet" href="/css/archive.css" >
   
   
   
@@ -77,242 +71,203 @@
 
 
   
-  <div id="container">
-    <div id="wrap">
+    <header id="header">
+
+	<!-- 背景图模式 -->
+	
+
+    
+      <div id="intrologo" class="intro-logo" style="background-position:center; background-repeat:no-repeat; background-image: url(); background-size: auto 100%;">
+
+      <!-- Support rolling -->  
+        <!-- Don't rolling -->
+        <script>
+            var imgUrls = "css/images/home3.jpg".split(",");
+            var random = Math.floor((Math.random() * imgUrls.length ));
+            if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+              document.getElementById("intrologo").style.backgroundImage='url(' + imgUrls[random] + ')';
+            } else {
+              document.getElementById("intrologo").style.backgroundImage='url(/' + imgUrls[random] + ')';
+            }
+        </script>
       
-        <header>
 
-    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-inner">
-          
-          <div class="container"> 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            
-              <a class="brand" style="
-                 margin-top: 0px;"  
-                 >
-                  <img width="124px" height="124px" alt="Hike News" src="/css/images/SB_logo.PNG">
-              </a>
-            
-            
-            <div class="navbar-collapse collapse">
-              <ul class="hnav navbar-nav">
-                
-                  <li> <a class="main-nav-link" href="/">Home</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/about">About</a> </li>
-                
-                  <li><div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-
-<script src="/js/insight.js"></script>
+    
+ 
 
 
-</div></li>
-            </div>
+    <canvas width="100%" height="100%"></canvas>
+    <script>
+      var c = document.getElementsByTagName('canvas')[0],
+          x = c.getContext('2d'),
+          w = window.innerWidth,
+          h = window.innerHeight,
+          pr = window.devicePixelRatio || 1,
+          f = 90,
+          q,
+          m = Math,
+          r = 0,
+          u = m.PI*2,
+          v = m.cos,
+          z = m.random
+      c.width = w*pr
+      c.height = h*pr
+      x.scale(pr, pr)
+      x.globalAlpha = 0.6
+
+      <!-- 折线Polyline背景 -->
+      
+    </script>
+    
+
+    
+      <div id="homelogo" class="homelogo" style="background: rgba(255,255,255,1);"> 
+    
+
+        
+          <div class="homelogoback"  style="border: 1px solid #404040;" >
+            <h1><a href="#content" id="logo">Sujeong&#39;s Blog</a></h1>
+            <h3></h3>
+            <h5>Sujeong Hyeon</h5>
+            <!-- <p><a href="https://github.com/iTimeTraveler" target="_blank">Github</a></p> -->
           </div>
-                
-      </div>
+        
+    
     </div>
+  </div>
+
+  <!-- 自适应主页背景大图 -->
+  
+    <script>
+        var img = new Image();
+        var intrologodiv = document.getElementById("intrologo");
+        img.src = intrologodiv.style.backgroundImage.replace('url(','').replace(')','').replace(/\"/gi, "");
+        img.onload=function(){
+          if (img.width / img.height <= document.body.clientWidth / document.body.clientHeight) {
+            intrologodiv.style.backgroundSize = "100% auto";
+          } else {
+            intrologodiv.style.backgroundSize = "auto 100%";
+          }
+        };
+    </script>
+ 
+
+ <!-- home_logo_image居中 -->
+ 
+    <script>
+        var homelogodiv = document.getElementById("homelogo");
+        if (document.all.homelogo.offsetWidth > document.body.clientWidth) {
+          homelogodiv.style.width = document.body.clientWidth + "px";
+          homelogodiv.style.marginLeft = document.body.clientWidth * -0.5 + "px";
+        } else {
+          homelogodiv.style.width = homelogodiv.clientWidth  + "px";
+          homelogodiv.style.marginLeft = (homelogodiv.clientWidth)  * -0.5 + "px";
+        }
+    </script>
+  
+
+  <div class="intro-navigate">
+      <p class="navigater-list">
+        
+          <a id="beautifont" class="main-nav-link" href="/">Home</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/archives">Archives</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/categories">Categories</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/tags">Tags</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/about">About</a>
+        
+      </p>
+  </div>
 
 </header>
-
-
-
+  
+  <div id="container">
+    <div id="wrap">
       
             
       <div id="content" class="outer">
         
           <section id="main" style="float:none;">
   
-  
-  
+    <article id="post-2021-06-09-AFOS-1"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <h1><a href="/archives/2021" class="archive-year">2021</a></h1>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/21/2021-07-21-CNCF-6/" class="archive-article-date">
-	  <time datetime="2021-07-21T12:01:47.322Z" itemprop="datePublished">2021-07-21</time>
-	</a>
-
-      
+      <header class="article-header">
+        
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/21/2021-07-21-CNCF-6/">CNCF Project - Fluentd(Graduated Project)</a>
+      <a class="article-title" href="/2021/06/09/2021-06-09-AFOS-1/">1주차-1 AWS &amp; 가상 서버</a>
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+    <div class="article-meta">
       
-	<a href="/2021/07/20/2021-07-20-CNCF-5/" class="archive-article-date">
-	  <time datetime="2021-07-20T10:33:49.074Z" itemprop="datePublished">2021-07-20</time>
+	<a href="/2021/06/09/2021-06-09-AFOS-1/" class="article-date">
+	  <time datetime="2021-06-09T13:00:00.000Z" itemprop="datePublished">2021-06-09</time>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/20/2021-07-20-CNCF-5/">CNCF Project - etcd(Graduated Project)</a>
-    </h1>
-  
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
 
-    </header>
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          클라우드란 ?
+클라우드는 인터넷을 통해서 자유롭게 IT 리소스를 사용할 수 있게 해주는 서비스
+
+
+
+
+
+클라우드 서비스의 종류IaaS (Infrastructure as a Service)
+인터넷을 통해 사용자에게 IT 인프라를 제공하는 클라우드 컴퓨팅
+주로 서버리스 컴퓨팅과 관련이 있음
+사용자가 온프레미스 컴퓨팅 리소스를 오버헤드 없이 누릴 수 있음
+운영 체제, 데이터 미들웨어, 런타임, 애플리케이션을 사용자가 관리
+비교적으로 사용자가 관...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/06/09/2021-06-09-AFOS-1/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
   </div>
+  
 </article>
+
+<!-- Table of Contents -->
+
+
   
+
+
+  <nav id="page-nav">
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/19/2021-07-19-CNCF-4/" class="archive-article-date">
-	  <time datetime="2021-07-19T11:32:20.033Z" itemprop="datePublished">2021-07-19</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/19/2021-07-19-CNCF-4/">CNCF Project - Envoy(Graduated Project)</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/18/2021-07-18-CNCF-3/" class="archive-article-date">
-	  <time datetime="2021-07-18T04:45:54.014Z" itemprop="datePublished">2021-07-18</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/18/2021-07-18-CNCF-3/">CNCF Project - CoreDNS(Graduated Project)</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/17/2021-07-17-CNCF-2/" class="archive-article-date">
-	  <time datetime="2021-07-17T04:55:44.626Z" itemprop="datePublished">2021-07-17</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/17/2021-07-17-CNCF-2/">CNCF Project - Containerd(Graduated Project)</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2021/07/16/2021-07-16-CNCF-1/" class="archive-article-date">
-	  <time datetime="2021-07-16T13:35:27.412Z" itemprop="datePublished">2021-07-16</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2021/07/16/2021-07-16-CNCF-1/">CNCF(Cloud Native Computing Foundation)</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </section>
         
       </div>
+      
+        <div align="center" style="margin-top: 30px;"><hr class="hr" style="margin:0px; height:3px;"></div>
       
       <footer id="footer">
   
@@ -408,6 +363,10 @@
 
 <script src="/js/scripts.js"></script>
 
+
+
+  
+<script src="/js/home.js"></script>
 
 
 
