@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>7주차-3 nlb를 통한 로드 밸런싱 실습 | Sujeong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="AFOS[2기]" />
+  
+  
+  
+  
+  <meta name="description" content="NLB 생성EC2 -&gt; 로드밸런서 -&gt; Load Balancer 생성 클릭 생성 클릭 12341. 기본 구성    - 이름(NLB-TEST), 인터넷 경계    - 리스너 : 프로토콜(UDP), 포트(161)    - 가용 영역 : ELB-VPC, 2a 와 2c 선택 - IP는 AWS에서 할당 or 사용자의 EIP 사용 가능    12대상 그룹(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7주차-3 NLB를 통한 로드 밸런싱 실습">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/22/2021-07-21-AFOS-3/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="NLB 생성EC2 -&gt; 로드밸런서 -&gt; Load Balancer 생성 클릭 생성 클릭 12341. 기본 구성    - 이름(NLB-TEST), 인터넷 경계    - 리스너 : 프로토콜(UDP), 포트(161)    - 가용 영역 : ELB-VPC, 2a 와 2c 선택 - IP는 AWS에서 할당 or 사용자의 EIP 사용 가능    12대상 그룹(">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533019-7f75307b-fb26-446f-b6b7-ba8318f4dee5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533030-2465b670-f582-4be5-9f85-227fd4d3819c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533037-4068dd8f-ca9e-4bf7-935b-3279c145bb0d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533040-bf7cfd0c-d018-4875-a2a7-100dfed4c9fb.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533044-ebed91c0-c64b-41e3-8309-22586aa41ec3.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533047-da274995-74ad-4530-be1a-b3060860cc02.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533049-6af0c0eb-1812-44ed-a4b0-c032dc0fc265.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533053-652a03c5-7fb0-4b95-93bf-ec478cb3038b.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533055-2211a07a-fdd0-45df-9baf-080dda07b18c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533058-3b9367fd-c2e0-4bef-83b9-65e80bb1f821.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533061-e0f1ae19-d7a9-4e88-8bf9-ebfa734a37bd.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533062-55008ca4-20a1-48ec-bc48-a9b5e2280215.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533063-d4977ba3-e942-42c4-88c5-fdf081309e54.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533065-6e30202b-22a5-489b-8a2a-9717c4861ea4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533066-2b7895f6-48fb-457e-9024-fb8e364b8a21.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533070-a1d48b69-a36f-4210-acaa-c3b2a60e6be6.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533073-43ffa4d2-9086-4264-9bff-a8085ca1b138.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533074-9d45ae31-d4ed-4ca6-b743-f22edab86b37.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533076-d275ff6d-afa2-4134-b561-cfd4b186b0ad.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533079-3ffc3a38-aca5-4edb-b9c7-d1afe41868c0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533084-8b961892-4822-4fda-ae78-c1613fba25a0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533086-345b68ee-a167-45fc-9adb-55b949f12132.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/126533089-cafb9782-ed96-4df5-ac8f-9dd2353003fb.png">
+<meta property="article:published_time" content="2021-07-21T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-07-21T17:45:22.138Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/87232411/126533019-7f75307b-fb26-446f-b6b7-ba8318f4dee5.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/SB_logo.PNG">
+  <link rel="apple-touch-icon" href="/css/images/SB_logo.PNG">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/SB_logo.PNG">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2021-07-21-AFOS-3" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      7주차-3 NLB를 통한 로드 밸런싱 실습
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/07/22/2021-07-21-AFOS-3/" class="article-date">
+	  <time datetime="2021-07-21T15:00:00.000Z" itemprop="datePublished">2021-07-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="NLB-생성"><a href="#NLB-생성" class="headerlink" title="NLB 생성"></a>NLB 생성</h2><p>EC2 -&gt; 로드밸런서 -&gt; <code>Load Balancer 생성</code> 클릭<br><img width="200" alt="스크린샷 2021-07-22 오전 12 02 22" src="https://user-images.githubusercontent.com/87232411/126533019-7f75307b-fb26-446f-b6b7-ba8318f4dee5.png"></p>
+<p><code>생성</code> 클릭<br><img width="386" alt="스크린샷 2021-07-22 오전 12 02 27" src="https://user-images.githubusercontent.com/87232411/126533030-2465b670-f582-4be5-9f85-227fd4d3819c.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 기본 구성</span><br><span class="line">    - 이름(NLB-TEST), 인터넷 경계</span><br><span class="line">    - 리스너 : 프로토콜(UDP), 포트(161)</span><br><span class="line">    - 가용 영역 : ELB-VPC, 2a 와 2c 선택 - IP는 AWS에서 할당 or 사용자의 EIP 사용 가능</span><br></pre></td></tr></table></figure>
+<img width="1136" alt="스크린샷 2021-07-22 오전 12 02 46" src="https://user-images.githubusercontent.com/87232411/126533037-4068dd8f-ca9e-4bf7-935b-3279c145bb0d.png">
+<img width="982" alt="스크린샷 2021-07-22 오전 12 02 58" src="https://user-images.githubusercontent.com/87232411/126533040-bf7cfd0c-d018-4875-a2a7-100dfed4c9fb.png">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">대상 그룹(새 대상 그룹), 이름(NLB-TG), 대상 유형(인스턴스), 프로토콜(UDP), 포트(161)</span><br><span class="line">상태 검사(HTTP) → 고급 상태 검사 설정 : 간격(10), 나머지는 기본값 ⇒ UDP는 기본 단방향 통신으로 상태검사에 비적합</span><br></pre></td></tr></table></figure>
+<img width="1090" alt="스크린샷 2021-07-22 오전 12 03 29" src="https://user-images.githubusercontent.com/87232411/126533044-ebed91c0-c64b-41e3-8309-22586aa41ec3.png">
+<img width="943" alt="스크린샷 2021-07-22 오전 12 03 55" src="https://user-images.githubusercontent.com/87232411/126533047-da274995-74ad-4530-be1a-b3060860cc02.png">
+<img width="480" alt="스크린샷 2021-07-22 오전 12 04 34" src="https://user-images.githubusercontent.com/87232411/126533049-6af0c0eb-1812-44ed-a4b0-c032dc0fc265.png">
+
+<p>EC2-2 선택 후 -&gt; <code>Include as pending below</code> 클릭<br><img width="1171" alt="스크린샷 2021-07-22 오전 12 04 50" src="https://user-images.githubusercontent.com/87232411/126533053-652a03c5-7fb0-4b95-93bf-ec478cb3038b.png"></p>
+<p>하단에 <code>Create target group</code>  클릭<br><img width="1351" alt="스크린샷 2021-07-22 오전 12 04 59" src="https://user-images.githubusercontent.com/87232411/126533055-2211a07a-fdd0-45df-9baf-080dda07b18c.png"></p>
+<p>대상 그룹 선택<br><img width="1121" alt="스크린샷 2021-07-22 오전 12 05 39" src="https://user-images.githubusercontent.com/87232411/126533058-3b9367fd-c2e0-4bef-83b9-65e80bb1f821.png"></p>
+<p><code>Create load balancer</code> 클릭<br><img width="407" alt="스크린샷 2021-07-22 오전 12 05 48" src="https://user-images.githubusercontent.com/87232411/126533061-e0f1ae19-d7a9-4e88-8bf9-ebfa734a37bd.png"></p>
+<p>My-EC2 에서 확인</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">NLB= NLB DNS 주소</span><br><span class="line">echo $NLB</span><br><span class="line"></span><br><span class="line"># NLB는 아래 도메인 쿼리 응답 IP가 고정</span><br><span class="line">dig $NLB +short</span><br><span class="line">while true; do dig $NLB +short &amp;&amp; echo &quot;------------------------------&quot; &amp;&amp; date; sleep 5; done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># NLB IP를 변수에 지정 &lt;&lt; 아래 NLB1 NLB2 IP 정보는 각자 멤버들 &#x27;dig $NLB&#x27; 출력된 IP 2개 정보를 각각 입력</span><br><span class="line">NLB1=3.38.32.124</span><br><span class="line">NLB2=13.124.129.65</span><br><span class="line"></span><br><span class="line"> curl 접속 테스트</span><br><span class="line"># NLB 는 5 Tuple Hash 결과로 분산하며 default 설정이 Cross Zone Load Balancing(교차 영역 로드 밸런싱)이 비활성화 상태 </span><br><span class="line">for i in &#123;1..20&#125;; do snmpget -v2c -c public $NLB 1.3.6.1.2.1.1.5.0 ; done | sort | uniq -c | sort -nr</span><br><span class="line">for i in &#123;1..20&#125;; do snmpget -v2c -c public $NLB1 1.3.6.1.2.1.1.5.0 ; done | sort | uniq -c | sort -nr</span><br><span class="line">for i in &#123;1..20&#125;; do snmpget -v2c -c public $NLB2 1.3.6.1.2.1.1.5.0 ; done | sort | uniq -c | sort -nr</span><br></pre></td></tr></table></figure>
+<img width="585" alt="스크린샷 2021-07-22 오전 12 06 28" src="https://user-images.githubusercontent.com/87232411/126533062-55008ca4-20a1-48ec-bc48-a9b5e2280215.png">
+<img width="267" alt="스크린샷 2021-07-22 오전 12 06 36" src="https://user-images.githubusercontent.com/87232411/126533063-d4977ba3-e942-42c4-88c5-fdf081309e54.png">
+<img width="717" alt="스크린샷 2021-07-22 오전 12 08 44" src="https://user-images.githubusercontent.com/87232411/126533065-6e30202b-22a5-489b-8a2a-9717c4861ea4.png">
+<img width="369" alt="스크린샷 2021-07-22 오전 2 08 13" src="https://user-images.githubusercontent.com/87232411/126533066-2b7895f6-48fb-457e-9024-fb8e364b8a21.png">
+<img width="299" alt="스크린샷 2021-07-22 오전 2 08 53" src="https://user-images.githubusercontent.com/87232411/126533070-a1d48b69-a36f-4210-acaa-c3b2a60e6be6.png">
+<img width="559" alt="스크린샷 2021-07-22 오전 2 09 08" src="https://user-images.githubusercontent.com/87232411/126533073-43ffa4d2-9086-4264-9bff-a8085ca1b138.png">
+<img width="563" alt="스크린샷 2021-07-22 오전 2 09 19" src="https://user-images.githubusercontent.com/87232411/126533074-9d45ae31-d4ed-4ca6-b743-f22edab86b37.png">
+<img width="562" alt="스크린샷 2021-07-22 오전 2 09 30" src="https://user-images.githubusercontent.com/87232411/126533076-d275ff6d-afa2-4134-b561-cfd4b186b0ad.png">
+
+<p>ELB-EC2-1/2 에서 확인</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 패킷덤프 시 클라이언트IP가 NLB를 경유해서 인입하였지만 변경 안됨 - 클라이언트IP보존</span><br><span class="line"># EC2 보안그룹에 NLB로 서비스하는 포트의 대상을 대부분 0.0.0.0/0 지정하게됨 - 클라이언트IP로 인입되기 때문</span><br><span class="line">tcpdump udp port 161 -nn</span><br></pre></td></tr></table></figure>
+
+<p>뭔가 잘못된 거 같다. 이유를 찾고 수정하겠습니다.<br><img width="622" alt="스크린샷 2021-07-22 오전 2 20 38" src="https://user-images.githubusercontent.com/87232411/126533079-3ffc3a38-aca5-4edb-b9c7-d1afe41868c0.png"></p>
+<h3 id="NLB-Cross-Zone-Load-Balancing-활성화"><a href="#NLB-Cross-Zone-Load-Balancing-활성화" class="headerlink" title="NLB Cross Zone Load Balancing 활성화"></a>NLB Cross Zone Load Balancing 활성화</h3><p>EC2 -&gt; 로드밸런서 -&gt; 작업 클릭 -&gt; 속성 편집 클릭<br><img width="340" alt="스크린샷 2021-07-22 오전 2 21 16" src="https://user-images.githubusercontent.com/87232411/126533084-8b961892-4822-4fda-ae78-c1613fba25a0.png"></p>
+<p>교차 영역 로드 밸런싱 활성화 클릭<br><img width="1001" alt="스크린샷 2021-07-22 오전 2 21 23" src="https://user-images.githubusercontent.com/87232411/126533086-345b68ee-a167-45fc-9adb-55b949f12132.png"></p>
+<p>My-EC2 에서 확인</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># curl 접속 테스트</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..20&#125;; <span class="keyword">do</span> snmpget -v2c -c public <span class="variable">$NLB1</span> 1.3.6.1.2.1.1.5.0 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..20&#125;; <span class="keyword">do</span> snmpget -v2c -c public <span class="variable">$NLB2</span> 1.3.6.1.2.1.1.5.0 ; <span class="keyword">done</span> | sort | uniq -c | sort -nr</span><br></pre></td></tr></table></figure>
+
+<p>뭔가 실수한 거 같다 …. 이것도 알아보고 수정하겠습니다.<br><img width="563" alt="스크린샷 2021-07-22 오전 2 22 55" src="https://user-images.githubusercontent.com/87232411/126533089-cafb9782-ed96-4df5-ac8f-9dd2353003fb.png"></p>
+<hr/>
+
+<h3 id="자원-삭제"><a href="#자원-삭제" class="headerlink" title="자원 삭제"></a>자원 삭제</h3><p><strong>로드 밸런서 삭제 (EC2 → 로드 밸런싱 → 로드 밸런서 → 작업 → 삭제)</strong><br><strong>대상 그룹 삭제 (EC2 → 로드 밸런싱 → 대상 그룹 → 작업 → 삭제)</strong><br><strong>CloudFormation 스택 삭제 (CloudFormation → 스택 → 스택 삭제)</strong></p>
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Sujeong Hyeon</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/07/22/2021-07-21-AFOS-3/" target="_blank" title="7주차-3 NLB를 통한 로드 밸런싱 실습">http://icebear2n2.github.io/2021/07/22/2021-07-21-AFOS-3/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'github-blog-hwgpw6lhq3';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/07/22/2021-07-21-AFOS-4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          7주차-4 실습 문제 풀기
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/07/21/2021-07-21-AFOS-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">7주차-2 ALB를 통한 로드 밸런싱 실습</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NLB-%EC%83%9D%EC%84%B1"><span class="nav-number">1.</span> <span class="nav-text">NLB 생성</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NLB-Cross-Zone-Load-Balancing-%ED%99%9C%EC%84%B1%ED%99%94"><span class="nav-number">1.1.</span> <span class="nav-text">NLB Cross Zone Load Balancing 활성화</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C"><span class="nav-number">1.2.</span> <span class="nav-text">자원 삭제</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 Sujeong&#39;s Blog All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-202243823-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">Set up</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              Resize Page Font
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            Resize Page Font Successfully
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              Night Mode
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            Press the button again to turn it off.
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Sujeong&#39;s Blog
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Sujeong Hyeon All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
