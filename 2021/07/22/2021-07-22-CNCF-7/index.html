@@ -3,29 +3,28 @@
 <head>
   <meta charset="utf-8">
   
-  <title>cncf project - containerd(graduated project) | Sujeong&#39;s Blog</title>
+  <title>cncf project - harbor(graduated project) | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Containerd" />
+  <meta name="keywords" content="Harbor" />
   
   
   
   
-  <meta name="description" content="Containerd란?Containerd는 Docker 사에서 mody Project와 함께 발표하여 CNCF에 기증한 오픈 소스이다 Docker에 의해 빠르게 확산되기 시작한 컨테이너형 가상화 환경에서 컨테이너 런타임을 특정 벤더(Vender)에 의존하지 않고 중립적인 입장에서 컨테이너 표준인 OCI(Open Container Initiative">
+  <meta name="description" content="Harbor란?Harbor는 콘텐츠를 저장, 서명 및 스캔하여 신뢰할 수 있는 오픈 소스 레지스트리이며, 클라우드 네이티브 프로젝트이다. Harbor는 k8s 및 Docker와 같은 클라우드 네이티브 컴퓨팅 플랫폼에서 일관되고 안전하게 아티팩트를 관리하는데 도움이 된다.   참고 자료: https:&#x2F;&#x2F;github.com&#x2F;goharbor&#x2F;harbor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CNCF Project - Containerd(Graduated Project)">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/07/17/2021-07-17-CNCF-2/index.html">
+<meta property="og:title" content="CNCF Project - Harbor(Graduated Project)">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/22/2021-07-22-CNCF-7/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="Containerd란?Containerd는 Docker 사에서 mody Project와 함께 발표하여 CNCF에 기증한 오픈 소스이다 Docker에 의해 빠르게 확산되기 시작한 컨테이너형 가상화 환경에서 컨테이너 런타임을 특정 벤더(Vender)에 의존하지 않고 중립적인 입장에서 컨테이너 표준인 OCI(Open Container Initiative">
+<meta property="og:description" content="Harbor란?Harbor는 콘텐츠를 저장, 서명 및 스캔하여 신뢰할 수 있는 오픈 소스 레지스트리이며, 클라우드 네이티브 프로젝트이다. Harbor는 k8s 및 Docker와 같은 클라우드 네이티브 컴퓨팅 플랫폼에서 일관되고 안전하게 아티팩트를 관리하는데 도움이 된다.   참고 자료: https:&#x2F;&#x2F;github.com&#x2F;goharbor&#x2F;harbor">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://icebear2n2.github.io/css/images/containerd.png">
-<meta property="og:image" content="http://icebear2n2.github.io/css/images/architecture-containerd.png">
-<meta property="article:published_time" content="2021-07-17T04:55:44.626Z">
-<meta property="article:modified_time" content="2021-07-22T13:12:31.623Z">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/harbor_logo.png">
+<meta property="article:published_time" content="2021-07-22T12:51:51.871Z">
+<meta property="article:modified_time" content="2021-07-22T13:11:25.914Z">
 <meta property="article:author" content="Sujeong Hyeon">
-<meta property="article:tag" content="Containerd">
+<meta property="article:tag" content="Harbor">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/containerd.png">
+<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/harbor_logo.png">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -175,7 +174,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-07-17-CNCF-2" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-2021-07-22-CNCF-7" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -183,7 +182,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      CNCF Project - Containerd(Graduated Project)
+      CNCF Project - Harbor(Graduated Project)
     </h1>
   
 
@@ -191,8 +190,8 @@
     
     <div class="article-meta">
       
-	<a href="/2021/07/17/2021-07-17-CNCF-2/" class="article-date">
-	  <time datetime="2021-07-17T04:55:44.626Z" itemprop="datePublished">2021-07-17</time>
+	<a href="/2021/07/22/2021-07-22-CNCF-7/" class="article-date">
+	  <time datetime="2021-07-22T12:51:51.871Z" itemprop="datePublished">2021-07-22</time>
 	</a>
 
       
@@ -213,18 +212,14 @@
         <br/>
 <br/>
 
-<img width= 500 src="/css/images/containerd.png">
+<img width=400 src="/css/images/harbor_logo.png">
 
-<h2 id="Containerd란"><a href="#Containerd란" class="headerlink" title="Containerd란?"></a>Containerd란?</h2><p>Containerd는 Docker 사에서 mody Project와 함께 발표하여 CNCF에 기증한 오픈 소스이다</p>
-<p>Docker에 의해 빠르게 확산되기 시작한 컨테이너형 가상화 환경에서 <strong>컨테이너 런타임을 특정 벤더(Vender)에 의존하지 않고 중립적인 입장에서 컨테이너 표준인 OCI(Open Container Initiative) 에 기준하여 구현하는 것을 목적</strong>으로 한다</p>
-<p>컨테이너를 실행하고 노드에서 이미지를 관리하는 데 필요한 최소한의 기능 세트를 제공하는 OCI 호환 코어 컨테이너 런타임 중 하나이다</p>
-<p>Kubernetes의 하이 레벨 런타임 표준인 CRI 런타임으로 현제 CRI-O 와 함께 두 가지 구현체가 있다</p>
-<h2 id="Containerd는-전체-컨테이너-라이프-사이클을-관리"><a href="#Containerd는-전체-컨테이너-라이프-사이클을-관리" class="headerlink" title="Containerd는 전체 컨테이너 라이프 사이클을 관리"></a>Containerd는 전체 컨테이너 라이프 사이클을 관리</h2><p>Containerd는 Linux와 Windows의 데몬으로 이용 가능하다</p>
-<p>이미지 전송 및 저장, 컨테이너 실행 및 감독, 로우 레벨 스토리지, 네트워크 첨부 파일 등에 이르기까지 호스트 시스템의 전체 컨테이너 라이프 사이클(Life Cycle)을 관리한다<br><img src="/css/images/architecture-containerd.png"></p>
-<hr>
+<h2 id="Harbor란"><a href="#Harbor란" class="headerlink" title="Harbor란?"></a>Harbor란?</h2><p>Harbor는 콘텐츠를 저장, 서명 및 스캔하여 신뢰할 수 있는 오픈 소스 레지스트리이며, 클라우드 네이티브 프로젝트이다.</p>
+<p>Harbor는 k8s 및 Docker와 같은 클라우드 네이티브 컴퓨팅 플랫폼에서 일관되고 안전하게 아티팩트를 관리하는데 도움이 된다.</p>
+<hr/>
 
-<p><strong>참고 자료: <a target="_blank" rel="noopener" href="http://www.opennaru.com/kubernetes/containerd/">http://www.opennaru.com/kubernetes/containerd/</a>, <a target="_blank" rel="noopener" href="https://containerd.io/">https://containerd.io/</a></strong></p>
-<p><strong>사진 출처: <a target="_blank" rel="noopener" href="https://containerd.io/">https://containerd.io/</a></strong></p>
+<p><strong>참고 자료: <a target="_blank" rel="noopener" href="https://github.com/goharbor/harbor">https://github.com/goharbor/harbor</a>, <a target="_blank" rel="noopener" href="https://goharbor.io/">https://goharbor.io/</a></strong></p>
+<p><strong>사진 출처: <a target="_blank" rel="noopener" href="https://github.com/goharbor/harbor">https://github.com/goharbor/harbor</a></strong></p>
 
       
     </div>
@@ -238,7 +233,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/07/17/2021-07-17-CNCF-2/" target="_blank" title="CNCF Project - Containerd(Graduated Project)">http://icebear2n2.github.io/2021/07/17/2021-07-17-CNCF-2/</a>
+          <a href="/2021/07/22/2021-07-22-CNCF-7/" target="_blank" title="CNCF Project - Harbor(Graduated Project)">http://icebear2n2.github.io/2021/07/22/2021-07-22-CNCF-7/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -281,7 +276,7 @@
       
       
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Containerd/" rel="tag">Containerd</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Harbor/" rel="tag">Harbor</a></li></ul>
 
       
 
@@ -291,19 +286,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/07/18/2021-07-18-CNCF-3/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          CNCF Project - CoreDNS(Graduated Project)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/07/16/2021-07-16-CNCF-1/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/07/22/2021-07-21-AFOS-4/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">CNCF(Cloud Native Computing Foundation)</div>
+      <div class="article-nav-title">7주차-4 실습 문제 풀기</div>
     </a>
   
 </nav>
@@ -317,7 +303,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Containerd%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">Containerd란?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Containerd%EB%8A%94-%EC%A0%84%EC%B2%B4-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88-%EB%9D%BC%EC%9D%B4%ED%94%84-%EC%82%AC%EC%9D%B4%ED%81%B4%EC%9D%84-%EA%B4%80%EB%A6%AC"><span class="nav-number">2.</span> <span class="nav-text">Containerd는 전체 컨테이너 라이프 사이클을 관리</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Harbor%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">Harbor란?</span></a></li></ol>
     
     </div>
   </aside>
