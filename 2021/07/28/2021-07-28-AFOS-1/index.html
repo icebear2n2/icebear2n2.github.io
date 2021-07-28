@@ -3,29 +3,31 @@
 <head>
   <meta charset="utf-8">
   
-  <title>cncf project - open policy agent (opa)(graduated project) | Sujeong&#39;s Blog</title>
+  <title>8주차-1 ec2 auto scaling | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Open Policy Agent" />
+  <meta name="keywords" content="AFOS[2기]" />
   
   
   
   
-  <meta name="description" content="Open Policy Agent (OPA)란?스택 전체에서 정책 시행을 통합하는 오픈 소스 범용 정책 엔진이다.OPA는 정책을 코드로 지정할 수 있는 고급 선언적 언어와 소프트웨어에서 정책 의사 결정을 오프로드하는 간단한 API를 제공한다. OPA를 사용하여 마이크로서비스, Kubernetes, CI&#x2F;CD 파이프 라인, API 게이트웨이 등에서 정">
+  <meta name="description" content="AWS EC2 Auto Scaling 소개EC2 Auto Scailng을 통해 애플리케이션의 로드를 처리할 수 있게 동적으로 EC2 인스턴스를 유지하도록 보장할 수 있다. Auto Scaling 그룹이라는 EC2 인스턴스 모음을 생성한다. 각 Auto Scaling 그룹의 최소 인스턴스 수를 지정할 수 있으며, Amazon EC2 Auto Scaling에서">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CNCF Project - Open Policy Agent (OPA)(Graduated Project)">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/07/28/2021-07-28-CNCF-OPA/index.html">
+<meta property="og:title" content="8주차-1 EC2 Auto Scaling">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/28/2021-07-28-AFOS-1/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="Open Policy Agent (OPA)란?스택 전체에서 정책 시행을 통합하는 오픈 소스 범용 정책 엔진이다.OPA는 정책을 코드로 지정할 수 있는 고급 선언적 언어와 소프트웨어에서 정책 의사 결정을 오프로드하는 간단한 API를 제공한다. OPA를 사용하여 마이크로서비스, Kubernetes, CI&#x2F;CD 파이프 라인, API 게이트웨이 등에서 정">
+<meta property="og:description" content="AWS EC2 Auto Scaling 소개EC2 Auto Scailng을 통해 애플리케이션의 로드를 처리할 수 있게 동적으로 EC2 인스턴스를 유지하도록 보장할 수 있다. Auto Scaling 그룹이라는 EC2 인스턴스 모음을 생성한다. 각 Auto Scaling 그룹의 최소 인스턴스 수를 지정할 수 있으며, Amazon EC2 Auto Scaling에서">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://icebear2n2.github.io/css/images/opa.png">
-<meta property="og:image" content="http://icebear2n2.github.io/css/images/opa-service.svg">
-<meta property="article:published_time" content="2021-07-28T00:29:09.760Z">
-<meta property="article:modified_time" content="2021-07-28T00:46:01.273Z">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/as-group.png">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/group-graphic.png">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/launch.png">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/scaling.png">
+<meta property="article:published_time" content="2021-07-28T13:00:00.000Z">
+<meta property="article:modified_time" content="2021-07-28T12:51:19.224Z">
 <meta property="article:author" content="Sujeong Hyeon">
-<meta property="article:tag" content="Open Policy Agent">
+<meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/opa.png">
+<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/as-group.png">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -175,7 +177,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-07-28-CNCF-OPA" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-2021-07-28-AFOS-1" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -183,7 +185,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      CNCF Project - Open Policy Agent (OPA)(Graduated Project)
+      8주차-1 EC2 Auto Scaling
     </h1>
   
 
@@ -191,12 +193,12 @@
     
     <div class="article-meta">
       
-	<a href="/2021/07/28/2021-07-28-CNCF-OPA/" class="article-date">
-	  <time datetime="2021-07-28T00:29:09.760Z" itemprop="datePublished">2021-07-28</time>
+	<a href="/2021/07/28/2021-07-28-AFOS-1/" class="article-date">
+	  <time datetime="2021-07-28T13:00:00.000Z" itemprop="datePublished">2021-07-28</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/CNCF/">CNCF</a>
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
 
       
 	<a class="article-views">
@@ -210,18 +212,33 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <br/>
-<br/>
+        <h2 id="AWS-EC2-Auto-Scaling-소개"><a href="#AWS-EC2-Auto-Scaling-소개" class="headerlink" title="AWS EC2 Auto Scaling 소개"></a>AWS EC2 Auto Scaling 소개</h2><p>EC2 Auto Scailng을 통해 애플리케이션의 로드를 처리할 수 있게 동적으로 EC2 인스턴스를 유지하도록 보장할 수 있다.</p>
+<p><strong>Auto Scaling 그룹</strong>이라는 EC2 인스턴스 모음을 생성한다.</p>
+<p>각 Auto Scaling 그룹의 최소 인스턴스 수를 지정할 수 있으며, Amazon EC2 Auto Scaling에서는 <strong>그룹의 크기가 이 값 아래로 내려가지 않는다.</strong><br>각 Auto Scaling 그룹의 최소 인스턴스 수를 지정할 수 있으며, Amazon EC2 Auto Scaling에서는 <strong>그룹의 크기가 이 값을 넘지 않는다.</strong></p>
+<p>원하는 용량을 지정한 경우 그룹을 생성한 다음에는 언제든지 Amazon EC2 Auto Scaling에서 해당 그룹에서 이만큼의 인스턴스를 보유할 수 있다.<br>조정 정책을 지정했다면 Amazon EC2 Auto Scaling에서는 애플리케이션의 늘어나거나 줄어드는 수요에 따라 인스턴스를 시작하거나 종료할 수 았다.</p>
+ <img src="/css/images/as-group.png">
 
-<img width=300 src="/css/images/opa.png">
+<h2 id="구성요소"><a href="#구성요소" class="headerlink" title="구성요소"></a>구성요소</h2><h3 id="Group"><a href="#Group" class="headerlink" title="Group"></a>Group</h3><p>EC2 인스턴스는 조정 및 관리 목적의 논리 단위로 취급될 수 있도록 그룹으로 구성된다</p>
+<img src="/css/images/group-graphic.png">
 
-<h2 id="Open-Policy-Agent-OPA-란"><a href="#Open-Policy-Agent-OPA-란" class="headerlink" title="Open Policy Agent (OPA)란?"></a>Open Policy Agent (OPA)란?</h2><p><strong>스택 전체에서 정책 시행을 통합하는 오픈 소스 범용 정책 엔진</strong>이다.<br>OPA는 정책을 코드로 지정할 수 있는 고급 선언적 언어와 소프트웨어에서 정책 의사 결정을 오프로드하는 간단한 API를 제공한다.</p>
-<p>OPA를 사용하여 마이크로서비스, Kubernetes, CI/CD 파이프 라인, API 게이트웨이 등에서 정책을 시행할 수 있다.</p>
-<h2 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h2><p>OPA는 정책 결정과 정책 시행을 분리한다.<br><img width=500 src="/css/images/opa-service.svg"></p>
+<h3 id="구성-템플릿"><a href="#구성-템플릿" class="headerlink" title="구성 템플릿"></a>구성 템플릿</h3><p>그룹은 EC2 인스턴스에 대한 구성 템플릿으로 시작 템플릿(모든 기능 제공) 또는 시작 구성(권장X, 더 적은 기능 제공)을 사용한다</p>
+<p><strong>시작 템플릿: Launch Template<br>시작 구성: Launch Configuration</strong></p>
+<img src="/css/images/launch.png">
+
+<h3 id="조정-옵션"><a href="#조정-옵션" class="headerlink" title="조정 옵션"></a>조정 옵션</h3><p>EC2 Auto Scaling은 Auto Scaling 그룹을 조정하는 다양한 방법을 제공한다.<br>ex. 지정한 조건의 발생(동적 확장) 또는 일정에 따라 조정하도록 그룹을 구성할 수 있다.</p>
+<img src="/css/images/scaling.png">
+
+<h3 id="장점"><a href="#장점" class="headerlink" title="장점"></a>장점</h3><p>가변 수요 허용</p>
+<p>가용성과 내결함성 향상</p>
+<h2 id="인스턴스-수명-주기"><a href="#인스턴스-수명-주기" class="headerlink" title="인스턴스 수명 주기"></a>인스턴스 수명 주기</h2><p>Auto Scaling 그룹이 인스턴스를 시작하고 서비스에 들어갈 때 시작된다<br>수명 주기는 인스턴스를 종료하거나 Auto Scaling 그룹이 인스턴스 서비스에서 제외시키고 이를 종료할 때 끝난다.</p>
+<h2 id="조정-정책-Scaling-Policy"><a href="#조정-정책-Scaling-Policy" class="headerlink" title="조정 정책(Scaling Policy)"></a>조정 정책(Scaling Policy)</h2><h3 id="대상-추적-조정"><a href="#대상-추적-조정" class="headerlink" title="대상 추적 조정"></a>대상 추적 조정</h3><p>특정 지표의 목표 값을 기준으로 그룹의 현재 용량을 <strong>알아서</strong> 늘리거나 줄인다</p>
+<h3 id="단계-조정"><a href="#단계-조정" class="headerlink" title="단계 조정"></a>단계 조정</h3><p>그룹의 현재 용량을 <strong>일련의 조정 조절</strong>에 따라 늘리거나 줄이며 경보 위반의 크기에 따라 달라지는 단계 조정이라고 한다</p>
+<h3 id="단순-조정"><a href="#단순-조정" class="headerlink" title="단순 조정"></a>단순 조정</h3><p>그룹의 현재 용량을 <strong>단일 조정 조절</strong>에 따라 늘리거나 줄인다.</p>
+<p>-&gt;<br>Auto Scaling 그룹의 인스턴스 수에 비례하여 증가하거나 감소하는 사용률 수치를 기준으로 조정하는 경우, <strong>대상 추적 조정 정책</strong>을 사용하는 것이 좋다</p>
+<p>그렇지 않은 경우, <strong>단계 조정 정책</strong>을 사용하는 것이 좋다.</p>
 <hr/>
 
-<p><strong>참고 자료: <a target="_blank" rel="noopener" href="https://www.openpolicyagent.org/docs/latest/">https://www.openpolicyagent.org/docs/latest/</a></strong></p>
-<p><strong>사진 출처: <a target="_blank" rel="noopener" href="https://www.openpolicyagent.org/docs/latest/">https://www.openpolicyagent.org/docs/latest/</a></strong></p>
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong><br><strong>사진 출처: AFOS[2기] 노션 내용, <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html">https://docs.aws.amazon.com/ko_kr/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html</a></strong></p>
 
       
     </div>
@@ -235,7 +252,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/07/28/2021-07-28-CNCF-OPA/" target="_blank" title="CNCF Project - Open Policy Agent (OPA)(Graduated Project)">http://icebear2n2.github.io/2021/07/28/2021-07-28-CNCF-OPA/</a>
+          <a href="/2021/07/28/2021-07-28-AFOS-1/" target="_blank" title="8주차-1 EC2 Auto Scaling">http://icebear2n2.github.io/2021/07/28/2021-07-28-AFOS-1/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -259,7 +276,7 @@
       
       
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Open-Policy-Agent/" rel="tag">Open Policy Agent</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
 
       
 
@@ -269,19 +286,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/07/28/2021-07-28-AFOS-1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          8주차-1 EC2 Auto Scaling
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/07/27/2021-07-27-CNCF-Kubernetes/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/07/28/2021-07-28-CNCF-OPA/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">CNCF Project - Kubernetes(Graduated Project)</div>
+      <div class="article-nav-title">CNCF Project - Open Policy Agent (OPA)(Graduated Project)</div>
     </a>
   
 </nav>
@@ -295,7 +303,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Open-Policy-Agent-OPA-%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">Open Policy Agent (OPA)란?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B0%9C%EC%9A%94"><span class="nav-number">2.</span> <span class="nav-text">개요</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-EC2-Auto-Scaling-%EC%86%8C%EA%B0%9C"><span class="nav-number">1.</span> <span class="nav-text">AWS EC2 Auto Scaling 소개</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B5%AC%EC%84%B1%EC%9A%94%EC%86%8C"><span class="nav-number">2.</span> <span class="nav-text">구성요소</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Group"><span class="nav-number">2.1.</span> <span class="nav-text">Group</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EA%B5%AC%EC%84%B1-%ED%85%9C%ED%94%8C%EB%A6%BF"><span class="nav-number">2.2.</span> <span class="nav-text">구성 템플릿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%A1%B0%EC%A0%95-%EC%98%B5%EC%85%98"><span class="nav-number">2.3.</span> <span class="nav-text">조정 옵션</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EC%9E%A5%EC%A0%90"><span class="nav-number">2.4.</span> <span class="nav-text">장점</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%88%98%EB%AA%85-%EC%A3%BC%EA%B8%B0"><span class="nav-number">3.</span> <span class="nav-text">인스턴스 수명 주기</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%A1%B0%EC%A0%95-%EC%A0%95%EC%B1%85-Scaling-Policy"><span class="nav-number">4.</span> <span class="nav-text">조정 정책(Scaling Policy)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8C%80%EC%83%81-%EC%B6%94%EC%A0%81-%EC%A1%B0%EC%A0%95"><span class="nav-number">4.1.</span> <span class="nav-text">대상 추적 조정</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8B%A8%EA%B3%84-%EC%A1%B0%EC%A0%95"><span class="nav-number">4.2.</span> <span class="nav-text">단계 조정</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EB%8B%A8%EC%88%9C-%EC%A1%B0%EC%A0%95"><span class="nav-number">4.3.</span> <span class="nav-text">단순 조정</span></a></li></ol></li></ol>
     
     </div>
   </aside>
