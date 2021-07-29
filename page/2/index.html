@@ -192,6 +192,64 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-2021-07-21-AFOS-3"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/07/22/2021-07-21-AFOS-3/">7주차-3 NLB를 통한 로드 밸런싱 실습</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/07/22/2021-07-21-AFOS-3/" class="article-date">
+	  <time datetime="2021-07-21T15:00:00.000Z" itemprop="datePublished">2021-07-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          NLB 생성EC2 -&gt; 로드밸런서 -&gt; Load Balancer 생성 클릭
+생성 클릭
+12341. 기본 구성    - 이름(NLB-TEST), 인터넷 경계    - 리스너 : 프로토콜(UDP), 포트(161)    - 가용 영역 : ELB-VPC, 2a 와 2c 선택 - IP는 AWS에서 할당 or 사용자의 EIP 사용 가능
+
+
+
+12대상 그룹(새 대상 그룹), 이름(NLB-TG), 대상 유형(인스턴스), 프로토콜(UDP), 포...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/07/22/2021-07-21-AFOS-3/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-2021-07-21-AFOS-2"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -702,60 +760,6 @@ CNCF란 ?Cloud Native Computing Foundation의 약자
         </p>
         <p class="article-more-link">
           <a href="/2021/07/16/2021-07-16-CNCF-CNCF/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-2021-07-14-AFOS-3"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/07/15/2021-07-14-AFOS-3/">6주차-3 Amazon RDS 실습</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/07/15/2021-07-14-AFOS-3/" class="article-date">
-	  <time datetime="2021-07-14T15:00:00.000Z" itemprop="datePublished">2021-07-15</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/AWS/">AWS</a>
-
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          실습2)  Amazon RDS 실습RDS -&gt; 데이터베이스 -&gt; 데이터베이스 생성 클릭
-RDS DB 1 생성
-12345678910111213141516생성 방식 : **표준 생성**엔진 옵션 : **MySQL**템플릿 : **프리 티어**DB 인스턴스 식별자 : ***beas1** (현재 AWS 리전에서 AWS 계정이 소유하는 모든 DB 인스턴스에 대해 유일, 각자 편하게 설정)*마스터 사용자 이름 : **root**마스터 암호...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/07/15/2021-07-14-AFOS-3/#more">Read More</a>
         </p>
       
     </div>
