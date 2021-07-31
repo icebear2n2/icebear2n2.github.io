@@ -3,29 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>terraform 소개 | Sujeong&#39;s Blog</title>
+  <title>cncf project - rook | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Terraform" />
+  <meta name="keywords" content="Rook" />
   
   
   
   
-  <meta name="description" content="Infrastructure as Code (IaC)코드를 통해 인프라를 관리하고 프로비저닝하는 것을 말한다. IaC를 상요하면 구성을 편집하고 배포하기가 더 쉬워지고, 매번 동일한 환경을 프로비저닝하도록 보장한다. IaC는 구성 사양을 코드화하고 문서화함으로써, 구성 변경 사항을 문서화하지 않고 임시로 변경하는 일을 막을 수 있다. Terrafo">
+  <meta name="description" content="Rook이란?Rook은 분산 스토리지 시스템을 자가 관리, 자가 확장, 자가 치유 스토리 서비스로 전환한다스토리지의 작업을 자동화한다 k8s 스토리지 Operators이다Rook은 k8s 플랫폼의 기능을 사용하여 각 스토리지 제공업체한테 k8s Operator를 통해 서비스를 제공한다   참고 자료: https:&#x2F;&#x2F;rook.io&#x2F; 사진 자료: ht">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Terraform 소개">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/07/18/2021-07-18-Terraform-1/index.html">
+<meta property="og:title" content="CNCF Project - Rook">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/07/31/2021-07-31-CNCF-Rook/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="Infrastructure as Code (IaC)코드를 통해 인프라를 관리하고 프로비저닝하는 것을 말한다. IaC를 상요하면 구성을 편집하고 배포하기가 더 쉬워지고, 매번 동일한 환경을 프로비저닝하도록 보장한다. IaC는 구성 사양을 코드화하고 문서화함으로써, 구성 변경 사항을 문서화하지 않고 임시로 변경하는 일을 막을 수 있다. Terrafo">
+<meta property="og:description" content="Rook이란?Rook은 분산 스토리지 시스템을 자가 관리, 자가 확장, 자가 치유 스토리 서비스로 전환한다스토리지의 작업을 자동화한다 k8s 스토리지 Operators이다Rook은 k8s 플랫폼의 기능을 사용하여 각 스토리지 제공업체한테 k8s Operator를 통해 서비스를 제공한다   참고 자료: https:&#x2F;&#x2F;rook.io&#x2F; 사진 자료: ht">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://icebear2n2.github.io/css/images/terraform.svg">
-<meta property="og:image" content="http://icebear2n2.github.io/css/images/terraform-iac.png">
-<meta property="article:published_time" content="2021-07-18T05:21:11.339Z">
-<meta property="article:modified_time" content="2021-07-18T08:32:26.187Z">
+<meta property="article:published_time" content="2021-07-31T12:31:19.639Z">
+<meta property="article:modified_time" content="2021-07-31T12:40:56.062Z">
 <meta property="article:author" content="Sujeong Hyeon">
-<meta property="article:tag" content="Terraform">
+<meta property="article:tag" content="Rook">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/terraform.svg">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -175,7 +172,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-07-18-Terraform-1" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-2021-07-31-CNCF-Rook" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -183,7 +180,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Terraform 소개
+      CNCF Project - Rook
     </h1>
   
 
@@ -191,12 +188,12 @@
     
     <div class="article-meta">
       
-	<a href="/2021/07/18/2021-07-18-Terraform-1/" class="article-date">
-	  <time datetime="2021-07-18T05:21:11.339Z" itemprop="datePublished">2021-07-18</time>
+	<a href="/2021/07/31/2021-07-31-CNCF-Rook/" class="article-date">
+	  <time datetime="2021-07-31T12:31:19.639Z" itemprop="datePublished">2021-07-31</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Terraform/">Terraform</a>
+    <a class="article-category-link" href="/categories/CNCF/">CNCF</a>
 
       
 	<a class="article-views">
@@ -213,24 +210,14 @@
         <br/>
 <br/>
 
-<img width=400 src="/css/images/terraform.svg">
-<br/>
+<img width=300 src=/css/images/rook.svg>
 
-<h2 id="Infrastructure-as-Code-IaC"><a href="#Infrastructure-as-Code-IaC" class="headerlink" title="Infrastructure as Code (IaC)"></a>Infrastructure as Code (IaC)</h2><p>코드를 통해 인프라를 관리하고 프로비저닝하는 것을 말한다.</p>
-<p>IaC를 상요하면 구성을 편집하고 배포하기가 더 쉬워지고, 매번 동일한 환경을 프로비저닝하도록 보장한다.</p>
-<p>IaC는 구성 사양을 코드화하고 문서화함으로써, 구성 변경 사항을 문서화하지 않고 임시로 변경하는 일을 막을 수 있다.</p>
-<h2 id="Terraform이란"><a href="#Terraform이란" class="headerlink" title="Terraform이란?"></a>Terraform이란?</h2><p>코드 도구로서의 HashiCorp의 인프라이다.</p>
-<p>사용자가 읽을 수 있는 선언적 구성 파일에서 리소스와 인프라를 정의하고, 인프라의 수명 주기를 관리할 수 있다.</p>
-<p>Terraform은 인프라애서 안전하게 협업하기 위해 구성을 버전 제어에 커밋할 수 있다.<br><img src="/css/images/terraform-iac.png"></p>
-<h2 id="Terraform으로-인프라를-배포하려면"><a href="#Terraform으로-인프라를-배포하려면" class="headerlink" title="Terraform으로 인프라를 배포하려면?"></a>Terraform으로 인프라를 배포하려면?</h2><h3 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h3><p>프로젝트의 인프라를 식별</p>
-<h3 id="Author"><a href="#Author" class="headerlink" title="Author"></a>Author</h3><p>인프라에 대한 구성을 작성</p>
-<h3 id="Initialize"><a href="#Initialize" class="headerlink" title="Initialize"></a>Initialize</h3><p>Terraform이 인프라를 관리하는 데 필요한 플러그인을 설치</p>
-<h3 id="Plan"><a href="#Plan" class="headerlink" title="Plan"></a>Plan</h3><p>구성과 일치하도록 Terraform이 수행할 변경 사항을 미리 본다</p>
-<h3 id="Apply"><a href="#Apply" class="headerlink" title="Apply"></a>Apply</h3><p>계획된 변경을 수행</p>
+<h2 id="Rook이란"><a href="#Rook이란" class="headerlink" title="Rook이란?"></a>Rook이란?</h2><p>Rook은 <strong>분산 스토리지 시스템을 자가 관리, 자가 확장, 자가 치유 스토리 서비스로 전환</strong>한다<br><strong>스토리지의 작업을 자동화</strong>한다</p>
+<p><strong>k8s 스토리지 Operators</strong>이다<br>Rook은 k8s 플랫폼의 기능을 사용하여 각 스토리지 제공업체한테 k8s Operator를 통해 서비스를 제공한다</p>
 <hr/>
 
-<p><strong>참고 자료: <a target="_blank" rel="noopener" href="https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/aws-get-started">https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/aws-get-started</a>, <a target="_blank" rel="noopener" href="https://www.redhat.com/ko/topics/automation/what-is-infrastructure-as-code-iac">https://www.redhat.com/ko/topics/automation/what-is-infrastructure-as-code-iac</a></strong></p>
-<p><strong>사진 출처: <a target="_blank" rel="noopener" href="https://github.com/hashicorp/terraform">https://github.com/hashicorp/terraform</a></strong></p>
+<p><strong>참고 자료: <a target="_blank" rel="noopener" href="https://rook.io/">https://rook.io/</a></strong></p>
+<p><strong>사진 자료: <a target="_blank" rel="noopener" href="https://github.com/rook/rook">https://github.com/rook/rook</a></strong></p>
 
       
     </div>
@@ -244,7 +231,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/07/18/2021-07-18-Terraform-1/" target="_blank" title="Terraform 소개">http://icebear2n2.github.io/2021/07/18/2021-07-18-Terraform-1/</a>
+          <a href="/2021/07/31/2021-07-31-CNCF-Rook/" target="_blank" title="CNCF Project - Rook">http://icebear2n2.github.io/2021/07/31/2021-07-31-CNCF-Rook/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -268,7 +255,7 @@
       
       
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Terraform/" rel="tag">Terraform</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rook/" rel="tag">Rook</a></li></ul>
 
       
 
@@ -278,19 +265,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/07/19/2021-07-19-CNCF-Envoy/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          CNCF Project - Envoy
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/07/18/2021-07-18-CNCF-CoreDNS/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/07/30/2021-07-30-CNCF-Prometheus/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">CNCF Project - CoreDNS</div>
+      <div class="article-nav-title">CNCF Project - Prometheus</div>
     </a>
   
 </nav>
@@ -304,7 +282,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Infrastructure-as-Code-IaC"><span class="nav-number">1.</span> <span class="nav-text">Infrastructure as Code (IaC)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terraform%EC%9D%B4%EB%9E%80"><span class="nav-number">2.</span> <span class="nav-text">Terraform이란?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terraform%EC%9C%BC%EB%A1%9C-%EC%9D%B8%ED%94%84%EB%9D%BC%EB%A5%BC-%EB%B0%B0%ED%8F%AC%ED%95%98%EB%A0%A4%EB%A9%B4"><span class="nav-number">3.</span> <span class="nav-text">Terraform으로 인프라를 배포하려면?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scope"><span class="nav-number">3.1.</span> <span class="nav-text">Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Author"><span class="nav-number">3.2.</span> <span class="nav-text">Author</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Initialize"><span class="nav-number">3.3.</span> <span class="nav-text">Initialize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Plan"><span class="nav-number">3.4.</span> <span class="nav-text">Plan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apply"><span class="nav-number">3.5.</span> <span class="nav-text">Apply</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rook%EC%9D%B4%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">Rook이란?</span></a></li></ol>
     
     </div>
   </aside>
