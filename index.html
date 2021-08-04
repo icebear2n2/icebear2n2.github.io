@@ -192,6 +192,63 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-2021-08-04-AFOS-3"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/08/05/2021-08-04-AFOS-3/">[AWS] 9주차-3 Wordpress &amp; WooCommerce  웹서버 &amp; DB서버 구성 + WooCommerce 설정 실습</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/08/05/2021-08-04-AFOS-3/" class="article-date">
+	  <time datetime="2021-08-04T15:00:00.000Z" itemprop="datePublished">2021-08-05</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          2대 EC2로 구성 : Web/PHP 인스턴스 + MariaDB 인스턴스 구성
+WebSrv1: 10.1.1.10
+DBSrv: 10.1.2.20
+
+기본 설정은 CloudFormation 으로 설정 완료 - User Data 내용WebSrv
+12345678910111213141516171819202122232425262728293031323334#!/bin/bashhostnamectl --static set-hostname WebSrvamaz...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/08/05/2021-08-04-AFOS-3/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-2021-08-04-AFOS-2"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -727,60 +784,6 @@ tmux 명령어&lt;Ctrl-b&gt; &quot; : 가로로 분할
         </p>
         <p class="article-more-link">
           <a href="/2021/07/28/2021-07-28-Linux/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-2021-07-28-AFOS-2"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/07/28/2021-07-28-AFOS-2/">[AWS] 8주차-2 EC2 Auto Scaling 구성 실습</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/07/28/2021-07-28-AFOS-2/" class="article-date">
-	  <time datetime="2021-07-28T14:00:00.000Z" itemprop="datePublished">2021-07-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/AWS/">AWS</a>
-
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          CloudFormation 스택 생성https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=AutoScalingLab&amp;templateURL=https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws.com%2Fchapter5%2Fautoscaling-AFOS.yaml
-다음 클릭
-키...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/07/28/2021-07-28-AFOS-2/#more">Read More</a>
         </p>
       
     </div>
