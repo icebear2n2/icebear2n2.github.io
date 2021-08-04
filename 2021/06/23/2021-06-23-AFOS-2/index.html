@@ -79,7 +79,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106385-8dc8b280-d473-11eb-904f-7bf8bb00a3f5.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/76810787/123106390-8dc8b280-d473-11eb-95c1-ca3e22531989.png">
 <meta property="article:published_time" content="2021-06-23T14:00:00.000Z">
-<meta property="article:modified_time" content="2021-08-01T04:38:50.535Z">
+<meta property="article:modified_time" content="2021-08-04T14:44:41.012Z">
 <meta property="article:author" content="Sujeong Hyeon">
 <meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
@@ -528,17 +528,7 @@
 <br/>
 
 <p>마지막으로 프라이빗 테이블까지 캡쳐하면 과제 완료 !<br><img width="1085" alt="스크린샷 2021-06-23 오후 10 36 37" src="https://user-images.githubusercontent.com/76810787/123106390-8dc8b280-d473-11eb-95c1-ca3e22531989.png"><br><br/><br><br/><br><br/></p>
-<h2 id="실습이-끝난-후에-꼭-자원-삭제하기"><a href="#실습이-끝난-후에-꼭-자원-삭제하기" class="headerlink" title="실습이 끝난 후에 꼭 자원 삭제하기 !!!"></a>실습이 끝난 후에 꼭 자원 삭제하기 !!!</h2><ol>
-<li><p>EC2 인스턴스 종료 (EC2 → 인스턴스 → 인스턴스 선택 → 작업 → 인스턴스 상태 → 종료)</p>
-</li>
-<li><p>NAT 게이트웨이 삭제 (VPC → NAT 게이트웨이 → 작업 → NAT 게이트웨이 삭제)</p>
-</li>
-<li><p>탄력적 IP 삭제 (VPC → 탄력적 IP → Actions → 탄력적 IP 주소 <strong>릴리스</strong>)</p>
-</li>
-<li><p>VPC 삭제 (VPC → VPC → 작업 → VPC 삭제)</p>
-</li>
-</ol>
-<br/>
+<h2 id="자원-삭제-중요"><a href="#자원-삭제-중요" class="headerlink" title="자원 삭제 (중요!)"></a>자원 삭제 (중요!)</h2><h3 id="1-EC2-인스턴스-종료-EC2-→-인스턴스-→-인스턴스-선택-→-작업-→-인스턴스-상태-→-종료"><a href="#1-EC2-인스턴스-종료-EC2-→-인스턴스-→-인스턴스-선택-→-작업-→-인스턴스-상태-→-종료" class="headerlink" title="1. EC2 인스턴스 종료 (EC2 → 인스턴스 → 인스턴스 선택 → 작업 → 인스턴스 상태 → 종료)"></a>1. EC2 인스턴스 종료 (EC2 → 인스턴스 → 인스턴스 선택 → 작업 → 인스턴스 상태 → 종료)</h3><h3 id="2-NAT-게이트웨이-삭제-VPC-→-NAT-게이트웨이-→-작업-→-NAT-게이트웨이-삭제"><a href="#2-NAT-게이트웨이-삭제-VPC-→-NAT-게이트웨이-→-작업-→-NAT-게이트웨이-삭제" class="headerlink" title="2. NAT 게이트웨이 삭제 (VPC → NAT 게이트웨이 → 작업 → NAT 게이트웨이 삭제)"></a>2. NAT 게이트웨이 삭제 (VPC → NAT 게이트웨이 → 작업 → NAT 게이트웨이 삭제)</h3><h3 id="3-탄력적-IP-삭제-VPC-→-탄력적-IP-→-Actions-→-탄력적-IP-주소-릴리스"><a href="#3-탄력적-IP-삭제-VPC-→-탄력적-IP-→-Actions-→-탄력적-IP-주소-릴리스" class="headerlink" title="3. 탄력적 IP 삭제 (VPC → 탄력적 IP → Actions → 탄력적 IP 주소 릴리스)"></a>3. 탄력적 IP 삭제 (VPC → 탄력적 IP → Actions → 탄력적 IP 주소 <strong>릴리스</strong>)</h3><h3 id="4-VPC-삭제-VPC-→-VPC-→-작업-→-VPC-삭제"><a href="#4-VPC-삭제-VPC-→-VPC-→-작업-→-VPC-삭제" class="headerlink" title="4. VPC 삭제 (VPC → VPC → 작업 → VPC 삭제)"></a>4. VPC 삭제 (VPC → VPC → 작업 → VPC 삭제)</h3><br/>
 <br/>
 <br/>
 
@@ -618,7 +608,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%ED%8D%BC%EB%B8%94%EB%A6%AD-%EC%84%9C%EB%B8%8C%EB%84%B7-VPC-%EC%83%9D%EC%84%B1"><span class="nav-number">1.</span> <span class="nav-text">1) 퍼블릭 서브넷 VPC 생성</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%ED%94%84%EB%9D%BC%EC%9D%B4%EB%B9%97-%EC%84%9C%EB%B8%8C%EB%84%B7-VPC-%EA%B5%AC%EC%84%B1"><span class="nav-number">2.</span> <span class="nav-text">2) 프라이빗 서브넷 VPC 구성</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5%EC%9D%B4-%EB%81%9D%EB%82%9C-%ED%9B%84%EC%97%90-%EA%BC%AD-%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0"><span class="nav-number">3.</span> <span class="nav-text">실습이 끝난 후에 꼭 자원 삭제하기 !!!</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%ED%8D%BC%EB%B8%94%EB%A6%AD-%EC%84%9C%EB%B8%8C%EB%84%B7-VPC-%EC%83%9D%EC%84%B1"><span class="nav-number">1.</span> <span class="nav-text">1) 퍼블릭 서브넷 VPC 생성</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%ED%94%84%EB%9D%BC%EC%9D%B4%EB%B9%97-%EC%84%9C%EB%B8%8C%EB%84%B7-VPC-%EA%B5%AC%EC%84%B1"><span class="nav-number">2.</span> <span class="nav-text">2) 프라이빗 서브넷 VPC 구성</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C-%EC%A4%91%EC%9A%94"><span class="nav-number">3.</span> <span class="nav-text">자원 삭제 (중요!)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-EC2-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%A2%85%EB%A3%8C-EC2-%E2%86%92-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%E2%86%92-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%84%A0%ED%83%9D-%E2%86%92-%EC%9E%91%EC%97%85-%E2%86%92-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%81%ED%83%9C-%E2%86%92-%EC%A2%85%EB%A3%8C"><span class="nav-number">3.1.</span> <span class="nav-text">1. EC2 인스턴스 종료 (EC2 → 인스턴스 → 인스턴스 선택 → 작업 → 인스턴스 상태 → 종료)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-NAT-%EA%B2%8C%EC%9D%B4%ED%8A%B8%EC%9B%A8%EC%9D%B4-%EC%82%AD%EC%A0%9C-VPC-%E2%86%92-NAT-%EA%B2%8C%EC%9D%B4%ED%8A%B8%EC%9B%A8%EC%9D%B4-%E2%86%92-%EC%9E%91%EC%97%85-%E2%86%92-NAT-%EA%B2%8C%EC%9D%B4%ED%8A%B8%EC%9B%A8%EC%9D%B4-%EC%82%AD%EC%A0%9C"><span class="nav-number">3.2.</span> <span class="nav-text">2. NAT 게이트웨이 삭제 (VPC → NAT 게이트웨이 → 작업 → NAT 게이트웨이 삭제)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%ED%83%84%EB%A0%A5%EC%A0%81-IP-%EC%82%AD%EC%A0%9C-VPC-%E2%86%92-%ED%83%84%EB%A0%A5%EC%A0%81-IP-%E2%86%92-Actions-%E2%86%92-%ED%83%84%EB%A0%A5%EC%A0%81-IP-%EC%A3%BC%EC%86%8C-%EB%A6%B4%EB%A6%AC%EC%8A%A4"><span class="nav-number">3.3.</span> <span class="nav-text">3. 탄력적 IP 삭제 (VPC → 탄력적 IP → Actions → 탄력적 IP 주소 릴리스)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-VPC-%EC%82%AD%EC%A0%9C-VPC-%E2%86%92-VPC-%E2%86%92-%EC%9E%91%EC%97%85-%E2%86%92-VPC-%EC%82%AD%EC%A0%9C"><span class="nav-number">3.4.</span> <span class="nav-text">4. VPC 삭제 (VPC → VPC → 작업 → VPC 삭제)</span></a></li></ol></li></ol>
     
     </div>
   </aside>

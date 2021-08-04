@@ -82,7 +82,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787571-85986900-df83-11eb-82f8-a95f1ecb14b0.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/86812249/124787574-8630ff80-df83-11eb-9f17-34c8efd419ae.png">
 <meta property="article:published_time" content="2021-07-07T14:00:00.000Z">
-<meta property="article:modified_time" content="2021-08-01T04:38:30.431Z">
+<meta property="article:modified_time" content="2021-08-04T14:45:32.831Z">
 <meta property="article:author" content="Sujeong Hyeon">
 <meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
@@ -353,10 +353,10 @@
 <img width="561" alt="스크린샷 2021-07-08 오전 12 22 52" src="https://user-images.githubusercontent.com/86812249/124787571-85986900-df83-11eb-82f8-a95f1ecb14b0.png">
 
 <p>재시작은 안 되는 걸 볼 수 있다. 아까 추가한 인라인 정책 중 Deny 항목에 <strong>ec2:RebootInstances</strong>이 있었기 때문이다<br><img width="609" alt="스크린샷 2021-07-08 오전 12 25 41" src="https://user-images.githubusercontent.com/86812249/124787574-8630ff80-df83-11eb-9f17-34c8efd419ae.png"></p>
-<h2 id="실습이-끝난-후-자원-삭제-꼭-하기"><a href="#실습이-끝난-후-자원-삭제-꼭-하기" class="headerlink" title="실습이 끝난 후, 자원 삭제 꼭 하기 !"></a>실습이 끝난 후, 자원 삭제 꼭 하기 !</h2><ul>
-<li>IAM User 삭제(admin, viewuser)</li>
-<li>CloudFormation 삭제</li>
-</ul>
+<h2 id="자원-삭제-중요"><a href="#자원-삭제-중요" class="headerlink" title="자원 삭제 (중요!)"></a>자원 삭제 (중요!)</h2><h3 id="IAM-User-삭제-admin-viewuser"><a href="#IAM-User-삭제-admin-viewuser" class="headerlink" title="IAM User 삭제(admin, viewuser)"></a>IAM User 삭제(admin, viewuser)</h3><h3 id="CloudFormation-삭제"><a href="#CloudFormation-삭제" class="headerlink" title="CloudFormation 삭제"></a>CloudFormation 삭제</h3><br/>
+<br/>
+<br/>
+
 <hr/>
 
 <p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
@@ -433,7 +433,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-User-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EB%A1%9C%EA%B7%B8%EC%9D%B8"><span class="nav-number">1.</span> <span class="nav-text">실습) IAM User 생성 및 로그인</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-admin-%EC%82%AC%EC%9A%A9%EC%9E%90%EB%A1%9C-AWS-CLI-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0"><span class="nav-number">2.</span> <span class="nav-text">실습) admin 사용자로 AWS CLI 사용하기</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-Role"><span class="nav-number">3.</span> <span class="nav-text">실습) IAM Role</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-Policy"><span class="nav-number">4.</span> <span class="nav-text">실습) IAM Policy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5%EC%9D%B4-%EB%81%9D%EB%82%9C-%ED%9B%84-%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C-%EA%BC%AD-%ED%95%98%EA%B8%B0"><span class="nav-number">5.</span> <span class="nav-text">실습이 끝난 후, 자원 삭제 꼭 하기 !</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-User-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EB%A1%9C%EA%B7%B8%EC%9D%B8"><span class="nav-number">1.</span> <span class="nav-text">실습) IAM User 생성 및 로그인</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-admin-%EC%82%AC%EC%9A%A9%EC%9E%90%EB%A1%9C-AWS-CLI-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0"><span class="nav-number">2.</span> <span class="nav-text">실습) admin 사용자로 AWS CLI 사용하기</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-Role"><span class="nav-number">3.</span> <span class="nav-text">실습) IAM Role</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-IAM-Policy"><span class="nav-number">4.</span> <span class="nav-text">실습) IAM Policy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C-%EC%A4%91%EC%9A%94"><span class="nav-number">5.</span> <span class="nav-text">자원 삭제 (중요!)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IAM-User-%EC%82%AD%EC%A0%9C-admin-viewuser"><span class="nav-number">5.1.</span> <span class="nav-text">IAM User 삭제(admin, viewuser)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CloudFormation-%EC%82%AD%EC%A0%9C"><span class="nav-number">5.2.</span> <span class="nav-text">CloudFormation 삭제</span></a></li></ol></li></ol>
     
     </div>
   </aside>

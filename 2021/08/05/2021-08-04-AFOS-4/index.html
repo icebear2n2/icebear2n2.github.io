@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[aws] 9주차-4 wordpress &amp; woocommerce  웹웹서버(efs) &amp; aws rds 구성 실습 | Sujeong&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="AFOS[2기]" />
+  
+  
+  
+  
+  <meta name="description" content="1대 EC2(EFS)와 AWS RDS(DB)로 구성 : Web&#x2F;PHP 인스턴스 + AWS RDS(DB)로 구성 WebSrv2: 10.1.1.20 + EFS(&#x2F;var&#x2F;www&#x2F;wordpress) AWS RDS  RDS &#x3D;&gt; 데이터베이스 생성 클릭 MySQL 선택 프리티어 123DB 인스턴스 식별자 : wpdb (현재 AWS 리전에서 AWS 계정이 소유하는">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 9주차-4 Wordpress &amp; WooCommerce  웹웹서버(EFS) &amp; AWS RDS 구성 실습">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/08/05/2021-08-04-AFOS-4/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="1대 EC2(EFS)와 AWS RDS(DB)로 구성 : Web&#x2F;PHP 인스턴스 + AWS RDS(DB)로 구성 WebSrv2: 10.1.1.20 + EFS(&#x2F;var&#x2F;www&#x2F;wordpress) AWS RDS  RDS &#x3D;&gt; 데이터베이스 생성 클릭 MySQL 선택 프리티어 123DB 인스턴스 식별자 : wpdb (현재 AWS 리전에서 AWS 계정이 소유하는">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199953-ed520001-4cd2-4b77-aff2-032f6f8c82f2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199961-5582d57d-19e5-4d40-aac3-4ec2bb5d88ee.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199968-8446b398-7b5b-47dd-96c7-694f122103f1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199971-4f00a428-cf5e-4e18-86ee-a82f52f719d7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199976-7dad6683-2bca-469d-80c2-6dd924823834.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199984-e4447b7b-fd99-436d-83b3-3865e11ceb6d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199992-c2aa63af-cf51-42fa-a11b-e0b1d4fa853d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199996-8deb987b-29af-4c00-9d4f-24aa230d8084.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128199998-96ad225c-f288-4a11-ae5c-40beafeeeb4d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128200002-2e7c2389-fbc9-4776-9761-9b2224e94dd9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128200004-2723d204-1691-4074-8cd8-5db469432264.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128200006-3a9739e9-3de4-4682-89c5-6ff1ab62d3ad.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128200009-989abf96-a1fb-4971-8da0-d9fb977c2008.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128200012-7426c0b0-908c-42e7-b35f-03a4a7e7b7a3.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128200014-e817b58a-1ccc-4a4d-9eaa-7a3bfe3a9418.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128200016-9b8d8176-b933-4a1f-9ecb-30b800f638fe.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/128200018-98b161d3-00c7-4904-9eea-2ae59907c37c.png">
+<meta property="article:published_time" content="2021-08-04T15:30:00.000Z">
+<meta property="article:modified_time" content="2021-08-04T14:46:39.767Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/87232411/128199953-ed520001-4cd2-4b77-aff2-032f6f8c82f2.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/SB_logo.PNG">
+  <link rel="apple-touch-icon" href="/css/images/SB_logo.PNG">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/SB_logo.PNG">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-2021-08-04-AFOS-4" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      [AWS] 9주차-4 Wordpress &amp; WooCommerce  웹웹서버(EFS) &amp; AWS RDS 구성 실습
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/08/05/2021-08-04-AFOS-4/" class="article-date">
+	  <time datetime="2021-08-04T15:30:00.000Z" itemprop="datePublished">2021-08-05</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1대-EC2-EFS-와-AWS-RDS-DB-로-구성-Web-PHP-인스턴스-AWS-RDS-DB-로-구성"><a href="#1대-EC2-EFS-와-AWS-RDS-DB-로-구성-Web-PHP-인스턴스-AWS-RDS-DB-로-구성" class="headerlink" title="1대 EC2(EFS)와 AWS RDS(DB)로 구성 : Web/PHP 인스턴스 + AWS RDS(DB)로 구성"></a>1대 EC2(EFS)와 AWS RDS(DB)로 구성 : Web/PHP 인스턴스 + AWS RDS(DB)로 구성</h2><ul>
+<li>WebSrv2: 10.1.1.20 + EFS(/var/www/wordpress)</li>
+<li>AWS RDS</li>
+</ul>
+<p>RDS =&gt; <code>데이터베이스 생성</code> 클릭<br><img width="471" alt="스크린샷 2021-08-04 오후 11 10 15" src="https://user-images.githubusercontent.com/87232411/128199953-ed520001-4cd2-4b77-aff2-032f6f8c82f2.png"></p>
+<p>MySQL 선택<br><img width="816" alt="스크린샷 2021-08-04 오후 11 10 28" src="https://user-images.githubusercontent.com/87232411/128199961-5582d57d-19e5-4d40-aac3-4ec2bb5d88ee.png"></p>
+<p>프리티어<br><img width="826" alt="스크린샷 2021-08-04 오후 11 10 34" src="https://user-images.githubusercontent.com/87232411/128199968-8446b398-7b5b-47dd-96c7-694f122103f1.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DB 인스턴스 식별자 : wpdb (현재 AWS 리전에서 AWS 계정이 소유하는 모든 DB 인스턴스에 대해 유일, 각자 편하게 설정)</span><br><span class="line">마스터 사용자 이름 : root</span><br><span class="line">마스터 암호(암호확인) : qwe12345</span><br></pre></td></tr></table></figure>
+<img width="815" alt="스크린샷 2021-08-04 오후 11 11 07" src="https://user-images.githubusercontent.com/87232411/128199971-4f00a428-cf5e-4e18-86ee-a82f52f719d7.png">
+
+<p><code>t2.micro</code> 선택<br><img width="802" alt="스크린샷 2021-08-04 오후 11 11 16" src="https://user-images.githubusercontent.com/87232411/128199976-7dad6683-2bca-469d-80c2-6dd924823834.png"></p>
+<p><code>WP-VPC1</code> 선택<br><img width="814" alt="스크린샷 2021-08-04 오후 11 11 31" src="https://user-images.githubusercontent.com/87232411/128199984-e4447b7b-fd99-436d-83b3-3865e11ceb6d.png"></p>
+<p>default 제거 후 -&gt; G3 라고 적혀있는 보안그룹 선택<br><img width="602" alt="스크린샷 2021-08-04 오후 11 11 42" src="https://user-images.githubusercontent.com/87232411/128199992-c2aa63af-cf51-42fa-a11b-e0b1d4fa853d.png"><br><img width="661" alt="스크린샷 2021-08-04 오후 11 11 54" src="https://user-images.githubusercontent.com/87232411/128199996-8deb987b-29af-4c00-9d4f-24aa230d8084.png"></p>
+<p>추가구성</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">초기 데이터베이스 이름 : wordpressdb</span><br><span class="line">DB 파라미터 그룹 : ##-mydbparametergroup-## 포함된것 선택</span><br><span class="line">자동 백업 활성화 : Uncheck</span><br></pre></td></tr></table></figure>
+<img width="798" alt="스크린샷 2021-08-04 오후 11 12 36" src="https://user-images.githubusercontent.com/87232411/128199998-96ad225c-f288-4a11-ae5c-40beafeeeb4d.png">
+
+<p><code>데이터베이스 생성</code> 클릭<br><img width="287" alt="스크린샷 2021-08-04 오후 11 12 49" src="https://user-images.githubusercontent.com/87232411/128200002-2e7c2389-fbc9-4776-9761-9b2224e94dd9.png"></p>
+<p>생성 뒤 몇분 후 엔드포인트 확인 !<br><img width="395" alt="스크린샷 2021-08-04 오후 11 27 55" src="https://user-images.githubusercontent.com/87232411/128200004-2723d204-1691-4074-8cd8-5db469432264.png"></p>
+<h2 id="WebSrv2-EFS-확인-및-RDS-엔드포인트-주소-설정-및-확인"><a href="#WebSrv2-EFS-확인-및-RDS-엔드포인트-주소-설정-및-확인" class="headerlink" title="WebSrv2) EFS 확인 및 RDS 엔드포인트 주소 설정 및 확인"></a>WebSrv2) EFS 확인 및 RDS 엔드포인트 주소 설정 및 확인</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 관리자 전환</span></span><br><span class="line">sudo su -</span><br><span class="line"></span><br><span class="line"><span class="comment"># EFS 확인</span></span><br><span class="line">df |grep efs</span><br><span class="line">df -hT |grep efs</span><br><span class="line"></span><br><span class="line"><span class="comment"># RDS 엔드포인트를 변수에 지정</span></span><br><span class="line">RDS=wpdb.cfd4iq95pfdk.ap-northeast-2.rds.amazonaws.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># wp-config.php 파일에 DB 주소를 RDS 엔드포인트로 설정</span></span><br><span class="line">sed -i <span class="string">&quot;s/localhost/<span class="variable">$RDS</span>/g&quot;</span> /var/www/wordpress/wp-config.php</span><br><span class="line"></span><br><span class="line"><span class="comment"># DB 접속 테스트</span></span><br><span class="line">mysql -h <span class="variable">$RDS</span> -uroot -pqwe12345 -e <span class="string">&#x27;show databases;&#x27;</span></span><br><span class="line">mysql -h <span class="variable">$RDS</span> -uroot -pqwe12345</span><br></pre></td></tr></table></figure>
+<img width="567" alt="스크린샷 2021-08-04 오후 11 28 29" src="https://user-images.githubusercontent.com/87232411/128200006-3a9739e9-3de4-4682-89c5-6ff1ab62d3ad.png">
+<img width="680" alt="스크린샷 2021-08-04 오후 11 29 04" src="https://user-images.githubusercontent.com/87232411/128200009-989abf96-a1fb-4971-8da0-d9fb977c2008.png">
+<img width="527" alt="스크린샷 2021-08-04 오후 11 29 14" src="https://user-images.githubusercontent.com/87232411/128200012-7426c0b0-908c-42e7-b35f-03a4a7e7b7a3.png">
+<img width="588" alt="스크린샷 2021-08-04 오후 11 29 28" src="https://user-images.githubusercontent.com/87232411/128200014-e817b58a-1ccc-4a4d-9eaa-7a3bfe3a9418.png">
+<img width="596" alt="스크린샷 2021-08-04 오후 11 29 41" src="https://user-images.githubusercontent.com/87232411/128200016-9b8d8176-b933-4a1f-9ecb-30b800f638fe.png">
+
+<p>실습 끝!<br><img width="1340" alt="스크린샷 2021-08-04 오후 11 30 34" src="https://user-images.githubusercontent.com/87232411/128200018-98b161d3-00c7-4904-9eea-2ae59907c37c.png"></p>
+<h2 id="자원-삭제-중요"><a href="#자원-삭제-중요" class="headerlink" title="자원 삭제(중요!)"></a>자원 삭제(중요!)</h2><h3 id="1-RDS-삭제-gt-인스턴스-스냅샷-생성-여부-언체크-gt-인정한다는-체크박스-체크-gt-삭제"><a href="#1-RDS-삭제-gt-인스턴스-스냅샷-생성-여부-언체크-gt-인정한다는-체크박스-체크-gt-삭제" class="headerlink" title="1. RDS 삭제 -&gt; 인스턴스 스냅샷 생성 여부 언체크 -&gt; 인정한다는 체크박스 체크 -&gt; 삭제"></a>1. RDS 삭제 -&gt; 인스턴스 스냅샷 생성 여부 <code>언체크</code> -&gt; 인정한다는 체크박스 체크 -&gt; 삭제</h3><h3 id="2-CloudFormation-삭제"><a href="#2-CloudFormation-삭제" class="headerlink" title="2. CloudFormation 삭제"></a>2. CloudFormation 삭제</h3><br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료: AFOS[2기] 노션 내용</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Sujeong Hyeon</a>
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2021/08/05/2021-08-04-AFOS-4/" target="_blank" title="[AWS] 9주차-4 Wordpress &amp; WooCommerce  웹웹서버(EFS) &amp; AWS RDS 구성 실습">http://icebear2n2.github.io/2021/08/05/2021-08-04-AFOS-4/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+
+      
+      
+        <script src="https://utteranc.es/client.js"
+        repo="icebear2n2/Blog-comment"
+        issue-term="pathname"
+        label="Comments"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+      
+      
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/08/05/2021-08-04-AFOS-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">[AWS] 9주차-3 Wordpress &amp; WooCommerce  웹서버 &amp; DB서버 구성 + WooCommerce 설정 실습</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%EB%8C%80-EC2-EFS-%EC%99%80-AWS-RDS-DB-%EB%A1%9C-%EA%B5%AC%EC%84%B1-Web-PHP-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-AWS-RDS-DB-%EB%A1%9C-%EA%B5%AC%EC%84%B1"><span class="nav-number">1.</span> <span class="nav-text">1대 EC2(EFS)와 AWS RDS(DB)로 구성 : Web&#x2F;PHP 인스턴스 + AWS RDS(DB)로 구성</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebSrv2-EFS-%ED%99%95%EC%9D%B8-%EB%B0%8F-RDS-%EC%97%94%EB%93%9C%ED%8F%AC%EC%9D%B8%ED%8A%B8-%EC%A3%BC%EC%86%8C-%EC%84%A4%EC%A0%95-%EB%B0%8F-%ED%99%95%EC%9D%B8"><span class="nav-number">2.</span> <span class="nav-text">WebSrv2) EFS 확인 및 RDS 엔드포인트 주소 설정 및 확인</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%9E%90%EC%9B%90-%EC%82%AD%EC%A0%9C-%EC%A4%91%EC%9A%94"><span class="nav-number">3.</span> <span class="nav-text">자원 삭제(중요!)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RDS-%EC%82%AD%EC%A0%9C-gt-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%8A%A4%EB%83%85%EC%83%B7-%EC%83%9D%EC%84%B1-%EC%97%AC%EB%B6%80-%EC%96%B8%EC%B2%B4%ED%81%AC-gt-%EC%9D%B8%EC%A0%95%ED%95%9C%EB%8B%A4%EB%8A%94-%EC%B2%B4%ED%81%AC%EB%B0%95%EC%8A%A4-%EC%B2%B4%ED%81%AC-gt-%EC%82%AD%EC%A0%9C"><span class="nav-number">3.1.</span> <span class="nav-text">1. RDS 삭제 -&gt; 인스턴스 스냅샷 생성 여부 언체크 -&gt; 인정한다는 체크박스 체크 -&gt; 삭제</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CloudFormation-%EC%82%AD%EC%A0%9C"><span class="nav-number">3.2.</span> <span class="nav-text">2. CloudFormation 삭제</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2021 Sujeong&#39;s Blog All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				UV : <span id="busuanzi_value_site_uv"></span> |  
+				PV : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-202243823-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">Set up</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              Resize Page Font
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            Resize Page Font Successfully
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              Night Mode
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            Press the button again to turn it off.
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Sujeong&#39;s Blog
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Sujeong Hyeon All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
