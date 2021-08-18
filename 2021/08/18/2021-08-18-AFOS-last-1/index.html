@@ -3,21 +3,28 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Sujeong&#39;s Blog</title>
+  <title>[aws] 10주차 -1 wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비 | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="AFOS[2기]" />
   
   
   
-  <meta property="og:type" content="article">
-<meta property="og:title" content="Sujeong&#39;s Blog">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/08/13/2021-08-13-AFOS-last-2/index.html">
+  
+  <meta name="description" content="실습 환경 소개최종 구성      CloudFront는 CDN 서비스와 기본 보안 기능(Anti-DDoS)을 제공한다 S3는 Wordpress 의 Upload(이미지 등) 파일들을 저장하고 사용자에게 제공한다 그 외 나머지 구성은 9주차와 동일 HA(고가용성) 구성으로 되어 있으며 일부 장애(AZ 장애, RDS 장애, Web EC2 장애 등)에 대응이 가능">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/08/18/2021-08-18-AFOS-last-1/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="실습 환경 소개최종 구성      CloudFront는 CDN 서비스와 기본 보안 기능(Anti-DDoS)을 제공한다 S3는 Wordpress 의 Upload(이미지 등) 파일들을 저장하고 사용자에게 제공한다 그 외 나머지 구성은 9주차와 동일 HA(고가용성) 구성으로 되어 있으며 일부 장애(AZ 장애, RDS 장애, Web EC2 장애 등)에 대응이 가능">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-08-13T12:44:48.319Z">
-<meta property="article:modified_time" content="2021-08-13T12:44:48.319Z">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/AT12.png">
+<meta property="article:published_time" content="2021-08-18T03:30:00.000Z">
+<meta property="article:modified_time" content="2021-08-18T05:29:48.527Z">
 <meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/AT12.png">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -167,17 +174,29 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-08-13-AFOS-last-2" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-2021-08-18-AFOS-last-1" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      [AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비
+    </h1>
+  
+
+      </header>
+    
     <div class="article-meta">
       
-	<a href="/2021/08/13/2021-08-13-AFOS-last-2/" class="article-date">
-	  <time datetime="2021-08-13T12:44:48.319Z" itemprop="datePublished">2021-08-13</time>
+	<a href="/2021/08/18/2021-08-18-AFOS-last-1/" class="article-date">
+	  <time datetime="2021-08-18T03:30:00.000Z" itemprop="datePublished">2021-08-18</time>
 	</a>
 
       
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
       
 	<a class="article-views">
 	<span id="busuanzi_container_page_pv">
@@ -190,7 +209,30 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="실습-환경-소개"><a href="#실습-환경-소개" class="headerlink" title="실습 환경 소개"></a>실습 환경 소개</h2><p>최종 구성</p>
+<img src="/css/images/AT12.png">
+<br/>
+<br/>
+
+<ul>
+<li>CloudFront는 CDN 서비스와 기본 보안 기능(Anti-DDoS)을 제공한다</li>
+<li>S3는 Wordpress 의 Upload(이미지 등) 파일들을 저장하고 사용자에게 제공한다</li>
+<li>그 외 나머지 구성은 9주차와 동일</li>
+<li>HA(고가용성) 구성으로 되어 있으며 일부 장애(AZ 장애, RDS 장애, Web EC2 장애 등)에 대응이 가능하다</li>
+<li>t2.micro(vCPU 1, Mem 1GiB) 는 WooCommerce 플러그인 설치 시 메모리 부족 등으로 설치 자체가 제대로 진행되지 않는다<br>따라서 설치가 가능한 최소 성능인 t3.medium(vCPU 2, Mem 4GiB)로 배포가 된다 1시간당 0.052 USD 비용이 부가된다</li>
+</ul>
+<h2 id="실습-기본-환경-배포"><a href="#실습-기본-환경-배포" class="headerlink" title="실습 기본 환경 배포"></a>실습 기본 환경 배포</h2><h3 id="CloudFormation-실습-기본-환경-배포"><a href="#CloudFormation-실습-기본-환경-배포" class="headerlink" title="CloudFormation 실습 기본 환경 배포"></a>CloudFormation 실습 기본 환경 배포</h3><p>클릭<br><a target="_blank" rel="noopener" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=WPHALab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FWordpress%2Faws-wp.yaml">https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=WPHALab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FWordpress%2Faws-wp.yaml</a></p>
+<h3 id="2번-실습을-위한-RDS-배포"><a href="#2번-실습을-위한-RDS-배포" class="headerlink" title="2번 실습을 위한 RDS 배포"></a>2번 실습을 위한 RDS 배포</h3><p>WebSrv-Leader 인스턴스를 이용하여 Wordpress 초기 구성 - RDS DB 생성은 미리 하기 -&gt; 총 16분 정도 소요<br>RDS -&gt; 데이터베이스 생성 클릭 -&gt; 데이터베이스 생성 12분 정도 소요 -&gt; 백업본생성에 4분 정도 소요</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 별로 언급이 없는 부분은 기본값 설정</span><br><span class="line"></span><br><span class="line">생성 방식 : 표준 생성</span><br><span class="line">엔진 옵션 : MySQL</span><br><span class="line">템플릿 : 개발/테스트</span><br><span class="line">DB 인스턴스 식별자 : wpdb (현재 AWS 리전에서 AWS 계정이 소유하는 모든 DB 인스턴스에 대해 유일, 각자 편하게 설정)</span><br><span class="line">마스터 사용자 이름 : root</span><br><span class="line">마스터 암호(암호확인) : qwe12345</span><br><span class="line">DB 인스턴스 클래스 : 버스터블 클래스(t 클래스 포함) db.t2.micro (이전 세대 클래스 포함)</span><br><span class="line">다중 AZ 배포 : 대기 인스턴스 생성 </span><br><span class="line">VPC : WP-VPC1</span><br><span class="line">퍼블릭 액세스 가능 : 아니요</span><br><span class="line">VPC 보안 그룹 : ##-VPC1SG3-## 포함된것 선택 , 기본 default 는 제거</span><br><span class="line">추가 구성 : 클릭</span><br><span class="line">- 초기 데이터베이스 이름 : wordpressdb</span><br><span class="line">- DB 파라미터 그룹 : ##-mydbparametergroup-## 포함된것 선택 </span><br><span class="line">- 백업 보존 기간 : 1일</span><br><span class="line">- Enhanced 모니터링 활성화 (Uncheck)</span><br></pre></td></tr></table></figure>
+
+<br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료: AFOS[2기] 노션 내용</strong></p>
+
       
     </div>
     <footer class="article-footer">
@@ -203,7 +245,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/08/13/2021-08-13-AFOS-last-2/" target="_blank" title="">http://icebear2n2.github.io/2021/08/13/2021-08-13-AFOS-last-2/</a>
+          <a href="/2021/08/18/2021-08-18-AFOS-last-1/" target="_blank" title="[AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비">http://icebear2n2.github.io/2021/08/18/2021-08-18-AFOS-last-1/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -227,6 +269,8 @@
       
       
         
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
+
       
 
     </footer>
@@ -235,11 +279,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/08/18/2021-08-18-AFOS-RV/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/08/18/2021-08-18-AFOS-last-2/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          10주간 여정이였던 AFOS 2기 스터디 회고록
+          [AWS] 10주차 -2 AllInOne 인스턴스를 이용하여 CloudFront, ELB, S3(WP Offload Media Lite) 활용
         
       </div>
     </a>
@@ -261,7 +305,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-%ED%99%98%EA%B2%BD-%EC%86%8C%EA%B0%9C"><span class="nav-number">1.</span> <span class="nav-text">실습 환경 소개</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-%EA%B8%B0%EB%B3%B8-%ED%99%98%EA%B2%BD-%EB%B0%B0%ED%8F%AC"><span class="nav-number">2.</span> <span class="nav-text">실습 기본 환경 배포</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CloudFormation-%EC%8B%A4%EC%8A%B5-%EA%B8%B0%EB%B3%B8-%ED%99%98%EA%B2%BD-%EB%B0%B0%ED%8F%AC"><span class="nav-number">2.1.</span> <span class="nav-text">CloudFormation 실습 기본 환경 배포</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EB%B2%88-%EC%8B%A4%EC%8A%B5%EC%9D%84-%EC%9C%84%ED%95%9C-RDS-%EB%B0%B0%ED%8F%AC"><span class="nav-number">2.2.</span> <span class="nav-text">2번 실습을 위한 RDS 배포</span></a></li></ol></li></ol>
     
     </div>
   </aside>

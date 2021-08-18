@@ -3,28 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>[aws] 10주차 -1 wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비 | Sujeong&#39;s Blog</title>
+  <title>archives: 2021/8 | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="AFOS[2기]" />
   
   
   
-  
-  <meta name="description" content="실습 환경 소개최종 구성      CloudFront는 CDN 서비스와 기본 보안 기능(Anti-DDoS)을 제공한다 S3는 Wordpress 의 Upload(이미지 등) 파일들을 저장하고 사용자에게 제공한다 그 외 나머지 구성은 9주차와 동일 HA(고가용성) 구성으로 되어 있으며 일부 장애(AZ 장애, RDS 장애, Web EC2 장애 등)에 대응이 가능">
-<meta property="og:type" content="article">
-<meta property="og:title" content="[AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/08/18/2021-08-13-AFOS-last-1/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Sujeong&#39;s Blog">
+<meta property="og:url" content="http://icebear2n2.github.io/archives/2021/08/page/2/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="실습 환경 소개최종 구성      CloudFront는 CDN 서비스와 기본 보안 기능(Anti-DDoS)을 제공한다 S3는 Wordpress 의 Upload(이미지 등) 파일들을 저장하고 사용자에게 제공한다 그 외 나머지 구성은 9주차와 동일 HA(고가용성) 구성으로 되어 있으며 일부 장애(AZ 장애, RDS 장애, Web EC2 장애 등)에 대응이 가능">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://icebear2n2.github.io/css/images/AT12.png">
-<meta property="article:published_time" content="2021-08-18T13:30:00.000Z">
-<meta property="article:modified_time" content="2021-08-18T02:22:01.881Z">
 <meta property="article:author" content="Sujeong Hyeon">
-<meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/AT12.png">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -73,6 +64,8 @@
   
 
   
+    <link rel="stylesheet" href="/css/archive.css" >
+  
   
   
 
@@ -80,7 +73,7 @@
 
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+  <body>
 
 
   
@@ -103,7 +96,7 @@
             
               <a class="brand" style="
                  margin-top: 0px;"  
-                href="#" data-toggle="modal" data-target="#myModal" >
+                 >
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/SB_logo.PNG">
               </a>
             
@@ -174,136 +167,139 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-08-13-AFOS-last-1" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
+          <section id="main">
+  <div class="archives-tags-wrap"><blockquote><span>There are 47 posts in total till now.</span></blockquote>
+
+
+<!-- 分页显示 -->
+
+	
+	
+		
+		
+		  
+		  
+		  <section class="archives-wrap">
+		    <div class="archive-year-wrap">
+		      <h1><a href="/archives/2021" class="archive-year">2021</a></h1>
+		    </div>
+		    <div class="archives">
+		
+		<article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      
+	<a href="/2021/08/01/2021-08-01-CNCF-TUF/" class="archive-article-date">
+	  <time datetime="2021-08-01T12:41:34.337Z" itemprop="datePublished">2021-08-01</time>
+	</a>
+
+      
   
-    <h1 class="thumb" class="article-title" itemprop="name">
-      [AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2021/08/01/2021-08-01-CNCF-TUF/">CNCF Project - The Update Framework</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/08/18/2021-08-13-AFOS-last-1/" class="article-date">
-	  <time datetime="2021-08-18T13:30:00.000Z" itemprop="datePublished">2021-08-18</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/AWS/">AWS</a>
-
-      
-	<a class="article-views">
-	<span id="busuanzi_container_page_pv">
-		PV:<span id="busuanzi_value_page_pv"></span>
-	</span>
-	</a>
-
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="실습-환경-소개"><a href="#실습-환경-소개" class="headerlink" title="실습 환경 소개"></a>실습 환경 소개</h2><p>최종 구성</p>
-<img src="/css/images/AT12.png">
-<br/>
-<br/>
-
-<ul>
-<li>CloudFront는 CDN 서비스와 기본 보안 기능(Anti-DDoS)을 제공한다</li>
-<li>S3는 Wordpress 의 Upload(이미지 등) 파일들을 저장하고 사용자에게 제공한다</li>
-<li>그 외 나머지 구성은 9주차와 동일</li>
-<li>HA(고가용성) 구성으로 되어 있으며 일부 장애(AZ 장애, RDS 장애, Web EC2 장애 등)에 대응이 가능하다</li>
-<li>t2.micro(vCPU 1, Mem 1GiB) 는 WooCommerce 플러그인 설치 시 메모리 부족 등으로 설치 자체가 제대로 진행되지 않는다<br>따라서 설치가 가능한 최소 성능인 t3.medium(vCPU 2, Mem 4GiB)로 배포가 된다 1시간당 0.052 USD 비용이 부가된다</li>
-</ul>
-<h2 id="실습-기본-환경-배포"><a href="#실습-기본-환경-배포" class="headerlink" title="실습 기본 환경 배포"></a>실습 기본 환경 배포</h2><h3 id="CloudFormation-실습-기본-환경-배포"><a href="#CloudFormation-실습-기본-환경-배포" class="headerlink" title="CloudFormation 실습 기본 환경 배포"></a>CloudFormation 실습 기본 환경 배포</h3><p>클릭<br><a target="_blank" rel="noopener" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=WPHALab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FWordpress%2Faws-wp.yaml">https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=WPHALab&amp;templateURL=https:%2F%2Fs3.ap-northeast-2.amazonaws.com%2Fcloudformation.cloudneta.net%2FWordpress%2Faws-wp.yaml</a></p>
-<h3 id="2번-실습을-위한-RDS-배포"><a href="#2번-실습을-위한-RDS-배포" class="headerlink" title="2번 실습을 위한 RDS 배포"></a>2번 실습을 위한 RDS 배포</h3><p>WebSrv-Leader 인스턴스를 이용하여 Wordpress 초기 구성 - RDS DB 생성은 미리 하기 -&gt; 총 16분 정도 소요<br>RDS -&gt; 데이터베이스 생성 클릭 -&gt; 데이터베이스 생성 12분 정도 소요 -&gt; 백업본생성에 4분 정도 소요</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 별로 언급이 없는 부분은 기본값 설정</span><br><span class="line"></span><br><span class="line">생성 방식 : 표준 생성</span><br><span class="line">엔진 옵션 : MySQL</span><br><span class="line">템플릿 : 개발/테스트</span><br><span class="line">DB 인스턴스 식별자 : wpdb (현재 AWS 리전에서 AWS 계정이 소유하는 모든 DB 인스턴스에 대해 유일, 각자 편하게 설정)</span><br><span class="line">마스터 사용자 이름 : root</span><br><span class="line">마스터 암호(암호확인) : qwe12345</span><br><span class="line">DB 인스턴스 클래스 : 버스터블 클래스(t 클래스 포함) db.t2.micro (이전 세대 클래스 포함)</span><br><span class="line">다중 AZ 배포 : 대기 인스턴스 생성 </span><br><span class="line">VPC : WP-VPC1</span><br><span class="line">퍼블릭 액세스 가능 : 아니요</span><br><span class="line">VPC 보안 그룹 : ##-VPC1SG3-## 포함된것 선택 , 기본 default 는 제거</span><br><span class="line">추가 구성 : 클릭</span><br><span class="line">- 초기 데이터베이스 이름 : wordpressdb</span><br><span class="line">- DB 파라미터 그룹 : ##-mydbparametergroup-## 포함된것 선택 </span><br><span class="line">- 백업 보존 기간 : 1일</span><br><span class="line">- Enhanced 모니터링 활성화 (Uncheck)</span><br></pre></td></tr></table></figure>
-
-<br/>
-<br/>
-<br/>
-
-<hr/>
-
-<p><strong>참고 자료: AFOS[2기] 노션 내용</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      <div>
-        <ul class="post-copyright">
-          <li class="post-copyright-author">
-          <strong>Post author:  </strong>Sujeong Hyeon</a>
-          </li>
-          <li class="post-copyright-link">
-          <strong>Post link:  </strong>
-          <a href="/2021/08/18/2021-08-13-AFOS-last-1/" target="_blank" title="[AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비">http://icebear2n2.github.io/2021/08/18/2021-08-13-AFOS-last-1/</a>
-          </li>
-          <li class="post-copyright-license">
-            <strong>Copyright Notice:   </strong>
-            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
-            unless stating additionally.
-          </li>
-         
-        </ul>
-<div>
-
-      
-      
-        <script src="https://utteranc.es/client.js"
-        repo="icebear2n2/Blog-comment"
-        issue-term="pathname"
-        label="Comments"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-</script>
-      
-      
-        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a></li></ul>
-
-      
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2021/08/18/2021-08-18-AFOS-RV/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">10주간 여정이였던 AFOS 2기 스터디 회고록</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+	
+	
+		</div></section>
+	
 
-<!-- Table of Contents -->
+	<!-- 页数指示器 -->
+	
+	  <nav id="page-nav">
+	    
+	    <a class="extend prev" rel="prev" href="/archives/2021/08/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2021/08/">1</a><span class="page-number current">2</span>
+	  </nav>
+	
 
-  <aside id="toc-sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-%ED%99%98%EA%B2%BD-%EC%86%8C%EA%B0%9C"><span class="nav-number">1.</span> <span class="nav-text">실습 환경 소개</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%8B%A4%EC%8A%B5-%EA%B8%B0%EB%B3%B8-%ED%99%98%EA%B2%BD-%EB%B0%B0%ED%8F%AC"><span class="nav-number">2.</span> <span class="nav-text">실습 기본 환경 배포</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CloudFormation-%EC%8B%A4%EC%8A%B5-%EA%B8%B0%EB%B3%B8-%ED%99%98%EA%B2%BD-%EB%B0%B0%ED%8F%AC"><span class="nav-number">2.1.</span> <span class="nav-text">CloudFormation 실습 기본 환경 배포</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EB%B2%88-%EC%8B%A4%EC%8A%B5%EC%9D%84-%EC%9C%84%ED%95%9C-RDS-%EB%B0%B0%ED%8F%AC"><span class="nav-number">2.2.</span> <span class="nav-text">2번 실습을 위한 RDS 배포</span></a></li></ol></li></ol>
-    
-    </div>
-  </aside>
 
 
 
 </section>
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Connect</h3>
+    <div class="widget widget_athemes_social_icons">
+
+    	<ul class="clearfix widget-social-icons">   
+    	
+          
+     			  <li><a target="_blank" rel="noopener" href="https://github.com/icebear2n2" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a></li> 
+          
+   		
+          
+     			  <li><a href="icebear2n2" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a></li> 
+          
+   		
+          
+            <li><a href="mailto:icebear2n2@gmail.com?subject=请联系我&body=我能帮你什么" title="email"><i class="fa fa-envelope" aria-hidden="true"></i></a></li> 
+          
+   		
+   		</ul>
+
+
+   		<!--
+   		<ul class="clearfix widget-social-icons">   		
+   		<li class="widget-si-twitter"><a target="_blank" rel="noopener" href="http://twitter.com" title="Twitter"><i class="ico-twitter"></i></a></li> 
+		<li class="widget-si-facebook"><a target="_blank" rel="noopener" href="http://facebook.com" title="Facebook"><i class="ico-facebook"></i></a></li>
+			<li class="widget-si-gplus"><a target="_blank" rel="noopener" href="http://plus.google.com" title="Google+"><i class="ico-gplus"></i></a></li>
+			<li class="widget-si-pinterest"><a target="_blank" rel="noopener" href="http://pinterest.com" title="Pinterest"><i class="ico-pinterest"></i></a></li>
+			<li class="widget-si-flickr"><a target="_blank" rel="noopener" href="http://flickr.com" title="Flickr"><i class="ico-flickr"></i></a></li>
+			<li class="widget-si-instagram"><a target="_blank" rel="noopener" href="http://instagram.com" title="Instagram"><i class="ico-instagram"></i></a></li>
+		</ul> -->
+
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AWS/">AWS</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CNCF/">CNCF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CNCF-Graduated-Projects/">CNCF[Graduated Projects]</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Terraform/">Terraform</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AFOS-2%EA%B8%B0/" rel="tag">AFOS[2기]</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CNCF/" rel="tag">CNCF</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Containerd/" rel="tag">Containerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CoreDNS/" rel="tag">CoreDNS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Envoy/" rel="tag">Envoy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fluentd/" rel="tag">Fluentd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Harbor/" rel="tag">Harbor</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Helm/" rel="tag">Helm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jaeger/" rel="tag">Jaeger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Open-Policy-Agent/" rel="tag">Open Policy Agent</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rook/" rel="tag">Rook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Terraform/" rel="tag">Terraform</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/The-Update-Framework/" rel="tag">The Update Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TiKV/" rel="tag">TiKV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vitess/" rel="tag">Vitess</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/etcd/" rel="tag">etcd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/" rel="tag">tmux</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AFOS-2%EA%B8%B0/" style="font-size: 20px;">AFOS[2기]</a> <a href="/tags/CNCF/" style="font-size: 10px;">CNCF</a> <a href="/tags/Containerd/" style="font-size: 10px;">Containerd</a> <a href="/tags/CoreDNS/" style="font-size: 10px;">CoreDNS</a> <a href="/tags/Envoy/" style="font-size: 10px;">Envoy</a> <a href="/tags/Fluentd/" style="font-size: 10px;">Fluentd</a> <a href="/tags/Harbor/" style="font-size: 10px;">Harbor</a> <a href="/tags/Helm/" style="font-size: 10px;">Helm</a> <a href="/tags/Jaeger/" style="font-size: 10px;">Jaeger</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Linkerd/" style="font-size: 10px;">Linkerd</a> <a href="/tags/Open-Policy-Agent/" style="font-size: 10px;">Open Policy Agent</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Rook/" style="font-size: 10px;">Rook</a> <a href="/tags/Terraform/" style="font-size: 10px;">Terraform</a> <a href="/tags/The-Update-Framework/" style="font-size: 10px;">The Update Framework</a> <a href="/tags/TiKV/" style="font-size: 10px;">TiKV</a> <a href="/tags/Vitess/" style="font-size: 10px;">Vitess</a> <a href="/tags/etcd/" style="font-size: 10px;">etcd</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
         
       </div>
       
@@ -405,10 +401,6 @@
 
 
 
-  
-<script src="/js/dialog.js"></script>
-
-
 
 
 <!-- Google Analytics -->
@@ -505,8 +497,6 @@ ga('send', 'pageview');
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-  
-    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>
