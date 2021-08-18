@@ -11,16 +11,43 @@
   
   
   
-  <meta property="og:type" content="article">
+  <meta name="description" content="전편에서 생성한 RDS 엔드포인트(접속 주소) 메모하기 RDS 생성 후 구성 탭 메뉴에서 다중 AZ와 보조 영역 확인 ALB에 WevSrv-Leader 인스턴스 대상 등록 ALB-TG 클릭 Register targets 클릭 인스턴스 체크 후 -&gt; Include as pending below 클릭 Register pending targets 클릭 추가">
+<meta property="og:type" content="article">
 <meta property="og:title" content="[AWS] 10주차 -3 WebSrv-Leader 인스턴스를 이용하여 Wordpress 초기 구성">
 <meta property="og:url" content="http://icebear2n2.github.io/2021/08/18/2021-08-18-AFOS-last-3/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="전편에서 생성한 RDS 엔드포인트(접속 주소) 메모하기 RDS 생성 후 구성 탭 메뉴에서 다중 AZ와 보조 영역 확인 ALB에 WevSrv-Leader 인스턴스 대상 등록 ALB-TG 클릭 Register targets 클릭 인스턴스 체크 후 -&gt; Include as pending below 클릭 Register pending targets 클릭 추가">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845046-289897cd-44d2-4cc9-9b0e-a2eca20e37b3.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845047-4de7d3e6-5a32-4678-956b-c118b31a5152.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845049-9f646b6a-5039-4f68-91ac-3fe80c28c5c2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845051-dd6d2068-f567-47cf-9149-e5bfb10c85db.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845056-4692c2c5-c028-4975-ad00-a35d3f48045a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845058-e9b070d3-516e-4918-8531-c01d8a3b2086.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845059-72e611f2-3609-4ec5-9978-2a114fada6ee.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845062-08c5fda8-4938-4bec-9f6b-d3b72c078d89.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845064-d94d8f36-b8a2-465e-b786-355fc3c45009.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845066-2854d650-b054-48d3-8bf7-a326ba081859.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845067-09fad6f7-96c4-4762-b5ca-bba6a4b20d02.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845069-a1321d89-4a88-402a-8f5e-0e2001e1e9e0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845070-1dacdc5f-9f89-44aa-893b-7235a9c9619f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845073-b6b4969c-a276-4fa7-863b-dc205c9edc2a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845075-5b77f9c1-9cac-45fc-8531-2a39fb682314.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845079-13935f2e-71a3-4df5-a749-b95d82a115c4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845082-0b680064-1d1b-46fb-907a-5e665b5b58a1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845086-b6e3edfc-98d5-4a5d-b108-87cb5a2884cf.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845089-01b252f1-cd11-4309-bf56-311c16d4e754.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845092-54c8bec6-407e-4d17-839d-84beec20ee2a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845094-1146e484-0104-4927-b1e5-70d786144e6d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845097-608b17d6-cc32-4419-9c4c-dabb52d40c80.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845108-7599ee50-5ec2-458e-affa-9cdc73dbc4a7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/87232411/129845112-3cea0bdb-7d8d-46bb-9ee8-341d04ec9690.png">
 <meta property="article:published_time" content="2021-08-18T05:30:00.000Z">
-<meta property="article:modified_time" content="2021-08-18T05:30:50.244Z">
+<meta property="article:modified_time" content="2021-08-18T06:23:11.974Z">
 <meta property="article:author" content="Sujeong Hyeon">
 <meta property="article:tag" content="AFOS[2기]">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/87232411/129845046-289897cd-44d2-4cc9-9b0e-a2eca20e37b3.png">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -205,7 +232,52 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>전편에서 생성한 RDS 엔드포인트(접속 주소) 메모하기</p>
+<p>RDS 생성 후 <code>구성</code> 탭 메뉴에서 <code>다중 AZ와 보조 영역</code> 확인<br><img width="244" alt="스크린샷 2021-08-18 오후 2 39 24" src="https://user-images.githubusercontent.com/87232411/129845046-289897cd-44d2-4cc9-9b0e-a2eca20e37b3.png"></p>
+<p>ALB에 WevSrv-Leader 인스턴스 대상 등록</p>
+<p><code>ALB-TG</code> 클릭<br><img width="223" alt="스크린샷 2021-08-18 오후 2 39 47" src="https://user-images.githubusercontent.com/87232411/129845047-4de7d3e6-5a32-4678-956b-c118b31a5152.png"></p>
+<p><code>Register targets</code> 클릭<br><img width="244" alt="스크린샷 2021-08-18 오후 2 39 58" src="https://user-images.githubusercontent.com/87232411/129845049-9f646b6a-5039-4f68-91ac-3fe80c28c5c2.png"></p>
+<p>인스턴스 체크 후 -&gt; <code>Include as pending below</code> 클릭<br><img width="1399" alt="스크린샷 2021-08-18 오후 2 40 06" src="https://user-images.githubusercontent.com/87232411/129845051-dd6d2068-f567-47cf-9149-e5bfb10c85db.png"></p>
+<p><code>Register pending targets</code> 클릭<br><img width="1392" alt="스크린샷 2021-08-18 오후 2 40 15" src="https://user-images.githubusercontent.com/87232411/129845056-4692c2c5-c028-4975-ad00-a35d3f48045a.png"></p>
+<p>추가 되었습니다<br><img width="1160" alt="스크린샷 2021-08-18 오후 2 40 27" src="https://user-images.githubusercontent.com/87232411/129845058-e9b070d3-516e-4918-8531-c01d8a3b2086.png"></p>
+<p>EFS 생성 확인<br><img width="426" alt="스크린샷 2021-08-18 오후 2 40 50" src="https://user-images.githubusercontent.com/87232411/129845059-72e611f2-3609-4ec5-9978-2a114fada6ee.png"></p>
+<p>WebSrv-Leader 인스턴스 SSH 접속 후 정보 확인 및 DB 주소 설정</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sudo su -</span><br><span class="line"></span><br><span class="line"><span class="comment"># EFS 파일시스템 마운트 확인</span></span><br><span class="line">df -hT |egrep <span class="string">&#x27;(File|nfs)&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># RDS 엔드포인트를 변수에 지정</span></span><br><span class="line">RDS=엔드포인트.rds.amazonaws.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># wp-config.php 파일에 DB 주소를 RDS 엔드포인트로 설정</span></span><br><span class="line">sed -i <span class="string">&quot;s/localhost/<span class="variable">$RDS</span>/g&quot;</span> /var/www/wordpress/wp-config.php</span><br><span class="line"></span><br><span class="line">grep -n DB_HOST /var/www/wordpress/wp-config.php</span><br><span class="line"></span><br><span class="line"><span class="comment"># DB 접속 테스트</span></span><br><span class="line">mysql -h <span class="variable">$RDS</span> -uroot -pqwe12345 -e <span class="string">&#x27;show databases;&#x27;</span></span><br><span class="line">mysql -h <span class="variable">$RDS</span> -uroot -pqwe12345</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># dig 조회</span></span><br><span class="line">dig +short <span class="variable">$RDS</span></span><br></pre></td></tr></table></figure>
+<img width="690" alt="스크린샷 2021-08-18 오후 2 44 26" src="https://user-images.githubusercontent.com/87232411/129845062-08c5fda8-4938-4bec-9f6b-d3b72c078d89.png">
+<img width="692" alt="스크린샷 2021-08-18 오후 2 45 49" src="https://user-images.githubusercontent.com/87232411/129845064-d94d8f36-b8a2-465e-b786-355fc3c45009.png">
+<img width="686" alt="스크린샷 2021-08-18 오후 2 46 28" src="https://user-images.githubusercontent.com/87232411/129845066-2854d650-b054-48d3-8bf7-a326ba081859.png">
+
+
+<img width="594" alt="스크린샷 2021-08-18 오후 2 46 54" src="https://user-images.githubusercontent.com/87232411/129845067-09fad6f7-96c4-4762-b5ca-bba6a4b20d02.png">
+
+
+<img width="335" alt="스크린샷 2021-08-18 오후 2 47 14" src="https://user-images.githubusercontent.com/87232411/129845069-a1321d89-4a88-402a-8f5e-0e2001e1e9e0.png">
+
+<p>WebSrv-Leader 퍼블릭 IP주소로 접속</p>
+<img width="1369" alt="스크린샷 2021-08-18 오후 2 48 05" src="https://user-images.githubusercontent.com/87232411/129845070-1dacdc5f-9f89-44aa-893b-7235a9c9619f.png">
+Wordpress 관리자 설정
+
+<img width="802" alt="스크린샷 2021-08-18 오후 2 48 21" src="https://user-images.githubusercontent.com/87232411/129845073-b6b4969c-a276-4fa7-863b-dc205c9edc2a.png">
+로그인
+
+<img width="565" alt="스크린샷 2021-08-18 오후 2 48 41" src="https://user-images.githubusercontent.com/87232411/129845075-5b77f9c1-9cac-45fc-8531-2a39fb682314.png">
+설정 클릭
+
+<img width="142" alt="스크린샷 2021-08-18 오후 2 49 09" src="https://user-images.githubusercontent.com/87232411/129845079-13935f2e-71a3-4df5-a749-b95d82a115c4.png">
+
+<p>CloudFront Domain 주소로 변경 (https -&gt; http)</p>
+<img width="666" alt="스크린샷 2021-08-18 오후 2 49 38" src="https://user-images.githubusercontent.com/87232411/129845082-0b680064-1d1b-46fb-907a-5e665b5b58a1.png">
+
+<p><code>변경사항 저장</code> 클릭<br><img width="201" alt="스크린샷 2021-08-18 오후 2 49 43" src="https://user-images.githubusercontent.com/87232411/129845086-b6e3edfc-98d5-4a5d-b108-87cb5a2884cf.png"></p>
+<p>글 -&gt; 새로 추가 클릭<br><img width="216" alt="스크린샷 2021-08-18 오후 2 50 29" src="https://user-images.githubusercontent.com/87232411/129845089-01b252f1-cd11-4309-bf56-311c16d4e754.png"></p>
+<p>글 작성 후 -&gt; <code>공개</code> 클릭<br><img width="238" alt="스크린샷 2021-08-18 오후 2 52 08" src="https://user-images.githubusercontent.com/87232411/129845092-54c8bec6-407e-4d17-839d-84beec20ee2a.png"></p>
+<p><code>공개</code> 클릭<br><img width="296" alt="스크린샷 2021-08-18 오후 2 52 12" src="https://user-images.githubusercontent.com/87232411/129845094-1146e484-0104-4927-b1e5-70d786144e6d.png"></p>
+<p>쨔잔<br><img width="1438" alt="스크린샷 2021-08-18 오후 2 52 33" src="https://user-images.githubusercontent.com/87232411/129845097-608b17d6-cc32-4419-9c4c-dabb52d40c80.png"></p>
+<h2 id="다음-실습을-위해-할-사항"><a href="#다음-실습을-위해-할-사항" class="headerlink" title="다음 실습을 위해 할 사항"></a>다음 실습을 위해 할 사항</h2><p>ALB 대상 그룹에 인스턴스(WebSrv Leader) 등록 취소<br><img width="1171" alt="스크린샷 2021-08-18 오후 2 53 53" src="https://user-images.githubusercontent.com/87232411/129845108-7599ee50-5ec2-458e-affa-9cdc73dbc4a7.png"><br><img width="1153" alt="스크린샷 2021-08-18 오후 2 54 18" src="https://user-images.githubusercontent.com/87232411/129845112-3cea0bdb-7d8d-46bb-9ee8-341d04ec9690.png"><br><br/><br><br/><br><br/></p>
+<hr/>
+
+<p><strong>참고 자료: AFOS[2기] 노션 내용</strong></p>
+
       
     </div>
     <footer class="article-footer">
@@ -278,7 +350,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav">None</ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%8B%A4%EC%9D%8C-%EC%8B%A4%EC%8A%B5%EC%9D%84-%EC%9C%84%ED%95%B4-%ED%95%A0-%EC%82%AC%ED%95%AD"><span class="nav-number">1.</span> <span class="nav-text">다음 실습을 위해 할 사항</span></a></li></ol>
     
     </div>
   </aside>
