@@ -192,6 +192,127 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-2021-08-18-AFOS-last-1"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/08/18/2021-08-18-AFOS-last-1/">[AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/08/18/2021-08-18-AFOS-last-1/" class="article-date">
+	  <time datetime="2021-08-18T03:30:00.000Z" itemprop="datePublished">2021-08-18</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          실습 환경 소개최종 구성
+
+
+
+
+
+CloudFront는 CDN 서비스와 기본 보안 기능(Anti-DDoS)을 제공한다
+S3는 Wordpress 의 Upload(이미지 등) 파일들을 저장하고 사용자에게 제공한다
+그 외 나머지 구성은 9주차와 동일
+HA(고가용성) 구성으로 되어 있으며 일부 장애(AZ 장애, RDS 장애, Web EC2 장애 등)에 대응이 가능하다
+t2.micro(vCPU 1, Mem 1GiB) 는 WooCommerce 플러그...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/08/18/2021-08-18-AFOS-last-1/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-2021-08-04-AFOS-4"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2021/08/05/2021-08-04-AFOS-4/">[AWS] 9주차-4 Wordpress &amp; WooCommerce  웹서버(EFS) &amp; AWS RDS 구성 실습</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2021/08/05/2021-08-04-AFOS-4/" class="article-date">
+	  <time datetime="2021-08-04T15:30:00.000Z" itemprop="datePublished">2021-08-05</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AWS/">AWS</a>
+
+      
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          1대 EC2(EFS)와 AWS RDS(DB)로 구성 : Web/PHP 인스턴스 + AWS RDS(DB)로 구성
+WebSrv2: 10.1.1.20 + EFS(/var/www/wordpress)
+AWS RDS
+
+RDS =&gt; 데이터베이스 생성 클릭
+MySQL 선택
+프리티어
+123DB 인스턴스 식별자 : wpdb (현재 AWS 리전에서 AWS 계정이 소유하는 모든 DB 인스턴스에 대해 유일, 각자 편하게 설정)마스터 사용자 이름 : root...
+        </p>
+        <p class="article-more-link">
+          <a href="/2021/08/05/2021-08-04-AFOS-4/#more">Read More</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-2021-08-04-AFOS-3"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -659,131 +780,6 @@ Prometheus 핵심 기능
         </p>
         <p class="article-more-link">
           <a href="/2021/07/30/2021-07-30-CNCF-Prometheus/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-2021-07-29-CNCF-Linkerd"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/07/29/2021-07-29-CNCF-Linkerd/">CNCF Project - Linkerd</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/07/29/2021-07-29-CNCF-Linkerd/" class="article-date">
-	  <time datetime="2021-07-29T12:46:24.216Z" itemprop="datePublished">2021-07-29</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/CNCF-Graduated-Projects/">CNCF[Graduated Projects]</a>
-
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          
-
-
-
-
-Linkerd란?Linkerd는 k8s용 서비스 메시이다.코드 변경없이 런타임 디버깅, observability, 안정성 및 보안을 제공하여 서비스를 더 쉽고 안전하게 실행할 수 있다.
-서비스 메시(Service Mesh): 서비스 간 통신을 추상화하여 안전하고, 빠르고 신뢰할 수 있게 만드는 전용 InfraStructure Layer이다.
-
-
-참고 자료: https://linkerd.io/2.10/overview/, https:...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/07/29/2021-07-29-CNCF-Linkerd/#more">Read More</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-2021-07-28-Linux"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2021/07/28/2021-07-28-Linux/">tmux 명령어 정리</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/07/28/2021-07-28-Linux/" class="article-date">
-	  <time datetime="2021-07-28T14:29:05.910Z" itemprop="datePublished">2021-07-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-
-      
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          
-
-
-설치MAC OS1brew install tmux
-
-Ubuntu123# Debian based (Ubuntu)sudo apt-get install tmux
-
-tmux는 각 터미널 인터페이스를 세션, 창의 세 가지 범주로 구분한다여러 인터페이스를 세 개의 다른 레이어로 분리함으로써 작업 공간을 더 잘 구성할 수 있다
-
-
-tmux 명령어&lt;Ctrl-b&gt; &quot; : 가로로 분할
-&lt;Ctrl-b&gt; % : 세로로 분할
-&...
-        </p>
-        <p class="article-more-link">
-          <a href="/2021/07/28/2021-07-28-Linux/#more">Read More</a>
         </p>
       
     </div>
