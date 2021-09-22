@@ -3,25 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>jsx 개념 | Sujeong&#39;s Blog</title>
+  <title>tag: shell | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="JSX" />
   
   
   
-  
-  <meta name="description" content="JSX란 ?자바스크립트의 확장 문법, XML과 매우 비슷하게 생겼다. 이런 형식으로 작성한 코드는 브라우저에서 실행되기 전에 코드가 번들링되는 과정에서 바벨을 사용하여 일반 자바스크립트 형태의 코드로 변환된다. 123456789# JSXfunction App()&amp;#123;  return (  	&lt;div&gt;    Hello &lt;b&gt;React">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JSX 개념">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/09/22/2021-09-22-React-JSX/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Sujeong&#39;s Blog">
+<meta property="og:url" content="http://icebear2n2.github.io/tags/shell/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="JSX란 ?자바스크립트의 확장 문법, XML과 매우 비슷하게 생겼다. 이런 형식으로 작성한 코드는 브라우저에서 실행되기 전에 코드가 번들링되는 과정에서 바벨을 사용하여 일반 자바스크립트 형태의 코드로 변환된다. 123456789# JSXfunction App()&amp;#123;  return (  	&lt;div&gt;    Hello &lt;b&gt;React">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-09-22T04:30:00.000Z">
-<meta property="article:modified_time" content="2021-09-22T04:37:18.917Z">
 <meta property="article:author" content="Sujeong Hyun">
-<meta property="article:tag" content="JSX">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
@@ -71,6 +64,8 @@
   
 
   
+    <link rel="stylesheet" href="/css/archive.css" >
+  
   
   
 
@@ -78,7 +73,7 @@
 
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+  <body>
 
 
   
@@ -101,7 +96,7 @@
             
               <a class="brand" style="
                  margin-top: 0px;"  
-                href="#" data-toggle="modal" data-target="#myModal" >
+                 >
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/SB_logo.PNG">
               </a>
             
@@ -172,142 +167,42 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-09-22-React-JSX" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
+          <section id="main" style="float:none;">
   
-    <h1 class="thumb" class="article-title" itemprop="name">
-      JSX 개념
+  
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <h1><a href="/archives/2021" class="archive-year">2021</a></h1>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      
+	<a href="/2021/09/22/2021-09-22-Linux-Shell/" class="archive-article-date">
+	  <time datetime="2021-09-22T13:10:00.000Z" itemprop="datePublished">2021-09-22</time>
+	</a>
+
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2021/09/22/2021-09-22-Linux-Shell/">Shell이란 무엇인가</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2021/09/22/2021-09-22-React-JSX/" class="article-date">
-	  <time datetime="2021-09-22T04:30:00.000Z" itemprop="datePublished">2021-09-22</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/React/">React</a>
-
-      
-	<a class="article-views">
-	<span id="busuanzi_container_page_pv">
-		PV:<span id="busuanzi_value_page_pv"></span>
-	</span>
-	</a>
-
-      
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="JSX란"><a href="#JSX란" class="headerlink" title="JSX란 ?"></a>JSX란 ?</h1><p>자바스크립트의 확장 문법, XML과 매우 비슷하게 생겼다.</p>
-<p>이런 형식으로 작성한 코드는 브라우저에서 실행되기 전에 코드가 번들링되는 과정에서 바벨을 사용하여 일반 자바스크립트 형태의 코드로 변환된다.</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># JSX</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">  	<span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    Hello <span class="tag">&lt;<span class="name">b</span>&gt;</span>React<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>위 코드는 다음과 같이 변환된다.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function App() &#123;</span><br><span class="line">	return React.createElement(&quot;div&quot;, null, &quot;Hello&quot;, React.createElement(&quot;b&quot;, null, &quot;react&quot;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>JSX를 사용하면 매우 편하게 UI를 렌더링할 수 있다.</p>
-<h2 id="그러면-JSX도-자바스크립트-문법일까"><a href="#그러면-JSX도-자바스크립트-문법일까" class="headerlink" title="그러면 JSX도 자바스크립트 문법일까?"></a>그러면 JSX도 자바스크립트 문법일까?</h2><p>JSX는 리액트로 프로젝트를 개발할 때 사용되므로 공식적인 자바스크립트 문법이 아니다.</p>
-<p>바벨을 통해 개발자들이 임의로 만든 문법, 혹은 차기 자바스크립트의 문법을 사용할 수 있다.</p>
-<h2 id="장점"><a href="#장점" class="headerlink" title="장점"></a>장점</h2><p>보기 쉽고 익숙하다.</p>
-<p>JSX에서는 우리가 알고 있는 div나 span 같은 HTML 태그를 사용할 수 있을 뿐만 아니라, 앞으로 만들 컴포넌트도 JSX 안에서 작성할 수 있어서 활용도가 높다.</p>
-<br/>
-<br/>
-<br/>
-
-<hr/>
-
-<p><strong>참고 자료: <a target="_blank" rel="noopener" href="http://www.yes24.com/Product/Goods/78233628">리액트를 다루는 기술</a></strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      <div>
-        <ul class="post-copyright">
-          <li class="post-copyright-author">
-          <strong>Post author:  </strong>Sujeong Hyun</a>
-          </li>
-          <li class="post-copyright-link">
-          <strong>Post link:  </strong>
-          <a href="/2021/09/22/2021-09-22-React-JSX/" target="_blank" title="JSX 개념">http://icebear2n2.github.io/2021/09/22/2021-09-22-React-JSX/</a>
-          </li>
-          <li class="post-copyright-license">
-            <strong>Copyright Notice:   </strong>
-            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
-            unless stating additionally.
-          </li>
-         
-        </ul>
-<div>
-
-      
-      
-        <script src="https://utteranc.es/client.js"
-        repo="icebear2n2/Blog-comment"
-        issue-term="pathname"
-        label="Comments"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-</script>
-      
-      
-        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSX/" rel="tag">JSX</a></li></ul>
-
-      
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2021/09/22/2021-09-22-Linux-Shell/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Shell이란 무엇인가
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2021/09/22/2021-09-22-React-VirtualDOM/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Virtual DOM</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
-<!-- Table of Contents -->
-
-  <aside id="toc-sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JSX%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">JSX란 ?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B7%B8%EB%9F%AC%EB%A9%B4-JSX%EB%8F%84-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EB%AC%B8%EB%B2%95%EC%9D%BC%EA%B9%8C"><span class="nav-number">1.1.</span> <span class="nav-text">그러면 JSX도 자바스크립트 문법일까?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EC%9E%A5%EC%A0%90"><span class="nav-number">1.2.</span> <span class="nav-text">장점</span></a></li></ol></li></ol>
-    
-    </div>
-  </aside>
-
+  
+  
+    </div></section>
+  
 
 
 </section>
@@ -412,10 +307,6 @@
 
 
 
-  
-<script src="/js/dialog.js"></script>
-
-
 
 
 <!-- Google Analytics -->
@@ -512,8 +403,6 @@ ga('send', 'pageview');
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-  
-    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>
