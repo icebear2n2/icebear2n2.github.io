@@ -3,26 +3,28 @@
 <head>
   <meta charset="utf-8">
   
-  <title>shell이란 무엇인가 | Sujeong&#39;s Blog</title>
+  <title>docker란? | Sujeong&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="shell" />
+  <meta name="keywords" content="Docker" />
   
   
   
   
-  <meta name="description" content="쉘이란?키보드로 입력한 명령어를 운영체제에 전달하여 이 명령어를 실행하게 하는 프로그램 대부분의 리눅스 배포판은 bash라고 하는 GNU 프로젝트의 쉘 프로그램을 제공 bash &#x3D; Bourne Again Shell의 약어, 유닉스 쉘 프로그램인 sh의 확장판이라는 의미를 담고 있다     터미널 윈도우에서 복사와 붙여넣기를 하기 위해서 ctrl -C 와 c">
+  <meta name="description" content="Docker란 ?리눅스 컨테이너에 여러 기능을 추가함으로써 애플리케이션을 컨테이너로서 좀 더 쉽게 사용할 수 있게 만들어진 오픈 소스 프로젝트 도커는 Go언어로 작성되었으며, 기존에 쓰이던 가상화 방법인 가상 머신과는 달리 도커 컨테이너는 성능의 손실이 거의 없어서 차세대 클라우드 인프라 솔루션으로서 많은 개발자들에게 주목받고 있다. 도커와 관련된 프로젝트">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Shell이란 무엇인가">
-<meta property="og:url" content="http://icebear2n2.github.io/2021/09/22/2021-09-22-Linux-Shell/index.html">
+<meta property="og:title" content="Docker란?">
+<meta property="og:url" content="http://icebear2n2.github.io/2021/09/22/2021-09-22-Docker/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="쉘이란?키보드로 입력한 명령어를 운영체제에 전달하여 이 명령어를 실행하게 하는 프로그램 대부분의 리눅스 배포판은 bash라고 하는 GNU 프로젝트의 쉘 프로그램을 제공 bash &#x3D; Bourne Again Shell의 약어, 유닉스 쉘 프로그램인 sh의 확장판이라는 의미를 담고 있다     터미널 윈도우에서 복사와 붙여넣기를 하기 위해서 ctrl -C 와 c">
+<meta property="og:description" content="Docker란 ?리눅스 컨테이너에 여러 기능을 추가함으로써 애플리케이션을 컨테이너로서 좀 더 쉽게 사용할 수 있게 만들어진 오픈 소스 프로젝트 도커는 Go언어로 작성되었으며, 기존에 쓰이던 가상화 방법인 가상 머신과는 달리 도커 컨테이너는 성능의 손실이 거의 없어서 차세대 클라우드 인프라 솔루션으로서 많은 개발자들에게 주목받고 있다. 도커와 관련된 프로젝트">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-09-22T13:10:00.000Z">
-<meta property="article:modified_time" content="2021-09-22T14:37:56.071Z">
+<meta property="og:image" content="http://icebear2n2.github.io/css/images/docker.png">
+<meta property="article:published_time" content="2021-09-22T14:30:00.000Z">
+<meta property="article:modified_time" content="2021-09-22T14:35:39.181Z">
 <meta property="article:author" content="Sujeong Hyun">
-<meta property="article:tag" content="shell">
+<meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://icebear2n2.github.io/css/images/docker.png">
   
     <link rel="alternate" href="/atom.xml" title="Sujeong&#39;s Blog" type="application/atom+xml">
   
@@ -172,7 +174,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-2021-09-22-Linux-Shell" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-2021-09-22-Docker" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -180,7 +182,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Shell이란 무엇인가
+      Docker란?
     </h1>
   
 
@@ -188,12 +190,12 @@
     
     <div class="article-meta">
       
-	<a href="/2021/09/22/2021-09-22-Linux-Shell/" class="article-date">
-	  <time datetime="2021-09-22T13:10:00.000Z" itemprop="datePublished">2021-09-22</time>
+	<a href="/2021/09/22/2021-09-22-Docker/" class="article-date">
+	  <time datetime="2021-09-22T14:30:00.000Z" itemprop="datePublished">2021-09-22</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/Docker/">Docker</a>
 
       
 	<a class="article-views">
@@ -207,31 +209,28 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="쉘이란"><a href="#쉘이란" class="headerlink" title="쉘이란?"></a>쉘이란?</h1><p>키보드로 입력한 명령어를 운영체제에 전달하여 이 명령어를 실행하게 하는 프로그램</p>
-<p>대부분의 리눅스 배포판은 bash라고 하는 GNU 프로젝트의 쉘 프로그램을 제공</p>
-<p>bash = <strong>Bourne Again Shell</strong>의 약어, 유닉스 쉘 프로그램인 <strong>sh의 확장판</strong>이라는 의미를 담고 있다</p>
+        <h2 id="Docker란"><a href="#Docker란" class="headerlink" title="Docker란 ?"></a>Docker란 ?</h2><p>리눅스 컨테이너에 여러 기능을 추가함으로써 애플리케이션을 컨테이너로서 좀 더 쉽게 사용할 수 있게 만들어진 오픈 소스 프로젝트</p>
+<p>도커는 Go언어로 작성되었으며, 기존에 쓰이던 가상화 방법인 가상 머신과는 달리 도커 컨테이너는 성능의 손실이 거의 없어서 차세대 클라우드 인프라 솔루션으로서 많은 개발자들에게 주목받고 있다.</p>
+<p>도커와 관련된 프로젝트는 여러 가지가 있지만, 일반적으로 도커라고 하면 <strong>도커 엔진(Docker Engine) 혹은 도커에 관련된 모든 프로젝트를 의미</strong>한다</p>
+<p>보통 도커 엔진이라는 의미로 더 많이 쓰이는데 <strong>도커 엔진은 컨테이너를 생성하고 관리하는 주체로서 이 자체로도 컨테이너를 제어할 수 있고, 다양한 기능을 제공하는 도커의 주 프로젝트</strong>이기 때문이다.</p>
+<h2 id="가상-머신과-도커-컨테이너"><a href="#가상-머신과-도커-컨테이너" class="headerlink" title="가상 머신과 도커 컨테이너"></a>가상 머신과 도커 컨테이너</h2><img src="/css/images/docker.png">
+
+
+
+<h2 id="가상-머신의-단점"><a href="#가상-머신의-단점" class="headerlink" title="가상 머신의 단점"></a>가상 머신의 단점</h2><p>가상머신은 각종 시스템 자원을 가상화하고 독립된 공간을 생성하는 작업은 하이퍼바이저를 반드시 거치기 때문에 일반 호스트에 비해 성능의 손실이 발생한다. 또한 이미지 크기도 커진다는 단점이 있다. </p>
+<p>완변학 운영체제를 생성할 수 있다는 장점은 있지만 일반 호스트에 비해 성능 손실이 있으며, 수 기가바이트에 달하는 가상 머신 이미지를 애플리케이션으로 배포하기는 부담스럽다는 단점이 있다.</p>
+<h2 id="도커-컨테이너"><a href="#도커-컨테이너" class="headerlink" title="도커 컨테이너"></a>도커 컨테이너</h2><p>도커 컨테이너는 가상화된 공간을 생성하기 위해 리눅스의 자체 기능인 chroot, 네임스페이스, cgroup을 사용함으로써 <strong>프로세스 단위의 격리 환경을 만들기 때문에 성능 손실이 거의 없다.</strong></p>
+<p>이미지 크기도 가상머신의 비해 대폭 줄어들기 때문에 컨테이너를 이미지로 만들어 배포하는 시간이 가상머신에 비해 빠르다.</p>
 <br/>
 
 <br/>
 
-<p>터미널 윈도우에서 복사와 붙여넣기를 하기 위해서 <code>ctrl -C</code> 와 <code>ctrl -V</code> 의 유혹에 넘어가지 말아야 한다.</p>
-<p><strong>전혀 작동하지 않고</strong>, 쉘에서는 이러한 <code>ctrl</code>키 코드들은 MS 윈도우즈가 등장하기 훨씬 이전부터 전혀 다른 의미로 사용되어 왔다.</p>
-<h2 id="간단한-명령어"><a href="#간단한-명령어" class="headerlink" title="간단한 명령어"></a>간단한 명령어</h2><p><code>date</code> : 현재 시간과 날짜 표시</p>
-<p><code>cal</code> : 현재 달력 표시</p>
-<p><code>df</code> : 현재 사용 중인 디스크 정보와 사용 가능한 디스크의 용량 확인</p>
-<p><code>free</code> : 메모리 사용 현황 정보</p>
-<p><code>exit</code> : 터미널 세션 종료</p>
-<h2 id="보이지-않는-터미널-에뮬레이터"><a href="#보이지-않는-터미널-에뮬레이터" class="headerlink" title="보이지 않는 터미널(에뮬레이터)"></a>보이지 않는 터미널(에뮬레이터)</h2><p>실행 중인 터미널 에뮬레이터가 없는 것처럼 보여도 다수의 터미널 세션들이 그래픽 환경에 가려져 보이지 않을 뿐 끊임없이 실행되고 있다.</p>
-<p>이러한 것들은 <strong>가상 터미널 , 가상 콘솔</strong> 이라고 한다.</p>
-<p>대부분의 리눅스 배포판에서 <code>ctrl-Alt-F1</code> ~ <code>ctrl-Alt-F6</code> 단축키로 시스템상에 있는 가상 터미널에 접근할 수 있다.</p>
-<p>다른 가상 콘솔로 이동하려면 <code>Alt</code> 와 <code>F1 ~ F6</code> 사이의 키를 입력한다</p>
-<p>그래픽 환경으로 복귀하려면 <code>Alt-F7</code> 키를 사용하면 된다.</p>
-<br/>
-<br/>
-<br/>
 
-<hr/>"
-**참고 자료: <a target="_blank" rel="noopener" href="http://www.yes24.com/Product/Goods/8208026?OzSrank=18">리눅스 커맨드라인 완벽 입문서</a>**
+
+<hr/>
+
+<p><strong>참고 자료: <a target="_blank" rel="noopener" href="http://www.yes24.com/Product/Goods/93765519">시작하세요! 도커/쿠버네티스</a></strong></p>
+<p><strong>사진 출처: <a target="_blank" rel="noopener" href="https://aws.amazon.com/ko/docker/">https://aws.amazon.com/ko/docker/</a></strong> </p>
 
       
     </div>
@@ -245,7 +244,7 @@
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2021/09/22/2021-09-22-Linux-Shell/" target="_blank" title="Shell이란 무엇인가">http://icebear2n2.github.io/2021/09/22/2021-09-22-Linux-Shell/</a>
+          <a href="/2021/09/22/2021-09-22-Docker/" target="_blank" title="Docker란?">http://icebear2n2.github.io/2021/09/22/2021-09-22-Docker/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -269,7 +268,7 @@
       
       
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li></ul>
 
       
 
@@ -279,19 +278,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/09/22/2021-09-22-Docker/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Docker란?
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/09/22/2021-09-22-React-JSX/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/09/22/2021-09-22-Linux-Shell/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">JSX 개념</div>
+      <div class="article-nav-title">Shell이란 무엇인가</div>
     </a>
   
 </nav>
@@ -305,7 +295,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%EC%89%98%EC%9D%B4%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">쉘이란?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B0%84%EB%8B%A8%ED%95%9C-%EB%AA%85%EB%A0%B9%EC%96%B4"><span class="nav-number">1.1.</span> <span class="nav-text">간단한 명령어</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%B3%B4%EC%9D%B4%EC%A7%80-%EC%95%8A%EB%8A%94-%ED%84%B0%EB%AF%B8%EB%84%90-%EC%97%90%EB%AE%AC%EB%A0%88%EC%9D%B4%ED%84%B0"><span class="nav-number">1.2.</span> <span class="nav-text">보이지 않는 터미널(에뮬레이터)</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker%EB%9E%80"><span class="nav-number">1.</span> <span class="nav-text">Docker란 ?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B0%80%EC%83%81-%EB%A8%B8%EC%8B%A0%EA%B3%BC-%EB%8F%84%EC%BB%A4-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88"><span class="nav-number">2.</span> <span class="nav-text">가상 머신과 도커 컨테이너</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EA%B0%80%EC%83%81-%EB%A8%B8%EC%8B%A0%EC%9D%98-%EB%8B%A8%EC%A0%90"><span class="nav-number">3.</span> <span class="nav-text">가상 머신의 단점</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EB%8F%84%EC%BB%A4-%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88"><span class="nav-number">4.</span> <span class="nav-text">도커 컨테이너</span></a></li></ol>
     
     </div>
   </aside>
