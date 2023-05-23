@@ -16,24 +16,22 @@
   <meta name="author" content="Sujeong Hyeon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1. 테라폼의 개요테라폼(Terraform) 은 Infrastructure 자동화 도구로서, 클라우드 서비스 및 온프레미스 환경에서 Infrastructure를 코드로 정의하고 프로비저닝하는 데 사용됩니다.  Infrastructure 코드(Infrastructure as Code, IaC) 개념을 바탕으로 동작하며, 코드 버전 관리 및 협업, Infras">
+    <meta name="description" content="객체란,객체(Object)란 물리적으로 존재하거나 추상적으로 생각할 수 있는 것 중에서 자신의 속성을 가지고 있으면서 식별 가능한 것을 말한다.객체는 속성과 동작으로 구성되어 있다. 자바는 속성과 동작을 각각 필드(field)와 메소드(method)라고 부른다. 객체의 상호작용객체의 상호작용은 객체 간의 메소드 호출을 의미하며 매개값과 리턴값을 통해서 데이">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Terraform">
-<meta property="og:url" content="http://example.com/2023/03/08/Terraform/index.html">
+<meta property="og:title" content="[Java] 객체 개념">
+<meta property="og:url" content="http://example.com/2023/05/23/object/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="1. 테라폼의 개요테라폼(Terraform) 은 Infrastructure 자동화 도구로서, 클라우드 서비스 및 온프레미스 환경에서 Infrastructure를 코드로 정의하고 프로비저닝하는 데 사용됩니다.  Infrastructure 코드(Infrastructure as Code, IaC) 개념을 바탕으로 동작하며, 코드 버전 관리 및 협업, Infras">
+<meta property="og:description" content="객체란,객체(Object)란 물리적으로 존재하거나 추상적으로 생각할 수 있는 것 중에서 자신의 속성을 가지고 있으면서 식별 가능한 것을 말한다.객체는 속성과 동작으로 구성되어 있다. 자바는 속성과 동작을 각각 필드(field)와 메소드(method)라고 부른다. 객체의 상호작용객체의 상호작용은 객체 간의 메소드 호출을 의미하며 매개값과 리턴값을 통해서 데이">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/img/terraform.jpg">
-<meta property="article:published_time" content="2023-03-08T04:22:37.000Z">
-<meta property="article:modified_time" content="2023-03-21T13:51:00.309Z">
+<meta property="article:published_time" content="2023-05-23T09:40:09.000Z">
+<meta property="article:modified_time" content="2023-05-23T09:57:59.124Z">
 <meta property="article:author" content="Sujeong Hyeon">
-<meta property="article:tag" content="Terraform">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/terraform.jpg">
   
   
   
-  <title>Terraform - Sujeong&#39;s Blog</title>
+  <title>[Java] 객체 개념 - Sujeong&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,13 +191,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/tf11x.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Terraform"></span>
+            <span id="subtitle" data-typed-text="[Java] 객체 개념"></span>
           
         </div>
 
@@ -210,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-03-08 13:22" pubdate>
-          March 8, 2023 pm
+        <time datetime="2023-05-23 18:40" pubdate>
+          May 23, 2023 pm
         </time>
       </span>
     
@@ -222,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k words
+          605 words
         
       </span>
     
@@ -233,7 +231,7 @@
         
         
         
-          23 mins
+          6 mins
         
       </span>
     
@@ -271,75 +269,18 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Terraform</h1>
+            <h1 style="display: none">[Java] 객체 개념</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="1-테라폼의-개요"><a href="#1-테라폼의-개요" class="headerlink" title="1. 테라폼의 개요"></a>1. 테라폼의 개요</h2><p><strong>테라폼(Terraform)</strong> 은 Infrastructure 자동화 도구로서, 클라우드 서비스 및 온프레미스 환경에서 Infrastructure를 코드로 정의하고 프로비저닝하는 데 사용됩니다.</p>
-<tr>
-Infrastructure 코드(Infrastructure as Code, IaC) 개념을 바탕으로 동작하며, 코드 버전 관리 및 협업, Infrastructure 변경사항 추적 등의 장점을 제공합니다. 
-다양한 클라우드 서비스(예: AWS, Azure, GCP 등) 및 온프레미스 환경에서 동작하며, 클라우드 서비스별로 제공하는 리소스(예: EC2 인스턴스, S3 버킷 등)를 코드로 정의하여 프로비저닝할 수 있습니다.
-
-<h2 id="2-테라폼-설치-및-설정-MacOs"><a href="#2-테라폼-설치-및-설정-MacOs" class="headerlink" title="2. 테라폼 설치 및 설정 (MacOs)"></a>2. 테라폼 설치 및 설정 (MacOs)</h2><p>패키지 저장소인 hashicorp tap 설치 후 terraform 설치</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">brew tap hashicorp/tap<br><br>brew install hashicorp/tap/terraform<br></code></pre></td></tr></table></figure>
-
-<br/>
-
-<p>terraform 작동 확인</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">terraform -<span class="hljs-built_in">help</span></span><br>Usage: terraform [global options] &lt;subcommand&gt; [args]<br><br>The available commands for execution are listed below.<br>The primary workflow commands are given first, followed by<br>less common or more advanced commands.<br><br>Main commands:<br>  init          Prepare your working directory for other commands<br>  validate      Check whether the configuration is valid<br>  plan          Show changes required by the current configuration<br>  apply         Create or update infrastructure<br>  destroy       Destroy previously-created infrastructure<br></code></pre></td></tr></table></figure>
-
-<h2 id="3-Infrastructure-코드-작성"><a href="#3-Infrastructure-코드-작성" class="headerlink" title="3. Infrastructure 코드 작성"></a>3. Infrastructure 코드 작성</h2><p>해당 코드를 실행시키기 위해서는 Docker가 실행되어 있어야 합니다.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">open -a Docker<br></code></pre></td></tr></table></figure>
-
-<br/>
-
-<p><code>main.tf</code> 파일 생성</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">touch main.tf<br><br>vim main.tf<br></code></pre></td></tr></table></figure>
-
-<br/>
-
-<p>nginx docker 컨테이너 생성을 위한 코드 작성 후 저장</p>
-<tr/>
-
-<p><code>image</code>: <strong>nginx:latest</strong><br><code>internal port</code>: <strong>80</strong><br><code>external port</code>: <strong>8000</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs tf">terraform &#123;<br>  required_providers &#123;<br>    docker = &#123;<br>      source  = &quot;kreuzwerker/docker&quot;<br>      version = &quot;~&gt; 2.13.0&quot;<br>    &#125;<br>  &#125;<br>&#125;<br><br>provider &quot;docker&quot; &#123;&#125;<br><br>resource &quot;docker_image&quot; &quot;nginx&quot; &#123;<br>  name         = &quot;nginx:latest&quot;<br>  keep_locally = false<br>&#125;<br><br>resource &quot;docker_container&quot; &quot;nginx&quot; &#123;<br>  image = docker_image.nginx.latest<br>  name  = &quot;nginx&quot;<br>  ports &#123;<br>    internal = 80<br>    external = 8000<br>  &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<h2 id="4-프로비저닝"><a href="#4-프로비저닝" class="headerlink" title="4. 프로비저닝"></a>4. 프로비저닝</h2><p>프로젝트 초기화</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">terraform init</span><br>Initializing the backend...<br><br>...<br><br>Terraform has been successfully initialized!<br></code></pre></td></tr></table></figure>
-
-<br/>
-
-<p>NGINX 서버 컨테이너 프로비저닝</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">terraform apply</span><br>Do you want to perform these actions?<br>  Terraform will perform the actions described above.<br>  Only &#x27;yes&#x27; will be accepted to approve.<br><br>  Enter a value: yes<br><br><br>  Apply complete! Resources: 2 added, 0 changed, 0 destroyed.<br></code></pre></td></tr></table></figure>
-
-<br/>
-
-<p>컨테이너 실행 여부 확인</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker ps</span><br>CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                  NAMES<br>fd2b2665dc90   114aa6a9f203   &quot;/docker-entrypoint.…&quot;   23 seconds ago   Up 22 seconds   0.0.0.0:8000-&gt;80/tcp   nginx<br></code></pre></td></tr></table></figure>
-
-<br/>
-
-<p>웹 페이지 접속 여부 확인<br><img width="562" src="https://user-images.githubusercontent.com/87232411/223623132-bbd56666-2b43-4112-8df6-d466b77b45c9.png" srcset="/img/loading.gif" lazyload></p>
-<br/>
-
-<p>컨테이너 종료</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">terraform destroy<br></code></pre></td></tr></table></figure>
-
-<h2 id="5-테라폼-모듈"><a href="#5-테라폼-모듈" class="headerlink" title="5. 테라폼 모듈"></a>5. 테라폼 모듈</h2><p>테라폼에서 모듈은 리소스, 변수, 출력값 등을 포함하며, 다른 모듈에서 재사용할 수 있습니다.</p>
-<tr>
-
-<p>이를 통해 코드 중복을 줄이고, 모듈화된 코드를 관리함으로써 코드를 보다 쉽게 유지보수할 수 있습니다.<br>모듈은 모듈 디렉토리 안에 .tf 파일들로 구성됩니다. 테라폼은 이러한 .tf 파일들을 읽어서 모듈을 로드하고 사용합니다. 모듈은 모듈 내부에서 정의된 리소스와 데이터를 관리하며, 다른 모듈과 변수 및 출력값을 공유할 수 있습니다.</p>
-<p><img src="https://user-images.githubusercontent.com/87232411/223623817-039bbf9b-3891-4270-b8cd-4ed3645677b9.svg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="6-테라폼-확장성"><a href="#6-테라폼-확장성" class="headerlink" title="6. 테라폼 확장성"></a>6. 테라폼 확장성</h2><p>테라폼은 클라우드 서비스를 비롯한 다양한 Infrastructure를 코드로 정의하여 관리할 수 있는 확장성이 뛰어난 도구입니다.</p>
-<tr>
-
-<p>클라우드 서비스(예: AWS, Azure, GCP)를 비롯한 다양한 Infrastructure를 지원하며, 확장성과 유연성을 제공하기 위해 모듈화된 코드 구조와 플러그인 아키텍처를 사용하고 있습니다.<br>또한, 테라폼은 Infrastructure 변경사항을 추적하고 코드 버전 관리를 할 수 있는 기능을 제공하여, 대규모 Infrastructure를 효과적으로 관리할 수 있습니다.<br>이러한 확장성과 유연성을 통해, 테라폼은 다양한 Infrastructure 관리 요구사항에 대응할 수 있으며, 새로운 환경에 대한 대응도 빠르게 이루어질 수 있습니다.</p>
-<br/>
-<br/>
-<br/>
-
-<p><strong>참고자료: ChatGPT, Terraform 공식 사이트</strong><br><strong>사진 출처: <a target="_blank" rel="noopener" href="https://www.scalefactory.com/blog/2021/12/22/terraform-v1.1-the-journey-continues/tf11x.png">https://www.scalefactory.com/blog/2021/12/22/terraform-v1.1-the-journey-continues/tf11x.png</a></strong></p>
+                <h2 id="객체란"><a href="#객체란" class="headerlink" title="객체란,"></a>객체란,</h2><p>객체(Object)란 물리적으로 존재하거나 추상적으로 생각할 수 있는 것 중에서 자신의 속성을 가지고 있으면서 식별 가능한 것을 말한다.<br>객체는 속성과 동작으로 구성되어 있다. 자바는 속성과 동작을 각각 필드(field)와 메소드(method)라고 부른다.</p>
+<h2 id="객체의-상호작용"><a href="#객체의-상호작용" class="headerlink" title="객체의 상호작용"></a>객체의 상호작용</h2><p>객체의 상호작용은 객체 간의 메소드 호출을 의미하며 매개값과 리턴값을 통해서 데이터를 주고 받는다.</p>
+<h2 id="객체-간의-관계"><a href="#객체-간의-관계" class="headerlink" title="객체 간의 관계"></a>객체 간의 관계</h2><p>객체는 개별적으로 사용될 수 있지만, 대부분 다른 객체와 관계를 맺고 있다.<br>이 관계의 종류에는 집합 관계, 사용 관계, 상속 관계가 있다.</p>
+<h3 id="집합-관계"><a href="#집합-관계" class="headerlink" title="집합 관계"></a>집합 관계</h3><p>객체는 하나는 부품이고 하나는 완성품에 해당한다.<br>Ex. 자동차는 엔진, 타이어, 핸들 등으로 구성 -&gt; 자동차와 부품들은 집합 관계이다.</p>
+<h3 id="사용-관계"><a href="#사용-관계" class="headerlink" title="사용 관계"></a>사용 관계</h3><p>객체 간의 상호작용을 말한다.<br>객체는 다른 객체의 메소드를 호출하여 원하는 결과를 얻어낸다.<br>Ex. 사람은 자동차를 사용하므로 사람과 자동차 -&gt; 사용관계<br>Ex. 사람은 자동차를 사용할 때 달린다, 멈춘다 등의 메소드를 호출</p>
+<h3 id="상속-관계"><a href="#상속-관계" class="headerlink" title="상속 관계"></a>상속 관계</h3><p>상위(부모) 객체를 기반으로 하위(자식) 객체를 생성하는 관계를 말한다.<br>일반적으로 상위 객체는 종류를 의미하고, 하위 객체는 구체적인 사물에 해당한다.<br>Ex. 자동차는 기계의 한 종류이다 -&gt; 기계(상위)와 자동차(하위)는 상속 관계에 있다고 볼 수 있다.</p>
+<h2 id="객체-지향-프로그래밍이란"><a href="#객체-지향-프로그래밍이란" class="headerlink" title="객체 지향 프로그래밍이란,"></a>객체 지향 프로그래밍이란,</h2><p>만들고자 하는 완성품인 객체를 모델링하고, 집합 관계에 있는 부품 객체와 사용 관계에 있는 객체를 하나씩 설계한 후 조립하는 방식으로 프로그램을 개발하는 방법이다.</p>
 
                 
               </div>
@@ -348,32 +289,11 @@ Infrastructure 코드(Infrastructure as Code, IaC) 개념을 바탕으로 동작
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Terraform/" class="category-chain-item">Terraform</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Terraform/">#Terraform</a>
+        <a href="/tags/Java/">#Java</a>
       
     </div>
   
@@ -385,8 +305,8 @@ Infrastructure 코드(Infrastructure as Code, IaC) 개념을 바탕으로 동작
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Terraform</div>
-      <div>http://example.com/2023/03/08/Terraform/</div>
+      <div>[Java] 객체 개념</div>
+      <div>http://example.com/2023/05/23/object/</div>
     </div>
     <div class="license-meta">
       
@@ -398,7 +318,7 @@ Infrastructure 코드(Infrastructure as Code, IaC) 개념을 바탕으로 동작
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>March 8, 2023</div>
+          <div>May 23, 2023</div>
         </div>
       
       
@@ -430,15 +350,15 @@ Infrastructure 코드(Infrastructure as Code, IaC) 개념을 바탕으로 동작
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/05/23/object/" title="[Java] 객체 개념">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">[Java] 객체 개념</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2023/03/08/Terraform/" title="Terraform">
+                        <span class="hidden-mobile">Terraform</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
