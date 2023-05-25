@@ -1,0 +1,788 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="서울 리전으로 변경    SSH 키 페어 생성   EC2 접속    ‘네트워크 보안’에서 키 페어 클릭    키 페어 생성 클릭    이름을 정하고, 원격 프로그램을 사용할 것이 아니니 pem 체크 (기본갑) 후에 키 페어 생성 클릭    키는 파일로 저장해둡시다 ! 저장 클릭    키 페어 생성 완료 !    인스턴스 생성   EC2 대시보드 클릭 후에">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 1주차-2 EC2(가상 서버) 배포 및 사용 - 실습">
+<meta property="og:url" content="http://example.com/2021/06/09/2021-06-09-AFOS-2/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="서울 리전으로 변경    SSH 키 페어 생성   EC2 접속    ‘네트워크 보안’에서 키 페어 클릭    키 페어 생성 클릭    이름을 정하고, 원격 프로그램을 사용할 것이 아니니 pem 체크 (기본갑) 후에 키 페어 생성 클릭    키는 파일로 저장해둡시다 ! 저장 클릭    키 페어 생성 완료 !    인스턴스 생성   EC2 대시보드 클릭 후에">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-06-09T14:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:49:43.440Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 1주차-2 EC2(가상 서버) 배포 및 사용 - 실습 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="EC2(가상 서버) 배포 및 사용 - 실습"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-06-09 23:00" pubdate>
+          June 9, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">EC2(가상 서버) 배포 및 사용 - 실습</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li><code>서울 리전</code>으로 변경<br/></li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/76810787/121358295-7666d100-c96d-11eb-815b-3b9d8a35504e.png" srcset="/img/loading.gif" lazyload alt="seoul"><br><br/><br><br/><br><br/></p>
+<ol start="2">
+<li><code>SSH 키 페어</code> 생성<br/></li>
+</ol>
+<ul>
+<li>EC2 접속<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121359000-0442bc00-c96e-11eb-9b32-88ed3c36e10a.png" srcset="/img/loading.gif" lazyload alt="EC2"><br><br/></p>
+<ul>
+<li>‘네트워크 보안’에서 <code>키 페어</code> 클릭<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121359011-073dac80-c96e-11eb-83b9-b8327e6a942c.png" srcset="/img/loading.gif" lazyload alt="key"><br><br/></p>
+<ul>
+<li><code>키 페어 생성</code> 클릭<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121359479-7f0bd700-c96e-11eb-88d0-25e84945dbcc.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 01 25"><br><br/></p>
+<ul>
+<li>이름을 정하고, 원격 프로그램을 사용할 것이 아니니 <code>pem</code> 체크 (기본갑) 후에 <code>키 페어 생성</code> 클릭<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121359483-7fa46d80-c96e-11eb-8a77-aef5fd9a65e5.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 01 51"><br><br/></p>
+<ul>
+<li>키는 파일로 저장해둡시다 ! 저장 클릭<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121359486-803d0400-c96e-11eb-8674-56b73f3da6e0.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 02 14"><br><br/></p>
+<ul>
+<li>키 페어 생성 완료 !<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121359489-803d0400-c96e-11eb-9c3e-f6f88afeb7ab.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 02 36"><br><br/><br><br/><br><br/></p>
+<ol start="3">
+<li>인스턴스 생성</li>
+</ol>
+<ul>
+<li><code>EC2 대시보드</code> 클릭 후에 <code>인스턴스(실행 중)</code> 클릭<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360877-c0e94d00-c96f-11eb-800d-75c019b55f29.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 11 29"><br><br/></p>
+<ul>
+<li><code>인스턴스 시작</code> 클릭<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360839-baf36c00-c96f-11eb-9f3e-d23b6d85a3e6.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 08 04"><br><br/></p>
+<ul>
+<li>인스턴스 시작하는데 필요한 소프트웨어 구성이 포함된 템플릿, AMI (Amazon Machine Image)</li>
+<li>제일 첫번째인 <code>리눅스 2</code> 선택  <br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360844-bc249900-c96f-11eb-906a-f14f7835be20.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 08 25"><br><br/></p>
+<ul>
+<li>인스턴스 유형에서 원하는 메모리, CPU 선택할 수 있음</li>
+<li>기본 값으로 설정해서 가장 밑 오른쪽에 있는 <code>다음 세부구성</code> 클릭 ! (프리티어가 적히지 않은 유형은 돈이 나간다 ..ㅠ)</li>
+<li>사진 상 안 보이지만 가장 밑 가운데 파란색 버튼 누르면 바로 인스턴스가 생성되니 조심 !<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360847-bcbd2f80-c96f-11eb-9344-1ef6ac5a50f2.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 08 41"><br><br/></p>
+<ul>
+<li><p>GB 와 GiB의 차이 <a href="hhttps://ko.wikipedia.org/wiki/%EA%B8%B0%EB%B9%84%EB%B0%94%EC%9D%B4%ED%8A%B8">hhttps://ko.wikipedia.org/wiki/%EA%B8%B0%EB%B9%84%EB%B0%94%EC%9D%B4%ED%8A%B8</a></p>
+<br/>
+</li>
+<li><p>인스턴스 세부 정보 구성에서 퍼블릭 IP를 할당해야 인스턴스에 접속이 가능</p>
+</li>
+<li><p>기본 값으로 설정하고 넘어가자</p>
+<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360852-bdee5c80-c96f-11eb-8cfc-96584218211a.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 08 54"><br><br/></p>
+<ul>
+<li>스토리지는 말 그대로 저장할 수 있는 공간</li>
+<li>스토리지도 기본 값으로 설정 !<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360855-bf1f8980-c96f-11eb-8e8d-5d57f1a6a40d.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 09 04"><br><br/></p>
+<ul>
+<li>태그는 구분하는 용도로 사용</li>
+<li>키는 <code>Name</code> , 값은 <code>이름</code>으로 해준다 (마음대로 설정 가능)<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360863-bf1f8980-c96f-11eb-80f8-91e51b6e7667.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 09 22"><br><br/></p>
+<ul>
+<li>보안 그룹 - 트래픽 제어하는 방화벽 세트, 허용 규칙 추가 가능</li>
+<li>보안 그룹도 기본 값으로 설정 !<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360867-bfb82000-c96f-11eb-81c4-def20bef3a4c.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 09 34"></p>
+<ul>
+<li><p>TCP 22 포트는 어떤 의미인가 ?</p>
+</li>
+<li><p>SSH 사용하는 포트 번호</p>
+</li>
+<li><p>각 포트 별로 어떤 서비스로 전달할지 식별 가능</p>
+<br/>
+</li>
+<li><p><code>시작하기</code> 클릭</p>
+<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360868-bfb82000-c96f-11eb-82bb-1b61b9b3b1ec.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 09 42"><br><br/></p>
+<ul>
+<li>체크 박스에 <code>체크</code> 한 후에 인스턴스 시작 클릭 !<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360871-c050b680-c96f-11eb-991c-0ac15b52e7c6.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 09 58"><br><br/></p>
+<ul>
+<li>인스턴스 생성 완료 !<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121360876-c0e94d00-c96f-11eb-9eaa-abf3d030d7b2.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 10 22"><br><br/><br><br/><br><br/></p>
+<ol start="4">
+<li>EC2에 웹 서비스 설치<br/></li>
+</ol>
+<ul>
+<li><p>연결을 누르면 인스턴스에 연결할 수 있음, 연결을 누르자 (사용자 이름 변경 절대 금지 !!!, 그럼 실행 안 됨)<br><img src="https://user-images.githubusercontent.com/76810787/121366218-45d66580-c974-11eb-8dad-81540768d29c.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 44 03"></p>
+<br/>
+</li>
+<li><p>EC2 접속 성공 !</p>
+<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121366232-4838bf80-c974-11eb-9225-574b7c8995fc.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 10 44 17"><br><br/></p>
+<ul>
+<li>아래 명령어를 순서대로 친다<br/></li>
+</ul>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs subunit"># 관리자 권한으로 변경<br>[ec2-user@ip<span class="hljs-string">-172</span><span class="hljs-string">-31</span><span class="hljs-string">-46</span><span class="hljs-string">-115</span> ~]$ sudo su -<br><br># 웹 서비스 설치<br>[root@ip<span class="hljs-string">-172</span><span class="hljs-string">-31</span><span class="hljs-string">-46</span><span class="hljs-string">-115</span> ~]# yum install httpd -y<br><br># 웹 서비스 시작<br>[root@ip<span class="hljs-string">-172</span><span class="hljs-string">-31</span><span class="hljs-string">-46</span><span class="hljs-string">-115</span> ~]# systemctl start httpd<br><br># 웹 페이지 구성<br># 기본 웹페이지 디렉터리는 /var/www/html<br>[root@ip<span class="hljs-string">-172</span><span class="hljs-string">-31</span><span class="hljs-string">-46</span><span class="hljs-string">-115</span> ~]# echo &quot;&lt;h1&gt;Test Web Server&lt;/h1&gt;&quot; &gt; /var/www/html/ index.html<br><br># 웹 페이지 파일 생성 확인<br>[root@ip<span class="hljs-string">-172</span><span class="hljs-string">-31</span><span class="hljs-string">-46</span><span class="hljs-string">-115</span> ~]# ls /var/www/html/<br><br># 웹페이지 접속 확인<br>[root@ip<span class="hljs-string">-172</span><span class="hljs-string">-31</span><span class="hljs-string">-46</span><span class="hljs-string">-115</span> ~]# curl localhost<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<ul>
+<li>다시 인스턴스 연결 페이지로 가서 퍼블릭 주소를 복사 후 들어가면, 웹 접속이 안 될 것이다<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121370671-df534680-c977-11eb-85ec-09d69016acc6.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 11 00 02"><br><br/></p>
+<ul>
+<li>보안그룹에 가서 인바운드 규칙에 <code>HTTP</code>를 허용해줘야 웹 사이트 접속이 된다. 허용해주자</li>
+<li>인바운드 규칙 편집 클릭<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121370675-e0847380-c977-11eb-86c7-0cf6b05d3a8d.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 11 09 14"><br><br/></p>
+<ul>
+<li>HTTP를 추가해준다<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121370681-e1b5a080-c977-11eb-9b65-24e67d80ac3c.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 11 09 40"><br><br/></p>
+<ul>
+<li>그럼 접속 성공 !!<br/></li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/76810787/121371104-3f49ed00-c978-11eb-9046-977ea8fe66d9.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-06-09 오후 11 12 53"></p>
+<h2 id="실습이-끝난-후에-EC2-종료-꼭-하기"><a href="#실습이-끝난-후에-EC2-종료-꼭-하기" class="headerlink" title="실습이 끝난 후에 EC2 종료 꼭 하기"></a>실습이 끝난 후에 EC2 종료 꼭 하기</h2><br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 1주차-2 EC2(가상 서버) 배포 및 사용 - 실습</div>
+      <div>http://example.com/2021/06/09/2021-06-09-AFOS-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>June 9, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/16/2021-06-16-AFOS-1/" title="[AWS] 2주차-1 컴퓨팅 서비스">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 2주차-1 컴퓨팅 서비스</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/09/2021-06-09-AFOS-1/" title="[AWS] 1주차-1 AWS &amp; 가상 서버">
+                        <span class="hidden-mobile">[AWS] 1주차-1 AWS &amp; 가상 서버</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

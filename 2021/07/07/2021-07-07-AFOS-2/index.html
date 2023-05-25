@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="실습) IAM User 생성 및 로그인IAM -&gt; 사용자 클릭 사용자 추가 클릭 사용자 이름 : admin.프로그래밍 방식 엑세스, AWS Management Console 액세스 선택 후 -&gt; 비밀번호 설정 -&gt; 다음: 권한 클릭 상단 오른쪽에 기존 정책 직접 연결 클릭 AdministratorAccess 체크 하단에 다음: 태그 클릭 기">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 5주차-2 보안 실습">
+<meta property="og:url" content="http://example.com/2021/07/07/2021-07-07-AFOS-2/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="실습) IAM User 생성 및 로그인IAM -&gt; 사용자 클릭 사용자 추가 클릭 사용자 이름 : admin.프로그래밍 방식 엑세스, AWS Management Console 액세스 선택 후 -&gt; 비밀번호 설정 -&gt; 다음: 권한 클릭 상단 오른쪽에 기존 정책 직접 연결 클릭 AdministratorAccess 체크 하단에 다음: 태그 클릭 기">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-07-07T14:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:50:10.460Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 5주차-2 보안 실습 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="보안 실습"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-07 23:00" pubdate>
+          July 7, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">보안 실습</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="실습-IAM-User-생성-및-로그인"><a href="#실습-IAM-User-생성-및-로그인" class="headerlink" title="실습) IAM User 생성 및 로그인"></a>실습) IAM User 생성 및 로그인</h2><p>IAM -&gt; <code>사용자</code> 클릭<br><img width="215" alt="스크린샷 2021-07-07 오후 11 46 05" src="https://user-images.githubusercontent.com/86812249/124787372-68fc3100-df83-11eb-9248-51d91a62dcf2.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>사용자 추가</code> 클릭<br><img width="131" alt="스크린샷 2021-07-07 오후 11 46 12" src="https://user-images.githubusercontent.com/86812249/124787373-68fc3100-df83-11eb-8036-056e399b4c02.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>사용자 이름 : admin</code>.<br><code>프로그래밍 방식 엑세스</code>, <code>AWS Management Console 액세스</code> 선택 후 -&gt; 비밀번호 설정 -&gt; <code>다음: 권한</code> 클릭<br><img width="1063" alt="스크린샷 2021-07-07 오후 11 46 43" src="https://user-images.githubusercontent.com/86812249/124787378-6994c780-df83-11eb-9faf-4f9ebf7d35d1.png" srcset="/img/loading.gif" lazyload></p>
+<p>상단 오른쪽에 <code>기존 정책 직접 연결</code> 클릭<br><img width="428" alt="스크린샷 2021-07-07 오후 11 46 50" src="https://user-images.githubusercontent.com/86812249/124787381-6a2d5e00-df83-11eb-8e41-b4bce692bad9.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>AdministratorAccess</code> 체크<br><img width="826" alt="스크린샷 2021-07-07 오후 11 46 57" src="https://user-images.githubusercontent.com/86812249/124787382-6ac5f480-df83-11eb-8cee-765a09655059.png" srcset="/img/loading.gif" lazyload></p>
+<p>하단에 <code>다음: 태그</code> 클릭<br><img width="211" alt="스크린샷 2021-07-07 오후 11 47 02" src="https://user-images.githubusercontent.com/86812249/124787384-6ac5f480-df83-11eb-89bd-03dd9e39a8d5.png" srcset="/img/loading.gif" lazyload></p>
+<p>기본 값으로 둔 후 -&gt; <code>다음: 검토</code> 클릭<br><img width="151" alt="스크린샷 2021-07-07 오후 11 47 28" src="https://user-images.githubusercontent.com/86812249/124787387-6b5e8b00-df83-11eb-91f5-0fcb016b878d.png" srcset="/img/loading.gif" lazyload></p>
+<p>하단에 <code>사용자 만들기</code> 클릭<br><img width="199" alt="스크린샷 2021-07-07 오후 11 47 35" src="https://user-images.githubusercontent.com/86812249/124787388-6bf72180-df83-11eb-90f1-d79039d516f7.png" srcset="/img/loading.gif" lazyload></p>
+<p>이 뒤로 닫기를 누르면 다시는 액세스키를 볼 수 없으니, <code>.csv 다운로드</code> 클릭해주자<br><img width="351" alt="스크린샷 2021-07-07 오후 11 47 46" src="https://user-images.githubusercontent.com/86812249/124787392-6bf72180-df83-11eb-869c-08e8e256fe21.png" srcset="/img/loading.gif" lazyload></p>
+<p>다음 계정도 똑같이 만들어 주자<br><code>사용자 이름: viewuser</code>.<br><code>AWS Management Console 액세스</code> 만 체크 후 -&gt; 비밀 번호 설정 -&gt; <code>다음: 권한</code> 클릭<br><img width="1081" alt="스크린샷 2021-07-07 오후 11 48 18" src="https://user-images.githubusercontent.com/86812249/124787397-6c8fb800-df83-11eb-971f-4f2493f57c1e.png" srcset="/img/loading.gif" lazyload></p>
+<p>상단 오른쪽에 <code>기존 정책 직접 연결</code> 클릭<br><img width="352" alt="스크린샷 2021-07-07 오후 11 48 43" src="https://user-images.githubusercontent.com/86812249/124787400-6d284e80-df83-11eb-8f79-6a736cfbec75.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>view</code>를 검색 후, <code>ViewOnlyAccess</code> 클릭 -&gt; <code>다음: 태그</code> 클릭<br><img width="1035" alt="스크린샷 2021-07-07 오후 11 48 59" src="https://user-images.githubusercontent.com/86812249/124787402-6d284e80-df83-11eb-9b54-ed1d5d0f8376.png" srcset="/img/loading.gif" lazyload></p>
+<p>기본 값으로 둔 후 -&gt; <code>다음: 검토</code> 클릭<br><img width="142" alt="스크린샷 2021-07-07 오후 11 49 07" src="https://user-images.githubusercontent.com/86812249/124787404-6dc0e500-df83-11eb-8a1c-eddfa3ffefbf.png" srcset="/img/loading.gif" lazyload></p>
+<p>하단에 <code>사용자 만들기</code> 클릭<br><img width="152" alt="스크린샷 2021-07-07 오후 11 49 11" src="https://user-images.githubusercontent.com/86812249/124787408-6e597b80-df83-11eb-97b0-9ae355c0245a.png" srcset="/img/loading.gif" lazyload></p>
+<p>view는 액세스키 사용할 일이 없으니 굳이 저장하지 말자<br><img width="1053" alt="스크린샷 2021-07-07 오후 11 49 23" src="https://user-images.githubusercontent.com/86812249/124787410-6e597b80-df83-11eb-9013-817c7c491916.png" srcset="/img/loading.gif" lazyload></p>
+<p>IAM ‘admin’ 으로 로그인 해보자 (다른 브라우저로 접속 권장, 다시 로그인하기 귀찮기 때문에 ㅎㅎ…)<br><img width="392" alt="스크린샷 2021-07-07 오후 11 50 30" src="https://user-images.githubusercontent.com/86812249/124787412-6ef21200-df83-11eb-9017-55118e253828.png" srcset="/img/loading.gif" lazyload></p>
+<p>s3 -&gt; <code>버킷 만들기</code> 클릭<br><img width="187" alt="스크린샷 2021-07-07 오후 11 51 50" src="https://user-images.githubusercontent.com/86812249/124787413-6f8aa880-df83-11eb-8fd9-f617f07f8a22.png" srcset="/img/loading.gif" lazyload></p>
+<p>이름 마음대로 설정 후, <code>버킷 만들기</code> 클릭<br><img width="759" alt="스크린샷 2021-07-07 오후 11 52 14" src="https://user-images.githubusercontent.com/86812249/124787415-6f8aa880-df83-11eb-887d-865a0c01a6e8.png" srcset="/img/loading.gif" lazyload><br><img width="203" alt="스크린샷 2021-07-07 오후 11 52 17" src="https://user-images.githubusercontent.com/86812249/124787416-70233f00-df83-11eb-9f9a-d844b0fd103d.png" srcset="/img/loading.gif" lazyload></p>
+<p>만들어졌습니당<br><img width="910" alt="스크린샷 2021-07-07 오후 11 52 58" src="https://user-images.githubusercontent.com/86812249/124787418-70bbd580-df83-11eb-93c3-8b03e5770a75.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>삭제</code> 클릭 -&gt; <code>버킷 삭제</code> 클릭<br><img width="101" alt="스크린샷 2021-07-07 오후 11 53 08" src="https://user-images.githubusercontent.com/86812249/124787423-70bbd580-df83-11eb-8537-64237cc8c8c9.png" srcset="/img/loading.gif" lazyload><br><img width="848" alt="스크린샷 2021-07-07 오후 11 53 19" src="https://user-images.githubusercontent.com/86812249/124787426-71546c00-df83-11eb-8b64-fb287f651a6d.png" srcset="/img/loading.gif" lazyload></p>
+<p>삭제도 가능하네요 !<br><img width="890" alt="스크린샷 2021-07-07 오후 11 53 25" src="https://user-images.githubusercontent.com/86812249/124787430-71ed0280-df83-11eb-913e-3892406a1d92.png" srcset="/img/loading.gif" lazyload></p>
+<p>이번엔 ‘viewuser’로 로그인 해봅시다<br><img width="366" alt="스크린샷 2021-07-07 오후 11 53 57" src="https://user-images.githubusercontent.com/86812249/124787433-71ed0280-df83-11eb-8421-93b03634c706.png" srcset="/img/loading.gif" lazyload></p>
+<p>s3 -&gt; <code>버킷 만들기</code> 클릭<br><img width="146" alt="스크린샷 2021-07-07 오후 11 55 05" src="https://user-images.githubusercontent.com/86812249/124787439-731e2f80-df83-11eb-9f4c-fe883b71eb20.png" srcset="/img/loading.gif" lazyload></p>
+<p>이름 마음대로 설정 후, <code>버킷 만들기</code> 클릭<br><img width="852" alt="스크린샷 2021-07-07 오후 11 55 19" src="https://user-images.githubusercontent.com/86812249/124787440-731e2f80-df83-11eb-909c-a2e7ed581757.png" srcset="/img/loading.gif" lazyload><br><img width="156" alt="스크린샷 2021-07-07 오후 11 55 23" src="https://user-images.githubusercontent.com/86812249/124787442-73b6c600-df83-11eb-94df-b4ccece6e0f6.png" srcset="/img/loading.gif" lazyload></p>
+<p>만들어지지 않습니다 이 IAM 계정에는 <code>볼 수 있는 권한</code>밖에 없기 때문이죠<br><img width="828" alt="스크린샷 2021-07-07 오후 11 55 29" src="https://user-images.githubusercontent.com/86812249/124787447-744f5c80-df83-11eb-938a-c6062b10ce72.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="실습-admin-사용자로-AWS-CLI-사용하기"><a href="#실습-admin-사용자로-AWS-CLI-사용하기" class="headerlink" title="실습) admin 사용자로 AWS CLI 사용하기"></a>실습) admin 사용자로 AWS CLI 사용하기</h2><p>저는 귀찮아서 그냥 CLI 앱을 깔았습니다<br><img width="364" alt="스크린샷 2021-07-07 오후 11 57 41" src="https://user-images.githubusercontent.com/86812249/124787452-74e7f300-df83-11eb-83a8-a093bff61f46.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"># aws cli 사용을 위한 자격 증명 설정<br>$ aws configure<br>AWS <span class="hljs-keyword">Access</span> Key ID [<span class="hljs-keyword">None</span>]: AKIAIOSFODNN7EXAMPLE<br>AWS Secret <span class="hljs-keyword">Access</span> Key [<span class="hljs-keyword">None</span>]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY<br><span class="hljs-keyword">Default</span> region <span class="hljs-type">name</span> [<span class="hljs-keyword">None</span>]: ap-northeast<span class="hljs-number">-2</span><br><span class="hljs-keyword">Default</span> output <span class="hljs-keyword">format</span> [<span class="hljs-keyword">None</span>]: <span class="hljs-keyword">table</span><br><br># 자격 증명 List 확인<br>$ aws configure list<br><br># VPC 정보 확인<br>$ aws ec2 describe-vpcs<br></code></pre></td></tr></table></figure>
+
+<img width="480" alt="스크린샷 2021-07-08 오전 12 02 56" src="https://user-images.githubusercontent.com/86812249/124787456-75808980-df83-11eb-8989-3418247373c7.png" srcset="/img/loading.gif" lazyload>
+<img width="512" alt="스크린샷 2021-07-08 오전 12 03 40" src="https://user-images.githubusercontent.com/86812249/124787460-76192000-df83-11eb-93fe-23c09759f3b9.png" srcset="/img/loading.gif" lazyload>
+<img width="469" alt="스크린샷 2021-07-08 오전 12 03 49" src="https://user-images.githubusercontent.com/86812249/124787462-76192000-df83-11eb-915d-b2376b64f529.png" srcset="/img/loading.gif" lazyload>
+
+<h2 id="실습-IAM-Role"><a href="#실습-IAM-Role" class="headerlink" title="실습) IAM Role"></a>실습) IAM Role</h2><p>CloudFormation 스택 생성 클릭 후 밑에 링크 클릭</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">https</span>://ap-northeast-<span class="hljs-number">2</span>.console.aws.amazon.com/cloudformation/home?region=ap-northeast-<span class="hljs-number">2</span>#/stacks/new?stackName=IamLab&amp;templateURL=https:%<span class="hljs-number">2</span>F%<span class="hljs-number">2</span>Fs3.ap-northeast-<span class="hljs-number">2</span>.amazonaws.com%<span class="hljs-number">2</span>Fcloudformation.cloudneta.net%<span class="hljs-number">2</span>FIAM%<span class="hljs-number">2</span>Fiamlab.yaml<br></code></pre></td></tr></table></figure>
+
+<p>맨 하단에 <code>다음</code> 클릭<br><img alt="2021-07-08 오전 12 04 28" src="https://user-images.githubusercontent.com/86812249/124787466-76b1b680-df83-11eb-8f79-d98b7991a216.png" srcset="/img/loading.gif" lazyload></p>
+<p>하단에 키값 설정 후 <code>다음</code> 클릭<br><img alt="스크린샷 2021-07-08 오전 12 04 43" src="https://user-images.githubusercontent.com/86812249/124787469-774a4d00-df83-11eb-804b-86a999b3ed7f.png" srcset="/img/loading.gif" lazyload></p>
+<p>기본 값으로 둔 후 -&gt; <code>다음</code> 클릭<br><img alt="스크린샷 2021-07-08 오전 12 04 49" src="https://user-images.githubusercontent.com/86812249/124787471-774a4d00-df83-11eb-9dbc-b4b25eeed46f.png" srcset="/img/loading.gif" lazyload></p>
+<p>하단에 파란박스 체크 후에 <code>스택 생성</code> 클릭<br><img alt="스크린샷 2021-07-08 오전 12 04 57" src="https://user-images.githubusercontent.com/86812249/124787479-77e2e380-df83-11eb-9612-c4c3ec5f9e58.png" srcset="/img/loading.gif" lazyload></p>
+<p>만들어졌습니당<br><img alt="스크린샷 2021-07-08 오전 12 05 04" src="https://user-images.githubusercontent.com/86812249/124787481-787b7a00-df83-11eb-8b42-e98cf35fb9a9.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2 -&gt; <code>인스턴스</code> 클릭<br>EC2가 생성되고 있네요 !<br><img alt="스크린샷 2021-07-08 오전 12 05 52" src="https://user-images.githubusercontent.com/86812249/124787483-79141080-df83-11eb-824d-dfcf5344fb8b.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>S3IAMRoleEC2</code>에 들어가보면 IAM 역할에 <code>STGLabInstanceRole</code>이 적용된 게 보이실 겁니다<br><img alt="스크린샷 2021-07-08 오전 12 06 24" src="https://user-images.githubusercontent.com/86812249/124787486-79141080-df83-11eb-9ad1-04ee3afb65aa.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>BasicEC2 SSH</code> 접속</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"># aws cli 사용을 위한 자격 증명 설정 (<span class="hljs-keyword">admin</span>)<br>$ aws configure<br>AWS <span class="hljs-keyword">Access</span> Key ID [<span class="hljs-keyword">None</span>]: AKIAIOSFODNN7EX####<br>AWS Secret <span class="hljs-keyword">Access</span> Key [<span class="hljs-keyword">None</span>]: wJalrXUtnFEMI/K7MD####<br><span class="hljs-keyword">Default</span> region <span class="hljs-type">name</span> [<span class="hljs-keyword">None</span>]: ap-northeast<span class="hljs-number">-2</span><br><span class="hljs-keyword">Default</span> output <span class="hljs-keyword">format</span> [<span class="hljs-keyword">None</span>]: <span class="hljs-keyword">table</span><br><br># 자격 증명 List 확인<br>$ aws configure list<br><br># ec2 조회<br>aws ec2 describe-instances<br></code></pre></td></tr></table></figure>
+
+<img alt="스크린샷 2021-07-08 오전 12 06 27" src="https://user-images.githubusercontent.com/86812249/124787490-79aca700-df83-11eb-988c-c658cbbc7fed.png" srcset="/img/loading.gif" lazyload>
+<img width="307" alt="스크린샷 2021-07-08 오전 12 11 12" src="https://user-images.githubusercontent.com/86812249/124787491-7a453d80-df83-11eb-9ea6-0b778312b2dc.png" srcset="/img/loading.gif" lazyload>
+<img width="514" alt="스크린샷 2021-07-08 오전 12 11 33" src="https://user-images.githubusercontent.com/86812249/124787493-7a453d80-df83-11eb-8edc-57350f6c9766.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>S3IAMRoleEC2</code>에 아이디를 복사</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-meta"># S3IAMRoleEC2 재시작</span><br>aws ec2 reboot-instances --instance-ids <span class="hljs-string">&#x27;S3IAMRoleEC2&#x27;</span><br><span class="hljs-built_in">ping</span> <span class="hljs-string">&#x27;S3IAMRoleEC2&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<img width="569" alt="스크린샷 2021-07-08 오전 12 12 11" src="https://user-images.githubusercontent.com/86812249/124787494-7addd400-df83-11eb-9382-06345949bf20.png" srcset="/img/loading.gif" lazyload>
+<img alt="스크린샷 2021-07-08 오전 12 14 23" src="https://user-images.githubusercontent.com/86812249/124787497-7b766a80-df83-11eb-9b43-2a5cf94623ff.png" srcset="/img/loading.gif" lazyload>
+<img alt="스크린샷 2021-07-08 오전 12 14 27" src="https://user-images.githubusercontent.com/86812249/124787501-7b766a80-df83-11eb-9eca-db1f36d7b47e.png" srcset="/img/loading.gif" lazyload>
+<img width="568" alt="스크린샷 2021-07-08 오전 12 14 45" src="https://user-images.githubusercontent.com/86812249/124787503-7c0f0100-df83-11eb-9386-6c84d4f7acf2.png" srcset="/img/loading.gif" lazyload>
+<img width="550" alt="스크린샷 2021-07-08 오전 12 14 53" src="https://user-images.githubusercontent.com/86812249/124787507-7ca79780-df83-11eb-91b5-cdb585c7796d.png" srcset="/img/loading.gif" lazyload>
+
+<p>S3IAMRoleEC2 SSH 접속 → 자격 증명 없이도 S3 사용 가능</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 현재 EC2에 적용된 IAM Role(EC2 Profile) 정보 확인</span><br>curl http:<span class="hljs-regexp">//</span><span class="hljs-number">169.254</span>.<span class="hljs-number">169.254</span><span class="hljs-regexp">/latest/m</span>eta-data<span class="hljs-regexp">/iam/</span>security-credentials/STGLabInstanceRole<br><br><span class="hljs-comment"># S3 버킷 조회</span><br>aws s3 ls<br><br><span class="hljs-comment"># S3 버킷 생성</span><br>aws s3 mb s3:<span class="hljs-regexp">//</span>버킷(유일한 이름) --region ap-northeast-<span class="hljs-number">2</span><br><br><span class="hljs-comment"># S3 버킷 삭제</span><br>aws s3 rm s3:<span class="hljs-regexp">//</span>버킷<br></code></pre></td></tr></table></figure>
+
+<img width="485" alt="스크린샷 2021-07-08 오전 12 15 53" src="https://user-images.githubusercontent.com/86812249/124787509-7ca79780-df83-11eb-9a1b-e7b3d8cd3327.png" srcset="/img/loading.gif" lazyload>
+<img width="557" alt="스크린샷 2021-07-08 오전 12 17 33" src="https://user-images.githubusercontent.com/86812249/124787513-7dd8c480-df83-11eb-995f-1b78ae0c513a.png" srcset="/img/loading.gif" lazyload>
+<img width="290" alt="스크린샷 2021-07-08 오전 12 17 44" src="https://user-images.githubusercontent.com/86812249/124787517-7e715b00-df83-11eb-97c7-226655a547fb.png" srcset="/img/loading.gif" lazyload>
+<img width="565" alt="스크린샷 2021-07-08 오전 12 18 17" src="https://user-images.githubusercontent.com/86812249/124787521-7e715b00-df83-11eb-93ec-b3d824d04925.png" srcset="/img/loading.gif" lazyload>
+<img width="567" alt="스크린샷 2021-07-08 오전 12 19 28" src="https://user-images.githubusercontent.com/86812249/124787539-80d3b500-df83-11eb-9755-df3e14aa8f67.png" srcset="/img/loading.gif" lazyload>
+<img width="300" alt="스크린샷 2021-07-08 오전 12 19 40" src="https://user-images.githubusercontent.com/86812249/124787540-816c4b80-df83-11eb-948f-1e3bc5f9c8b3.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs crystal"><span class="hljs-comment"># VPC 정보 확인</span><br><span class="hljs-variable">$ </span>aws ec2 describe-vpcs<br></code></pre></td></tr></table></figure>
+
+<p>권한이 없어서 VPC 확인을 하지 못합니다<br><img width="566" alt="스크린샷 2021-07-08 오전 12 20 04" src="https://user-images.githubusercontent.com/86812249/124787542-816c4b80-df83-11eb-81a6-ca4e5eff489f.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="실습-IAM-Policy"><a href="#실습-IAM-Policy" class="headerlink" title="실습) IAM Policy"></a>실습) IAM Policy</h2><p>IAM → 사용자 → <code>admin</code> 클릭 → 권한에 <code>+ 인라인 정책 추가</code> 클릭<br><img width="290" alt="스크린샷 2021-07-08 오전 12 20 32" src="https://user-images.githubusercontent.com/86812249/124787546-8204e200-df83-11eb-856a-4c969aef775d.png" srcset="/img/loading.gif" lazyload><br><img width="99" alt="스크린샷 2021-07-08 오전 12 20 48" src="https://user-images.githubusercontent.com/86812249/124787550-829d7880-df83-11eb-80e0-55de6fcbc0d9.png" srcset="/img/loading.gif" lazyload><br><img width="344" alt="스크린샷 2021-07-08 오전 12 20 52" src="https://user-images.githubusercontent.com/86812249/124787553-829d7880-df83-11eb-94f7-4e9a419f5c76.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>JSON</code> 클릭 후 아래 내용 입력 -&gt; <code>정책 검토</code> 클릭</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;Version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2012-10-17&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;Statement&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;Effect&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Deny&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;Action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>        <span class="hljs-string">&quot;ec2:RebootInstances&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-string">&quot;ec2:StopInstances&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-string">&quot;ec2:TerminateInstances&quot;</span><br>      <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;Resource&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;*&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<img width="144" alt="스크린샷 2021-07-08 오전 12 21 08" src="https://user-images.githubusercontent.com/86812249/124787556-83360f00-df83-11eb-99b8-fc97c93eda88.png" srcset="/img/loading.gif" lazyload>
+<img width="1260" alt="스크린샷 2021-07-08 오전 12 21 28" src="https://user-images.githubusercontent.com/86812249/124787558-83cea580-df83-11eb-8ad5-be23cd801764.png" srcset="/img/loading.gif" lazyload>
+
+<p>이름은 아무거나<br>하단에 <code>정책 생성</code> 클릭<br><img width="1254" alt="스크린샷 2021-07-08 오전 12 22 14" src="https://user-images.githubusercontent.com/86812249/124787565-84ffd280-df83-11eb-9658-623126cb434d.png" srcset="/img/loading.gif" lazyload></p>
+<p>정책이 생겼습니당<br><img width="699" alt="스크린샷 2021-07-08 오전 12 22 26" src="https://user-images.githubusercontent.com/86812249/124787567-85986900-df83-11eb-9f62-91d193e188d6.png" srcset="/img/loading.gif" lazyload></p>
+<p>다시 Basic 인스턴스 CLI로 돌아간 후</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-comment"># ec2 조회</span><br>aws ec2 describe-<span class="hljs-keyword">instances</span><br><span class="hljs-keyword"></span><br><span class="hljs-comment"># S3IAMRoleEC2 재시작</span><br>aws ec2 reboot-<span class="hljs-keyword">instances </span>--<span class="hljs-keyword">instance-ids </span><span class="hljs-string">&#x27;S3IAMRoleEC2&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<img width="561" alt="스크린샷 2021-07-08 오전 12 22 52" src="https://user-images.githubusercontent.com/86812249/124787571-85986900-df83-11eb-82f8-a95f1ecb14b0.png" srcset="/img/loading.gif" lazyload>
+
+<p>재시작은 안 되는 걸 볼 수 있다. 아까 추가한 인라인 정책 중 Deny 항목에 <strong>ec2:RebootInstances</strong>이 있었기 때문이다<br><img width="609" alt="스크린샷 2021-07-08 오전 12 25 41" src="https://user-images.githubusercontent.com/86812249/124787574-8630ff80-df83-11eb-9f17-34c8efd419ae.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="자원-삭제-중요"><a href="#자원-삭제-중요" class="headerlink" title="자원 삭제 (중요!)"></a>자원 삭제 (중요!)</h2><h3 id="IAM-User-삭제-admin-viewuser"><a href="#IAM-User-삭제-admin-viewuser" class="headerlink" title="IAM User 삭제(admin, viewuser)"></a>IAM User 삭제(admin, viewuser)</h3><h3 id="CloudFormation-삭제"><a href="#CloudFormation-삭제" class="headerlink" title="CloudFormation 삭제"></a>CloudFormation 삭제</h3><br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 5주차-2 보안 실습</div>
+      <div>http://example.com/2021/07/07/2021-07-07-AFOS-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 7, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/14/2021-07-14-AFOS-1/" title="[AWS] 6주차-1 데이터베이스 서비스">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 6주차-1 데이터베이스 서비스</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/07/2021-07-07-AFOS-1/" title="[AWS] 5주차-1 보안 서비스">
+                        <span class="hidden-mobile">[AWS] 5주차-1 보안 서비스</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

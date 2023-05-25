@@ -1,0 +1,793 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="링크 접속 https:&#x2F;&#x2F;console.aws.amazon.com&#x2F;cloudformation&#x2F;home?region&#x3D;ap-northeast-2#&#x2F;stacks&#x2F;new?stackName&#x3D;ELBLab&amp;templateURL&#x3D;https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws.com%2Fchapter5%2F5_la">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 7주차-2 ALB를 통한 로드 밸런싱 실습">
+<meta property="og:url" content="http://example.com/2021/07/21/2021-07-21-AFOS-2/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="링크 접속 https:&#x2F;&#x2F;console.aws.amazon.com&#x2F;cloudformation&#x2F;home?region&#x3D;ap-northeast-2#&#x2F;stacks&#x2F;new?stackName&#x3D;ELBLab&amp;templateURL&#x3D;https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws.com%2Fchapter5%2F5_la">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-07-21T14:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:50:29.010Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 7주차-2 ALB를 통한 로드 밸런싱 실습 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ALB를 통한 로드 밸런싱 실습"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-21 23:00" pubdate>
+          July 21, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ALB를 통한 로드 밸런싱 실습</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>링크 접속</p>
+<p><a target="_blank" rel="noopener" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=ELBLab&templateURL=https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws.com%2Fchapter5%2F5_lab1-AFOS.yaml">https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=ELBLab&amp;templateURL=https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws.com%2Fchapter5%2F5_lab1-AFOS.yaml</a></p>
+<p><code>다음</code> 클릭 -&gt; <code>key설정</code> 후 <code>다음</code> 클릭 -&gt; <code>다음</code> 클릭 -&gt; <code>스택 생성</code> 클릭<br><img width="254" alt="스크린샷 2021-07-21 오후 10 20 06" src="https://user-images.githubusercontent.com/87232411/126513896-bf1a3072-a6f7-47d1-9623-2718618982a5.png" srcset="/img/loading.gif" lazyload><br><img width="819" alt="스크린샷 2021-07-21 오후 10 20 29" src="https://user-images.githubusercontent.com/87232411/126513901-4dd6b737-85df-4d16-9a1d-9a80e69663b7.png" srcset="/img/loading.gif" lazyload><br><img width="222" alt="스크린샷 2021-07-21 오후 10 20 35" src="https://user-images.githubusercontent.com/87232411/126513903-726afd98-4287-4ba2-a97f-292363046ec2.png" srcset="/img/loading.gif" lazyload><br><img width="225" alt="스크린샷 2021-07-21 오후 10 20 42" src="https://user-images.githubusercontent.com/87232411/126513905-1aa5ba67-db60-4826-b121-9232e5a27338.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="기본-환경-검증"><a href="#기본-환경-검증" class="headerlink" title="기본 환경 검증"></a>기본 환경 검증</h3><p>ELB-EC2-1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo su -<br>tree /var/www/html<br>/var/www/html<br><span class="hljs-built_in">cat</span> /var/www/html/xff.php<br></code></pre></td></tr></table></figure>
+
+<p>ELB-EC2-2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo su -<br>tree /var/www/html<br>/var/www/html<br><span class="hljs-built_in">cat</span> /var/www/html/xff.php<br></code></pre></td></tr></table></figure>
+
+<img width="358" alt="스크린샷 2021-07-21 오후 10 32 44" src="https://user-images.githubusercontent.com/87232411/126513908-3b266227-1859-47d0-bcf3-6e94b504e938.png" srcset="/img/loading.gif" lazyload>
+<img width="810" alt="스크린샷 2021-07-21 오후 10 33 18" src="https://user-images.githubusercontent.com/87232411/126513912-2a025826-0414-4cbe-b832-c183f93f5991.png" srcset="/img/loading.gif" lazyload>
+<img width="336" alt="스크린샷 2021-07-21 오후 10 33 51" src="https://user-images.githubusercontent.com/87232411/126513916-48d1da1e-ac23-4575-b816-c98119159b89.png" srcset="/img/loading.gif" lazyload>
+<img width="808" alt="스크린샷 2021-07-21 오후 10 34 18" src="https://user-images.githubusercontent.com/87232411/126513919-c8d6116c-dc9c-4288-8d28-823c01b6a93f.png" srcset="/img/loading.gif" lazyload>
+
+<h3 id="My-EC2-에서-확인"><a href="#My-EC2-에서-확인" class="headerlink" title="My-EC2 에서 확인"></a>My-EC2 에서 확인</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">EC21= 아이피 주소<br>EC22= 아이피 주소<br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$EC21</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$EC22</span><br><br><span class="hljs-comment"># ELB-EC2-1 서비스 확인</span><br>curl <span class="hljs-variable">$EC21</span><br>curl <span class="hljs-variable">$EC21</span>/xff.php;<span class="hljs-built_in">echo</span><br>curl <span class="hljs-variable">$EC21</span>/dev/<br>snmpget -v2c -c public <span class="hljs-variable">$EC21</span> 1.3.6.1.2.1.1.5.0<br>snmpget -v2c -c public <span class="hljs-variable">$EC21</span> 1.3.6.1.2.1.1.3.0<br><br><span class="hljs-comment"># ELB-EC2-2 서비스 확인</span><br>curl <span class="hljs-variable">$EC22</span><br>curl <span class="hljs-variable">$EC22</span>/xff.php;<span class="hljs-built_in">echo</span><br>curl <span class="hljs-variable">$EC22</span>/mgt/<br>snmpget -v2c -c public <span class="hljs-variable">$EC22</span> 1.3.6.1.2.1.1.5.0<br></code></pre></td></tr></table></figure>
+
+<img width="302" alt="스크린샷 2021-07-21 오후 10 36 49" src="https://user-images.githubusercontent.com/87232411/126513921-d04951ba-14b7-47ee-9b99-7b10032429be.png" srcset="/img/loading.gif" lazyload>
+<img width="551" alt="스크린샷 2021-07-21 오후 10 42 19" src="https://user-images.githubusercontent.com/87232411/126513923-d7609886-1c23-490e-a024-187657ebc61c.png" srcset="/img/loading.gif" lazyload>
+<img width="538" alt="스크린샷 2021-07-21 오후 10 42 28" src="https://user-images.githubusercontent.com/87232411/126513925-2a76745d-5d76-4842-abdc-fff9148cd40f.png" srcset="/img/loading.gif" lazyload>
+<img width="556" alt="스크린샷 2021-07-21 오후 10 43 38" src="https://user-images.githubusercontent.com/87232411/126513927-e66eb166-2e65-41ea-b05c-25773b91ac28.png" srcset="/img/loading.gif" lazyload>
+<img width="540" alt="스크린샷 2021-07-21 오후 10 43 46" src="https://user-images.githubusercontent.com/87232411/126513929-61849ccc-ae6c-4215-b476-f9a74224b6a9.png" srcset="/img/loading.gif" lazyload>
+
+<h3 id="ALB-생성"><a href="#ALB-생성" class="headerlink" title="ALB 생성"></a>ALB 생성</h3><p><code>Load Banlancer 생성</code> 클릭 -&gt; ALB 찾아서 <code>생성</code> 클릭<br><img width="241" alt="스크린샷 2021-07-21 오후 10 45 30" src="https://user-images.githubusercontent.com/87232411/126513932-9de2d48d-331e-430a-ad5d-9c716781c2dd.png" srcset="/img/loading.gif" lazyload><br><img width="391" alt="스크린샷 2021-07-21 오후 10 45 36" src="https://user-images.githubusercontent.com/87232411/126513935-09d6f355-06b6-45cc-a9fe-7d1e78c0ee30.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">1.</span> 기본 구성<br><span class="hljs-bullet">    -</span> 이름(ALB-TEST), 인터넷 경계<br><span class="hljs-bullet">    -</span> 리스너 : 프로토콜(HTTP), 포트(80)<br><span class="hljs-bullet">    -</span> 가용 영역 : ELB-VPC, 2a 와 2c 선택<br><span class="hljs-bullet">2.</span> 보안 설정 구성 : skip<br><span class="hljs-bullet">3.</span> 보안 그룹 구성 : 기존보안그룹 (###-ELBSG-### , TCP 80, 22 허용) 선택<br><span class="hljs-bullet">4.</span> 라우팅 구성<br><span class="hljs-bullet">    -</span> 대상 그룹(새 대상 그룹), 이름(ALB-TG), 대상 유형(인스턴스), 프로토콜(HTTP), 포트(80)<br><span class="hljs-bullet">    -</span> 상태 검사 → 고급 상태 검사 설정 : 정상 임계 값(3), 간격(10), 나머지는 기본값<br><span class="hljs-bullet">5.</span> 대상 등록 : 하단 인스턴스 선택 → 등록된 항목에 추가<br><span class="hljs-bullet">6.</span> 검토 → 생성<br></code></pre></td></tr></table></figure>
+
+<img width="748" alt="스크린샷 2021-07-21 오후 10 46 31" src="https://user-images.githubusercontent.com/87232411/126513936-0af397ed-e381-4b06-9c67-48a08f3d57b9.png" srcset="/img/loading.gif" lazyload>
+<img width="827" alt="스크린샷 2021-07-21 오후 10 47 02" src="https://user-images.githubusercontent.com/87232411/126513938-a24d4b61-e497-450c-b3f1-44a0fcbd3763.png" srcset="/img/loading.gif" lazyload>
+<img width="181" alt="스크린샷 2021-07-21 오후 10 47 12" src="https://user-images.githubusercontent.com/87232411/126513939-6b5e92ab-2f74-41cd-be78-0a760948ded7.png" srcset="/img/loading.gif" lazyload>
+<img width="1088" alt="스크린샷 2021-07-21 오후 10 47 30" src="https://user-images.githubusercontent.com/87232411/126513941-8aff99c3-aa20-4485-b875-37e535afe80a.png" srcset="/img/loading.gif" lazyload>
+<img width="1078" alt="스크린샷 2021-07-21 오후 10 47 40" src="https://user-images.githubusercontent.com/87232411/126513943-8a8c15d7-dadf-4ec3-8fd8-322b055f0d0c.png" srcset="/img/loading.gif" lazyload>
+<img width="802" alt="스크린샷 2021-07-21 오후 10 48 11" src="https://user-images.githubusercontent.com/87232411/126513945-b19f6810-8c58-414b-a22e-9d4ea2b79cb3.png" srcset="/img/loading.gif" lazyload>
+<img width="1088" alt="스크린샷 2021-07-21 오후 10 48 34" src="https://user-images.githubusercontent.com/87232411/126513948-f44d731d-d7a4-4cc6-8c24-2c7d382b5331.png" srcset="/img/loading.gif" lazyload>
+<img width="641" alt="스크린샷 2021-07-21 오후 10 48 51" src="https://user-images.githubusercontent.com/87232411/126513954-f88f4a2d-4306-402f-b042-6a6270a7b800.png" srcset="/img/loading.gif" lazyload>
+<img width="1057" alt="스크린샷 2021-07-21 오후 10 49 02" src="https://user-images.githubusercontent.com/87232411/126513958-3dbbde6e-5f8c-4f45-82c9-e1875c147495.png" srcset="/img/loading.gif" lazyload>
+<img width="157" alt="스크린샷 2021-07-21 오후 10 49 06" src="https://user-images.githubusercontent.com/87232411/126513960-8c66bd83-784c-4eb9-8477-d025d617c08e.png" srcset="/img/loading.gif" lazyload>
+<img width="100" alt="스크린샷 2021-07-21 오후 10 49 11" src="https://user-images.githubusercontent.com/87232411/126513965-94690be9-adf7-47bc-b5e5-b39ab45e4b32.png" srcset="/img/loading.gif" lazyload>
+
+<p>EC2 -&gt; 네트워크 및 보안 -&gt; 네트워크 인터페이스에서 IP주소랑, 인스턴스 소유자 확인<br><img width="625" alt="스크린샷 2021-07-21 오후 10 50 26" src="https://user-images.githubusercontent.com/87232411/126513968-ab5da299-fb8d-4c11-a5cd-b0a77c59fe3e.png" srcset="/img/loading.gif" lazyload><br><img width="569" alt="스크린샷 2021-07-21 오후 10 51 16" src="https://user-images.githubusercontent.com/87232411/126513969-f63d34cb-5228-4a65-904e-7f83b64d5857.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="ALB-검증"><a href="#ALB-검증" class="headerlink" title="ALB 검증"></a>ALB 검증</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">ALB=ALB DNS 주소<br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$ALB</span><br><br><span class="hljs-comment"># curl 접속 테스트 - ALB 는 기본 라운드 로빈 방식으로 대상 분산</span><br>dig <span class="hljs-variable">$ALB</span> +short<br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> dig <span class="hljs-variable">$ALB</span> +short &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;------------------------------&quot;</span> &amp;&amp; <span class="hljs-built_in">date</span>; <span class="hljs-built_in">sleep</span> 5; <span class="hljs-keyword">done</span><br><br>curl <span class="hljs-variable">$ALB</span><br>curl <span class="hljs-variable">$ALB</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..20&#125;; <span class="hljs-keyword">do</span> curl <span class="hljs-variable">$ALB</span> --silent ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..100&#125;; <span class="hljs-keyword">do</span> curl <span class="hljs-variable">$ALB</span> --silent ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br>curl <span class="hljs-variable">$ALB</span>/xff.php ;<span class="hljs-built_in">echo</span><br>curl <span class="hljs-variable">$ALB</span>/xff.php ;<span class="hljs-built_in">echo</span><br><br><span class="hljs-comment"># /dev/index.html 접근</span><br>curl <span class="hljs-variable">$ALB</span>/dev/index.html --silent<br>curl <span class="hljs-variable">$ALB</span>/dev/index.html --silent<br><br><span class="hljs-comment"># /mgt/index.html 접근</span><br>curl <span class="hljs-variable">$ALB</span>/mgt/index.html --silent<br>curl <span class="hljs-variable">$ALB</span>/mgt/index.html --silent<br></code></pre></td></tr></table></figure>
+
+<img width="542" alt="스크린샷 2021-07-21 오후 10 52 54" src="https://user-images.githubusercontent.com/87232411/126513971-35bd0525-a98b-4042-9573-3fcd2c239604.png" srcset="/img/loading.gif" lazyload>
+<img width="300" alt="스크린샷 2021-07-21 오후 10 53 16" src="https://user-images.githubusercontent.com/87232411/126513975-d0ea6586-08ae-4d5c-bf58-b257741e45a5.png" srcset="/img/loading.gif" lazyload>
+<img width="567" alt="스크린샷 2021-07-21 오후 10 53 35" src="https://user-images.githubusercontent.com/87232411/126513977-cc14e79f-bef1-46cb-8d18-cdbf09d9dba3.png" srcset="/img/loading.gif" lazyload>
+<img width="258" alt="스크린샷 2021-07-21 오후 10 54 00" src="https://user-images.githubusercontent.com/87232411/126513978-152bae5b-6716-4e88-bb5c-f86c56adf6ea.png" srcset="/img/loading.gif" lazyload>
+<img width="564" alt="스크린샷 2021-07-21 오후 10 54 16" src="https://user-images.githubusercontent.com/87232411/126513980-85485ff1-d4f4-4c42-a02f-b8b9d9f9aeac.png" srcset="/img/loading.gif" lazyload>
+<img width="564" alt="스크린샷 2021-07-21 오후 10 54 33" src="https://user-images.githubusercontent.com/87232411/126513983-a1cb3c39-2695-4aaa-8062-f8204d456229.png" srcset="/img/loading.gif" lazyload>
+<img width="544" alt="스크린샷 2021-07-21 오후 10 54 52" src="https://user-images.githubusercontent.com/87232411/126513984-1bda53b2-95f0-4251-8d29-906421d96ccf.png" srcset="/img/loading.gif" lazyload>
+<img width="656" alt="스크린샷 2021-07-21 오후 10 57 03" src="https://user-images.githubusercontent.com/87232411/126513986-1a9d27f1-29b0-49f9-91fd-59468778fe96.png" srcset="/img/loading.gif" lazyload>
+<img width="628" alt="스크린샷 2021-07-21 오후 10 57 09" src="https://user-images.githubusercontent.com/87232411/126513989-ff79dd85-c772-4399-866d-ce142f256078.png" srcset="/img/loading.gif" lazyload>
+<img width="669" alt="스크린샷 2021-07-21 오후 10 57 33" src="https://user-images.githubusercontent.com/87232411/126536890-78ebd884-8d2c-47ff-999e-364909bea0e3.png" srcset="/img/loading.gif" lazyload>
+<img width="660" alt="스크린샷 2021-07-21 오후 10 57 43" src="https://user-images.githubusercontent.com/87232411/126536904-7010bf68-8409-4cbd-bed8-ab196fb06a4f.png" srcset="/img/loading.gif" lazyload>
+<img width="407" alt="스크린샷 2021-07-21 오후 10 58 23" src="https://user-images.githubusercontent.com/87232411/126513997-e51e5189-30dc-4e44-8a7f-38770d078bd2.png" srcset="/img/loading.gif" lazyload>
+<img width="410" alt="스크린샷 2021-07-21 오후 10 58 31" src="https://user-images.githubusercontent.com/87232411/126513999-6f28092d-c14c-4489-9ca8-dc774f868c31.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gradle">tail -f <span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/httpd/</span>access_log<br>tail -f <span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/httpd/</span>access_log |<span class="hljs-keyword">grep</span> -v <span class="hljs-string">&quot;ELB-HealthChecker/2.0&quot;</span><br>tcpdump tcp port <span class="hljs-number">80</span> -nn<br></code></pre></td></tr></table></figure>
+
+<img width="700" alt="스크린샷 2021-07-21 오후 11 12 50" src="https://user-images.githubusercontent.com/87232411/126514001-e3efc504-ec68-4ca6-a5dc-2349a73feb1e.png" srcset="/img/loading.gif" lazyload>
+<img width="631" alt="스크린샷 2021-07-21 오후 11 13 07" src="https://user-images.githubusercontent.com/87232411/126514002-e6efa7cb-cac5-453a-996d-14090953cc75.png" srcset="/img/loading.gif" lazyload>
+<img width="495" alt="스크린샷 2021-07-21 오후 11 13 54" src="https://user-images.githubusercontent.com/87232411/126514006-ca870d38-b49e-4b04-9c8a-1998521ccd4c.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># Apache 기본 로그 설정 정보 확인</span><br>grep -n LogFormat <span class="hljs-regexp">/etc/</span>httpd<span class="hljs-regexp">/conf/</span>httpd.conf<br><br><span class="hljs-comment"># Apache 기본 로그 설정 변경 : 196번째 줄에 %&#123;X-Forwarded-For&#125;i 추가</span><br>nano <span class="hljs-regexp">/etc/</span>httpd<span class="hljs-regexp">/conf/</span>httpd.conf<br><span class="hljs-comment"># CTRL+X Y Enter 로 저장하고 빠져나오기</span><br><br><span class="hljs-comment"># HTTP 다시 로드</span><br>systemctl reload httpd<br><br><span class="hljs-comment"># 실시간 로그 출력 후 외부에서 접속 시도</span><br>tail -f <span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/httpd/</span>access_log |grep -v <span class="hljs-string">&quot;ELB-HealthChecker/2.0&quot;</span><br></code></pre></td></tr></table></figure>
+
+<img width="703" alt="스크린샷 2021-07-21 오후 11 14 45" src="https://user-images.githubusercontent.com/87232411/126514007-b5b94f66-a5ca-4cef-bd2f-eebfa86cba05.png" srcset="/img/loading.gif" lazyload>
+<img width="799" alt="스크린샷 2021-07-21 오후 11 15 42" src="https://user-images.githubusercontent.com/87232411/126514009-27bef401-c872-4b63-85b8-d2afd1c74565.png" srcset="/img/loading.gif" lazyload>
+<img width="930" alt="스크린샷 2021-07-21 오후 11 17 01" src="https://user-images.githubusercontent.com/87232411/126537302-de88651b-47ba-41c4-aacc-6a8661a6673e.png" srcset="/img/loading.gif" lazyload>
+
+<h3 id="경로-Path-기반-라우팅-설정"><a href="#경로-Path-기반-라우팅-설정" class="headerlink" title="경로(Path) 기반 라우팅 설정"></a>경로(Path) 기반 라우팅 설정</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">- 대상 그룹 생성 : Dev-<span class="hljs-keyword">Group</span>(ELB-EC2-<span class="hljs-number">1</span>) , Mgt-<span class="hljs-keyword">Group</span>(ELB-EC2-<span class="hljs-number">2</span>)<br>- 리스너 규칙 편집 : 경로 <span class="hljs-regexp">/dev/</span>* → 전달 대상(Dev-<span class="hljs-keyword">Group</span>) , 경로 <span class="hljs-regexp">/mgt/</span>* → 전달 대상(Mgt-<span class="hljs-keyword">Group</span>)<br></code></pre></td></tr></table></figure>
+
+<p><code>Create target group</code> 클릭<br><img width="239" alt="스크린샷 2021-07-21 오후 11 21 50" src="https://user-images.githubusercontent.com/87232411/126514014-6e697fa0-eec1-4038-bc31-4e4873ef4db4.png" srcset="/img/loading.gif" lazyload></p>
+<p>Target group name ‘Dev-Group’ 입력<br><img width="954" alt="스크린샷 2021-07-21 오후 11 22 19" src="https://user-images.githubusercontent.com/87232411/126514017-f53cb9b9-3e23-4ed5-82ea-3afd1baacab1.png" srcset="/img/loading.gif" lazyload></p>
+<p>VPC <code>ELB-VPC</code>로 변경<br><img width="994" alt="스크린샷 2021-07-21 오후 11 22 38" src="https://user-images.githubusercontent.com/87232411/126514020-2aed6484-a9ab-43ea-9387-6b3c3afa6a9c.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>Next</code> 클릭<br><img width="155" alt="스크린샷 2021-07-21 오후 11 22 43" src="https://user-images.githubusercontent.com/87232411/126514021-cdf090be-b80d-4802-bcf8-cc87fef4d046.png" srcset="/img/loading.gif" lazyload></p>
+<p>ALB-EC2-1 클릭 -&gt; <code>Include as pending below</code> 클릭<br><img width="1159" alt="스크린샷 2021-07-21 오후 11 23 22" src="https://user-images.githubusercontent.com/87232411/126514023-43d3b2a4-7409-4232-8c40-d8af5b488d38.png" srcset="/img/loading.gif" lazyload></p>
+<p>추가 됐으면 <code>Create target group</code> 클릭</p>
+<img width="1368" alt="스크린샷 2021-07-21 오후 11 23 34" src="https://user-images.githubusercontent.com/87232411/126514028-8deb41cb-4ccf-4112-ad92-07ae38f51912.png" srcset="/img/loading.gif" lazyload>
+
+<p>Mgt-Group도 똑같이 만들기<br><img width="619" alt="스크린샷 2021-07-21 오후 11 24 19" src="https://user-images.githubusercontent.com/87232411/126514029-e3d00282-c1cb-4268-91e7-2d49bd3d6647.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2 -&gt; 로드밸런서 -&gt; ALB-TEST 선택 후 리스너 클릭 -&gt; <code>규칙 보기/편집</code> 클릭<br>상단에 <code>+</code> 버튼 클릭<br><img width="411" alt="스크린샷 2021-07-21 오후 11 25 11" src="https://user-images.githubusercontent.com/87232411/126514031-4c62d139-ba93-47b9-baa5-4017cf3ee095.png" srcset="/img/loading.gif" lazyload><br><img width="694" alt="스크린샷 2021-07-21 오후 11 25 24" src="https://user-images.githubusercontent.com/87232411/126514032-42b8b5fc-ecf3-4497-ac03-864dd573fa48.png" srcset="/img/loading.gif" lazyload><br><img width="165" alt="스크린샷 2021-07-21 오후 11 25 41" src="https://user-images.githubusercontent.com/87232411/126514033-24d32d01-454c-4e68-9b9a-660e3eda74e3.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>규칙 삽입</code> 클릭</p>
+<img width="798" alt="스크린샷 2021-07-21 오후 11 25 51" src="https://user-images.githubusercontent.com/87232411/126514036-cf1df150-780b-4c05-a9f7-97bad452b73a.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs livescript">조건 -&gt; 경로 -&gt; 값 <span class="hljs-regexp">/dev/</span>*<br>전달 대상 -&gt; 대상 그룹: Dev-Group<br></code></pre></td></tr></table></figure>
+
+<p><code>저장</code> 클릭</p>
+<img width="1272" alt="스크린샷 2021-07-21 오후 11 26 33" src="https://user-images.githubusercontent.com/87232411/126514038-11982d69-c719-41a5-9acf-76d95cc47d5a.png" srcset="/img/loading.gif" lazyload>
+
+<p>Mgt-group에도 똑같이 리스너 규칙을 추가해줍니다.<br><img width="1244" alt="스크린샷 2021-07-21 오후 11 27 11" src="https://user-images.githubusercontent.com/87232411/126514041-1b5598da-1cc5-44a6-88dc-5ca06299e8b1.png" srcset="/img/loading.gif" lazyload></p>
+<p>규칙 설정 전<br><img width="659" alt="스크린샷 2021-07-21 오후 11 29 28" src="https://user-images.githubusercontent.com/87232411/126514044-a12a4824-eb0f-4fa0-8d46-1129e9bcfda8.png" srcset="/img/loading.gif" lazyload><br><img width="701" alt="스크린샷 2021-07-21 오후 11 30 34" src="https://user-images.githubusercontent.com/87232411/126514046-8f116457-8b38-4c81-87d3-601ce08b2e8d.png" srcset="/img/loading.gif" lazyload></p>
+<p>규칙 설정 후<br><img width="722" alt="스크린샷 2021-07-21 오후 11 31 54" src="https://user-images.githubusercontent.com/87232411/126514056-f95f2d99-558d-4e4b-97b9-e88fbfd76a35.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="HTTP-헤더-기반-라우팅-설정-고정-응답-반환"><a href="#HTTP-헤더-기반-라우팅-설정-고정-응답-반환" class="headerlink" title="HTTP 헤더 기반 라우팅 설정 - 고정 응답 반환"></a>HTTP 헤더 기반 라우팅 설정 - 고정 응답 반환</h3><p>목적: HTTP header 에 이름이 user 이고 값이 이름인 쿠키(Cookie)가 매칭되면 고정된 응답을 반환</p>
+<p>EC2 -&gt; 로드밸런서 -&gt; ALB-TEST 선택 후 리스너 클릭 -&gt; <code>규칙 보기/편집</code> 클릭<br>상단에 <code>+</code> 버튼 클릭 -&gt; <code>규칙 삽입</code> 클릭<br><img width="712" alt="스크린샷 2021-07-21 오후 11 33 21" src="https://user-images.githubusercontent.com/87232411/126514057-f56b37e6-c0ed-4718-8ffb-383218923d5a.png" srcset="/img/loading.gif" lazyload><br><img width="197" alt="스크린샷 2021-07-21 오후 11 33 27" src="https://user-images.githubusercontent.com/87232411/126514059-5bbdd5c2-4e35-4d6d-8615-ca8d0c53a9af.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">리스너 규칙 편집 : HTTP 헤더 - Cookie 는 <span class="hljs-attribute">user</span>=닉네임 → 고정 응답 반환 200 <span class="hljs-string">&quot;Hello 닉네임&quot;</span><br></code></pre></td></tr></table></figure>
+
+<img width="1271" alt="스크린샷 2021-07-21 오후 11 34 18" src="https://user-images.githubusercontent.com/87232411/126514062-80ca9641-1e78-48d2-94db-cf1e354f3609.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl --cookie <span class="hljs-string">&quot;user=닉네임&quot;</span> <span class="hljs-variable">$ALB</span> ;<span class="hljs-built_in">echo</span><br></code></pre></td></tr></table></figure>
+
+<img width="432" alt="스크린샷 2021-07-21 오후 11 35 01" src="https://user-images.githubusercontent.com/87232411/126514064-08408799-6725-4761-9a5a-0cb95e7f9b7e.png" srcset="/img/loading.gif" lazyload>
+
+<h3 id="소스-IP-기반-라우팅-설정-고정-응답-반환"><a href="#소스-IP-기반-라우팅-설정-고정-응답-반환" class="headerlink" title="소스 IP 기반 라우팅 설정 - 고정 응답 반환"></a>소스 IP 기반 라우팅 설정 - 고정 응답 반환</h3><p>목적: 소스IP 주소가 매칭되면 고정된 응답을 반환</p>
+<p><code>규칙 삽입</code> 클릭<br><img width="206" alt="스크린샷 2021-07-21 오후 11 35 14" src="https://user-images.githubusercontent.com/87232411/126514068-54b05f13-65ad-49a6-b0aa-9331660861e8.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">리스너 규칙 편집 : 소스<span class="hljs-type">IP</span> -확장=<span class="hljs-symbol">&#x27;My</span>-EC2 공인 IP입력&#x27; → 고정 응답 반환 <span class="hljs-number">200</span> <span class="hljs-string">&quot;Hello EC2 Instance. Your IP address #&quot;</span><br></code></pre></td></tr></table></figure>
+
+<img width="1247" alt="스크린샷 2021-07-21 오후 11 36 34" src="https://user-images.githubusercontent.com/87232411/126514070-d2145dd5-e421-4c67-8f67-96d9bfcb6f01.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 인터넷 사용 시 자신의 IP 주소(공인IP)를 확인하는 법</span><br> <span class="hljs-built_in">curl</span> <span class="hljs-literal">-4</span> icanhazip.com<br><br><span class="hljs-comment"># 규칙 확인</span><br><span class="hljs-built_in">curl</span> <span class="hljs-variable">$ALB</span><br></code></pre></td></tr></table></figure>
+
+<img width="469" alt="스크린샷 2021-07-21 오후 11 37 11" src="https://user-images.githubusercontent.com/87232411/126514073-a1eff0fb-fc7c-4c97-bdad-9e1cdae8b617.png" srcset="/img/loading.gif" lazyload>
+
+<h3 id="Query-String-기반-라우팅-설정-고정-응답-반환"><a href="#Query-String-기반-라우팅-설정-고정-응답-반환" class="headerlink" title="Query String 기반 라우팅 설정 - 고정 응답 반환"></a>Query String 기반 라우팅 설정 - 고정 응답 반환</h3><p>목적: 쿼리 문자열 값이 매칭되면 고정된 응답을 반환</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">리스너 규칙 편집 : 쿼리 문자열=&#x27;ABTest&#x27; → 고정 응답 반환 <span class="hljs-number">200</span> <span class="hljs-string">&quot;A/B Test, option A selected&quot;</span><br></code></pre></td></tr></table></figure>
+
+<img width="1279" alt="스크린샷 2021-07-21 오후 11 38 45" src="https://user-images.githubusercontent.com/87232411/126514074-d8393ac3-d71e-4264-8ea4-688157b6d6e7.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">curl</span> <span class="hljs-variable">$ALB</span><br><span class="hljs-built_in">curl</span> <span class="hljs-variable">$ALB</span>?ABTest=A<br></code></pre></td></tr></table></figure>
+
+<img width="601" alt="스크린샷 2021-07-21 오후 11 39 27" src="https://user-images.githubusercontent.com/87232411/126514077-04d207ba-bd74-42aa-9012-486d90883322.png" srcset="/img/loading.gif" lazyload>
+
+<p>HTTP Request method 기반 라우팅 설정 - 고정 응답 반환</p>
+<p>목적: HTTP 특정 메소드가 매칭되면 고정된 응답을 반환</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">리스너 규칙 편집 : <span class="hljs-type">HTTP</span> 요청 메서드=<span class="hljs-symbol">&#x27;READ</span>&#x27; → 고정 응답 반환 <span class="hljs-number">200</span> <span class="hljs-string">&quot;Custom READ method invoked&quot;</span><br></code></pre></td></tr></table></figure>
+
+<img width="1268" alt="스크린샷 2021-07-21 오후 11 40 16" src="https://user-images.githubusercontent.com/87232411/126514079-52870cd8-0807-4d6a-a3e3-46a4129d8b99.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@ip-172-31-7-124 ~]$ curl --request READ <span class="hljs-variable">$ALB</span><br>Custom READ method invoked<br></code></pre></td></tr></table></figure>
+
+<img width="346" alt="스크린샷 2021-07-21 오후 11 40 54" src="https://user-images.githubusercontent.com/87232411/126514081-d7f160b9-19a1-424b-a245-b1e46167316a.png" srcset="/img/loading.gif" lazyload>
+
+<h3 id="ALB-고급-라우팅-아이폰-사용자-차단"><a href="#ALB-고급-라우팅-아이폰-사용자-차단" class="headerlink" title="ALB 고급 라우팅: 아이폰 사용자 차단"></a>ALB 고급 라우팅: 아이폰 사용자 차단</h3><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ada">리스너 규칙:<br>HTTP 헤더 → **User-Agent** 는 *iPhone*<br>고정 응답 반환 : 503 <span class="hljs-type">iPhone</span> <span class="hljs-keyword">Access</span> Deny<br></code></pre></td></tr></table></figure>
+
+<img width="1262" alt="스크린샷 2021-07-21 오후 11 42 36" src="https://user-images.githubusercontent.com/87232411/126514085-7ba3e249-d5b2-4499-b6eb-3b00953def39.png" srcset="/img/loading.gif" lazyload>
+
+<p>리스너 규칙 설정 전<br><img src="https://user-images.githubusercontent.com/87232411/126527042-62e35afe-fcfc-4490-821e-a2d5520badf3.jpeg" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>리스너 규칙 설정 후<br><img src="https://user-images.githubusercontent.com/87232411/126527035-7c11492e-7e00-446a-89bf-b35073ecc8fc.jpeg" srcset="/img/loading.gif" lazyload alt="2"></p>
+<h3 id="가용성-테스트"><a href="#가용성-테스트" class="headerlink" title="가용성 테스트"></a>가용성 테스트</h3><p>ELB-EC2-1 인스턴스 중지<br><img width="385" alt="스크린샷 2021-07-21 오후 11 58 31" src="https://user-images.githubusercontent.com/87232411/126514093-9038013d-d042-41c6-afbc-920bf0aed126.png" srcset="/img/loading.gif" lazyload></p>
+<p>ELB-1 으로 접속은 안 되네요<br><img width="643" alt="스크린샷 2021-07-21 오후 11 59 28" src="https://user-images.githubusercontent.com/87232411/126514095-1db5f0c3-d80d-4879-bbec-d6eb7b7b85f0.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2 -&gt; 대상 그룹 -&gt; 모니터링 클릭<br><img width="455" alt="스크린샷 2021-07-22 오전 12 00 38" src="https://user-images.githubusercontent.com/87232411/126514096-59faf71e-deb3-4d65-baf2-320a4e70927c.png" srcset="/img/loading.gif" lazyload></p>
+<p>비정상 호스트 확인 -&gt; 음 … 잘못한 건가<br><img width="1328" alt="스크린샷 2021-07-22 오전 12 01 08" src="https://user-images.githubusercontent.com/87232411/126514101-6ee27713-bf34-4bd4-b222-49c09b6bcd0b.png" srcset="/img/loading.gif" lazyload></p>
+<br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 7주차-2 ALB를 통한 로드 밸런싱 실습</div>
+      <div>http://example.com/2021/07/21/2021-07-21-AFOS-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 21, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/22/2021-07-21-AFOS-3/" title="[AWS] 7주차-3 NLB를 통한 로드 밸런싱 실습">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 7주차-3 NLB를 통한 로드 밸런싱 실습</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/21/2021-07-21-AFOS-1/" title="[AWS] 7주차-1 네트워크(부하분산) 서비스">
+                        <span class="hidden-mobile">[AWS] 7주차-1 네트워크(부하분산) 서비스</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

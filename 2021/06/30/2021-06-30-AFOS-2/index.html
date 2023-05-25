@@ -1,0 +1,917 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="cloudFormation -&gt; 스택 생성 클릭    URL에 https:&#x2F;&#x2F;s3.ap-northeast-2.amazonaws.com&#x2F;cloudformation.cloudneta.net&#x2F;STORAGE&#x2F;Storage.yaml 입력 -&gt; 다음 클릭    스택 이름 : 마음대로 -&gt; key 선택 후에 다음 선택    기본값으로 둔 후에 다음 클릭">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 4주차-2 CloudFormation, EFS 실습">
+<meta property="og:url" content="http://example.com/2021/06/30/2021-06-30-AFOS-2/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="cloudFormation -&gt; 스택 생성 클릭    URL에 https:&#x2F;&#x2F;s3.ap-northeast-2.amazonaws.com&#x2F;cloudformation.cloudneta.net&#x2F;STORAGE&#x2F;Storage.yaml 입력 -&gt; 다음 클릭    스택 이름 : 마음대로 -&gt; key 선택 후에 다음 선택    기본값으로 둔 후에 다음 클릭">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-06-30T14:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:50:00.844Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 4주차-2 CloudFormation, EFS 실습 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CloudFormation, EFS 실습"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-06-30 23:00" pubdate>
+          June 30, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CloudFormation, EFS 실습</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><code>cloudFormation</code> -&gt; <code>스택 생성</code> 클릭<br><br/></p>
+<img width="419" alt="스크린샷 2021-06-30 오후 10 24 15" src="https://user-images.githubusercontent.com/76810787/123975057-0ee5f380-d9f8-11eb-9cce-231066b643be.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>URL에 <code>https://s3.ap-northeast-2.amazonaws.com/cloudformation.cloudneta.net/STORAGE/Storage.yaml</code> 입력 -&gt; <code>다음</code> 클릭<br><br/></p>
+<img width="1030" alt="스크린샷 2021-06-30 오후 10 24 39" src="https://user-images.githubusercontent.com/76810787/123975077-11e0e400-d9f8-11eb-8cd0-d8f96d54a38d.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>스택 이름 : 마음대로</code> -&gt; <code>key</code> 선택 후에 <code>다음</code> 선택<br><br/></p>
+<img width="1049" alt="스크린샷 2021-06-30 오후 10 25 02" src="https://user-images.githubusercontent.com/76810787/123975084-13121100-d9f8-11eb-8ed4-e972bc1c2468.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>기본값으로 둔 후에 <code>다음</code> 클릭<br><br/></p>
+<img width="269" alt="스크린샷 2021-06-30 오후 10 25 19" src="https://user-images.githubusercontent.com/76810787/123975096-14433e00-d9f8-11eb-8d86-36a806cf035d.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>맨 하단에 파란색 박스 <code>체크</code> 클릭 -&gt; <code>스택 생성</code> 클릭<br><br/></p>
+<img width="1020" alt="스크린샷 2021-06-30 오후 10 25 34" src="https://user-images.githubusercontent.com/76810787/123975100-14dbd480-d9f8-11eb-9db2-ced314e82537.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>짠 완성 !<br><br/></p>
+<img width="899" alt="스크린샷 2021-06-30 오후 10 25 51" src="https://user-images.githubusercontent.com/76810787/123975104-15746b00-d9f8-11eb-924c-7ab8a743f126.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>여러분 제 블로그를 열심히 보셨다면 !!(?) 이제 <code>인스턴스 연결</code> 정도면 껌이겠죠 ?!!!<br><br></p>
+<img width="886" alt="스크린샷 2021-06-30 오후 10 27 52" src="https://user-images.githubusercontent.com/76810787/123975106-160d0180-d9f8-11eb-9b61-57524e541cc1.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><strong>EBS 기본 정보 확인</strong><br><br/></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 루트 사용자로 바꿔줍시다잉</span><br>sudo su<br><br><span class="hljs-comment"># 디스크 여유 공간 출력</span><br>df -hT <span class="hljs-regexp">/dev/</span>xvda1<br><br><span class="hljs-comment"># 사용 가능한 디스크 디바이스와 마운트 포인트(해당하는 경우)를 출력</span><br>lsblk<br><br><span class="hljs-comment"># 볼륨에 파일 시스템이 있는지 확인, data만 출력 시 파일시스템이 없으므로 생성해야함</span><br>file -s <span class="hljs-regexp">/dev/</span>xvda<br><br><span class="hljs-comment"># 파일 시스템이 있으면 파일 시스템의 유형에 관한 정보를 출력</span><br>file -s <span class="hljs-regexp">/dev/</span>xvda1<br><br><span class="hljs-comment"># 디바이스의 UUID 찾기</span><br>blkid<br><br><span class="hljs-comment"># 디바이스의 탑재 지점 확인</span><br>cat <span class="hljs-regexp">/etc/</span>fstab<br><br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="295" alt="스크린샷 2021-06-30 오후 10 29 15" src="https://user-images.githubusercontent.com/76810787/123975113-16a59800-d9f8-11eb-8e9f-406a00c2635b.png" srcset="/img/loading.gif" lazyload>
+<img width="403" alt="스크린샷 2021-06-30 오후 10 30 20" src="https://user-images.githubusercontent.com/76810787/123975118-173e2e80-d9f8-11eb-820f-d0e6729aeff9.png" srcset="/img/loading.gif" lazyload>
+<img width="343" alt="스크린샷 2021-06-30 오후 10 30 33" src="https://user-images.githubusercontent.com/76810787/123975121-17d6c500-d9f8-11eb-8760-986de1af9f01.png" srcset="/img/loading.gif" lazyload>
+<img width="566" alt="스크린샷 2021-06-30 오후 10 30 45" src="https://user-images.githubusercontent.com/76810787/123975123-186f5b80-d9f8-11eb-93e9-4e45239abe46.png" srcset="/img/loading.gif" lazyload>
+<img width="504" alt="스크린샷 2021-06-30 오후 10 31 13" src="https://user-images.githubusercontent.com/76810787/123975127-186f5b80-d9f8-11eb-9c62-35523b422160.png" srcset="/img/loading.gif" lazyload>
+<img width="567" alt="스크린샷 2021-06-30 오후 10 31 29" src="https://user-images.githubusercontent.com/76810787/123975131-1907f200-d9f8-11eb-9035-2f396a2ca804.png" srcset="/img/loading.gif" lazyload>
+<img width="564" alt="스크린샷 2021-06-30 오후 10 31 42" src="https://user-images.githubusercontent.com/76810787/123975136-1907f200-d9f8-11eb-8c6d-132b8ae493d4.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>EC2</code> -&gt; <code>볼륨</code> -&gt; <code>볼륨 생성</code> 클릭<br><br/></p>
+<img width="170" alt="스크린샷 2021-06-30 오후 10 32 11" src="https://user-images.githubusercontent.com/76810787/123975140-19a08880-d9f8-11eb-83d2-dce530bee6ae.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">크기</span><span class="hljs-punctuation"> :</span> <span class="hljs-string">20</span><br><span class="hljs-attribute">가용 영역</span><span class="hljs-punctuation"> :</span> <span class="hljs-string">루트 볼륨 영역 (저를 따라하셨다면 a가 맞습니다)</span><br><span class="hljs-attribute">스냅샷 ID </span><span class="hljs-punctuation">:</span><br><span class="hljs-attribute">태그</span><span class="hljs-punctuation"> :</span> <span class="hljs-string">키 (Name), 값(Data1)</span><br></code></pre></td></tr></table></figure>
+
+<p><code>볼륨 생성</code> 클릭<br><br/></p>
+<img width="1193" alt="스크린샷 2021-06-30 오후 10 32 43" src="https://user-images.githubusercontent.com/76810787/123975144-1a391f00-d9f8-11eb-81fb-7a41caed2f51.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>만들어졌습니다 ㅎㅎ<br><br/></p>
+<img width="429" alt="스크린샷 2021-06-30 오후 10 33 01" src="https://user-images.githubusercontent.com/76810787/123975151-1ad1b580-d9f8-11eb-9475-fd8b5a1fabf0.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>볼륨에서 <code>볼륨 연결</code> 클릭<br><br/></p>
+<img width="331" alt="스크린샷 2021-06-30 오후 10 33 21" src="https://user-images.githubusercontent.com/76810787/123975153-1ad1b580-d9f8-11eb-936b-251814842159.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>인스턴스에서 <code>EC2-STG1</code> 클릭<br><br/></p>
+<img width="647" alt="스크린샷 2021-06-30 오후 10 33 39" src="https://user-images.githubusercontent.com/76810787/123975156-1b6a4c00-d9f8-11eb-8937-0f86ea39312e.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>디바이스 이름을 <code>xvdf</code>로 바꿔줍니다 그후에 하단에 <code>연결</code> 클릭 !<br><br/></p>
+<img width="831" alt="스크린샷 2021-06-30 오후 10 36 07" src="https://user-images.githubusercontent.com/76810787/123975158-1c02e280-d9f8-11eb-8abe-06613f8cd131.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><strong>EC2-STG1 신규 볼륨 사용 설정</strong><br><br/></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 관리자 권한으로 변경</span><br>sudo su<br><br><span class="hljs-comment"># 라이브 상태에서 디바이스 추가 확인 됨</span><br>lsblk<br><br><span class="hljs-comment"># 볼륨 ID 확인</span><br>lsblk -o +SERIAL<br><br><span class="hljs-comment"># 현재는 파일 시스템이 없음</span><br>file -s <span class="hljs-regexp">/dev/</span>xvdf<br><br><span class="hljs-comment"># 볼륨을 포맷해서 파일 시스템을 생성</span><br>mkfs -t xfs <span class="hljs-regexp">/dev/</span>xvdf<br><br>디렉터리를 생성 후 마운트<br>mkdir /data<br>mount <span class="hljs-regexp">/dev/</span>xvdf /data<br><br><span class="hljs-comment"># 파일을 생성 후 확인</span><br>echo <span class="hljs-string">&quot;EBS Test&quot;</span> &gt; <span class="hljs-regexp">/data/m</span>emo.txt<br>cat <span class="hljs-regexp">/data/m</span>emo.txt<br><br><span class="hljs-comment"># 디바이스 확인</span><br>lsblk<br>df -hT <span class="hljs-regexp">/dev/</span>xvdf<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="329" alt="스크린샷 2021-06-30 오후 10 36 51" src="https://user-images.githubusercontent.com/76810787/123975161-1c02e280-d9f8-11eb-86b6-92d8408071fa.png" srcset="/img/loading.gif" lazyload>
+<img width="369" alt="스크린샷 2021-06-30 오후 10 37 09" src="https://user-images.githubusercontent.com/76810787/123975163-1c9b7900-d9f8-11eb-9857-1d14a52650dc.png" srcset="/img/loading.gif" lazyload>
+<img width="381" alt="스크린샷 2021-06-30 오후 10 38 05" src="https://user-images.githubusercontent.com/76810787/123975167-1c9b7900-d9f8-11eb-9789-b68e58f19572.png" srcset="/img/loading.gif" lazyload>
+<img width="564" alt="스크린샷 2021-06-30 오후 10 38 10" src="https://user-images.githubusercontent.com/76810787/123975170-1d340f80-d9f8-11eb-9932-b60a001e8cf3.png" srcset="/img/loading.gif" lazyload>
+<img width="380" alt="스크린샷 2021-06-30 오후 10 38 43" src="https://user-images.githubusercontent.com/76810787/123975171-1dcca600-d9f8-11eb-82e6-1f45730ece51.png" srcset="/img/loading.gif" lazyload>
+<img width="482" alt="스크린샷 2021-06-30 오후 10 39 20" src="https://user-images.githubusercontent.com/76810787/123975173-1dcca600-d9f8-11eb-8970-12c588f01284.png" srcset="/img/loading.gif" lazyload>
+<img width="330" alt="스크린샷 2021-06-30 오후 10 39 35" src="https://user-images.githubusercontent.com/76810787/123975178-1e653c80-d9f8-11eb-9543-baeab59fa359.png" srcset="/img/loading.gif" lazyload>
+<img width="426" alt="스크린샷 2021-06-30 오후 10 39 53" src="https://user-images.githubusercontent.com/76810787/123975181-1efdd300-d9f8-11eb-9fc4-8674fdabec42.png" srcset="/img/loading.gif" lazyload>
+
+<h2 id="심화-옵션-EC2-STG1-신규-볼륨-사용-설정시-재부팅-시에도-신규-볼륨을-자동-마운트"><a href="#심화-옵션-EC2-STG1-신규-볼륨-사용-설정시-재부팅-시에도-신규-볼륨을-자동-마운트" class="headerlink" title="심화 옵션) EC2-STG1 신규 볼륨 사용 설정시 재부팅 시에도 신규 볼륨을 자동 마운트"></a>심화 옵션) EC2-STG1 신규 볼륨 사용 설정시 재부팅 시에도 신규 볼륨을 자동 마운트</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 혹시 모르니 fstab 파일 백업</span><br>cp <span class="hljs-regexp">/etc/</span>fstab <span class="hljs-regexp">/etc/</span>fstab.orig<br><br><span class="hljs-comment"># 재부팅 이후에도 볼륨 자동 탑재를 위한 fstab 설정(nofail: 볼륨 없어도 부팅 가능)</span><br>blkid<br><br>echo <span class="hljs-string">&quot;UUID=위blkid의자신의UUID입력  /data  xfs  defaults,nofail  0  2&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/</span>fstab<br>cat <span class="hljs-regexp">/etc/</span>fstab<br><br><span class="hljs-comment">#위 항목이 설정이 잘 되었는지 확인을 위해서 탑재를 해제 후 다시 탑재 (오류가 있을 시 문제를 출력)</span><br>umount /data<br>mount -a<br><br><span class="hljs-comment"># 다시 재부팅</span><br>reboot<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="567" alt="스크린샷 2021-06-30 오후 10 40 42" src="https://user-images.githubusercontent.com/76810787/123975186-1f966980-d9f8-11eb-9832-e24aa93132e5.png" srcset="/img/loading.gif" lazyload>
+<img width="567" alt="스크린샷 2021-06-30 오후 10 42 17" src="https://user-images.githubusercontent.com/76810787/123975187-1f966980-d9f8-11eb-9352-c97258fa803f.png" srcset="/img/loading.gif" lazyload>
+<img width="570" alt="스크린샷 2021-06-30 오후 10 42 40" src="https://user-images.githubusercontent.com/76810787/123975191-202f0000-d9f8-11eb-93f3-68e95aa68650.png" srcset="/img/loading.gif" lazyload>
+<img width="331" alt="스크린샷 2021-06-30 오후 10 43 20" src="https://user-images.githubusercontent.com/76810787/123975195-20c79680-d9f8-11eb-984c-7cb4e8df131f.png" srcset="/img/loading.gif" lazyload>
+<img width="569" alt="스크린샷 2021-06-30 오후 10 43 40" src="https://user-images.githubusercontent.com/76810787/123975199-20c79680-d9f8-11eb-81d0-3e2d7d1f627e.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 정상적으로 디스크 디바이스가 보이고 마운트 되어 있으며 생성한 파일을 확인 가능</span><br>lsblk<br><br><span class="hljs-comment"># memo 파일을 찾아 봅시당</span><br>cat <span class="hljs-regexp">/data/m</span>emo.txt<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="391" alt="스크린샷 2021-06-30 오후 10 44 47" src="https://user-images.githubusercontent.com/76810787/123975201-21602d00-d9f8-11eb-946f-bf0791b82cd4.png" srcset="/img/loading.gif" lazyload>
+<img width="337" alt="스크린샷 2021-06-30 오후 10 45 04" src="https://user-images.githubusercontent.com/76810787/123975205-21f8c380-d9f8-11eb-997f-93d0dd26704a.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>EC2-STG1볼륨</code> 클릭 -&gt; <code>볼륨 수정</code> 클릭<br><br/></p>
+<img width="312" alt="스크린샷 2021-06-30 오후 10 46 27" src="https://user-images.githubusercontent.com/76810787/123975208-22915a00-d9f8-11eb-8859-53e42b7749c5.png" srcset="/img/loading.gif" lazyload>
+<img width="280" alt="스크린샷 2021-06-30 오후 10 46 35" src="https://user-images.githubusercontent.com/76810787/123975210-22915a00-d9f8-11eb-92aa-09b34a96e545.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ada">볼륨 유형 : <span class="hljs-type">gp3</span><br>크기 : 20<br>IOPS : 3000<br></code></pre></td></tr></table></figure>
+
+<p><code>수정</code> 클릭<br><br/></p>
+<img width="606" alt="스크린샷 2021-06-30 오후 10 47 10" src="https://user-images.githubusercontent.com/76810787/123975214-2329f080-d9f8-11eb-9308-6553f06de006.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="파일-시스템-확장-볼륨이-optimizing-상태가-되자마자-파일-시스템-크기-조정을-할-수-있음-gt-1-파티션-늘림-gt-2-파일-시스템-늘림"><a href="#파일-시스템-확장-볼륨이-optimizing-상태가-되자마자-파일-시스템-크기-조정을-할-수-있음-gt-1-파티션-늘림-gt-2-파일-시스템-늘림" class="headerlink" title="파일 시스템 확장 : 볼륨이 optimizing 상태가 되자마자 파일 시스템 크기 조정을 할 수 있음 -&gt; 1) 파티션 늘림 -&gt; 2) 파일 시스템 늘림"></a>파일 시스템 확장 : 볼륨이 optimizing 상태가 되자마자 파일 시스템 크기 조정을 할 수 있음 -&gt; 1) 파티션 늘림 -&gt; 2) 파일 시스템 늘림</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 현재 루트 볼륨이 20G로 반영되어 있는데 아직 xvda1 파티션 크기가 8G 이므로 파티션 확장이 필요</span><br>lsblk<br><br><span class="hljs-comment"># 아직은 xvda1 크기가 8G 이다</span><br>df -hT <span class="hljs-regexp">/dev/</span>xvda1<br><br><span class="hljs-comment"># 1) growpart 명령어로 파티션을 늘림</span><br>growpart <span class="hljs-regexp">/dev/</span>xvda <span class="hljs-number">1</span><br><br><span class="hljs-comment"># 늘린 파티션으로 반영이 되었다</span><br>lsblk<br><br><span class="hljs-comment"># 파일 시스템은 아직 여전히 8G</span><br>df -hT <span class="hljs-regexp">/dev/</span>xvda1<br><br><span class="hljs-comment"># 2) xfs_growfs 명령어로 볼륨의 파일 시스템을 확장</span><br>xfs_growfs -d /<br><br><span class="hljs-comment"># 최종적으로 파일시스템까지 20G 용량으로 확장됨</span><br>df -hT <span class="hljs-regexp">/dev/</span>xvda1<br><br><span class="hljs-comment"># 심화 메모</span><br><span class="hljs-comment"># ext4 볼륨의 경우 아래 명령어로 확장</span><br>resize2fs <span class="hljs-regexp">/dev/</span>xvda1<br></code></pre></td></tr></table></figure>
+
+<p>추가로 EBS 불륨을 연결 후 다시 해당 볼륨을 확장 시에도 위와 동일한 작업을 진행하면됨<br><br/></p>
+<img width="347" alt="스크린샷 2021-06-30 오후 10 47 43" src="https://user-images.githubusercontent.com/76810787/123975219-23c28700-d9f8-11eb-8c59-a62d47c0d44f.png" srcset="/img/loading.gif" lazyload>
+<img width="426" alt="스크린샷 2021-06-30 오후 10 47 55" src="https://user-images.githubusercontent.com/76810787/123975224-245b1d80-d9f8-11eb-9054-2c397607d344.png" srcset="/img/loading.gif" lazyload>
+<img width="287" alt="스크린샷 2021-06-30 오후 10 48 19" src="https://user-images.githubusercontent.com/76810787/123975231-24f3b400-d9f8-11eb-98ea-34d5f75876e0.png" srcset="/img/loading.gif" lazyload>
+<img width="567" alt="스크린샷 2021-06-30 오후 10 48 36" src="https://user-images.githubusercontent.com/76810787/123975235-258c4a80-d9f8-11eb-8d8b-5a6da5a9384a.png" srcset="/img/loading.gif" lazyload>
+<img width="356" alt="스크린샷 2021-06-30 오후 10 48 48" src="https://user-images.githubusercontent.com/76810787/123975237-2624e100-d9f8-11eb-8447-f16b9f0a9849.png" srcset="/img/loading.gif" lazyload>
+<img width="439" alt="스크린샷 2021-06-30 오후 10 49 02" src="https://user-images.githubusercontent.com/76810787/123975239-2624e100-d9f8-11eb-8b1e-1fdb713f58a5.png" srcset="/img/loading.gif" lazyload>
+<img width="548" alt="스크린샷 2021-06-30 오후 10 49 26" src="https://user-images.githubusercontent.com/76810787/123975243-26bd7780-d9f8-11eb-97a5-2aab172e828b.png" srcset="/img/loading.gif" lazyload>
+<img width="423" alt="스크린샷 2021-06-30 오후 10 49 46" src="https://user-images.githubusercontent.com/76810787/123975246-27560e00-d9f8-11eb-8cd5-dc1836f54e0e.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="심화-옵션-EC2-STG1-의-루트-불륨-EBS-Shapshot-스냅샷-증분백업-확인"><a href="#심화-옵션-EC2-STG1-의-루트-불륨-EBS-Shapshot-스냅샷-증분백업-확인" class="headerlink" title="심화 옵션) EC2-STG1 의 루트 불륨(EBS) Shapshot(스냅샷) - 증분백업 확인"></a>심화 옵션) EC2-STG1 의 루트 불륨(EBS) Shapshot(스냅샷) - 증분백업 확인</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 더미 파일 생성</span><br>fallocate -l <span class="hljs-number">10</span>G <span class="hljs-regexp">/home/</span><span class="hljs-number">10</span>G.dummy <span class="hljs-regexp">//</span>의미없는 파일 생성<br><br>ls -alh <span class="hljs-regexp">/home/</span><span class="hljs-number">10</span>G.dummy<br><br>df -hT <span class="hljs-regexp">/dev/</span>xvda1<br><br>du -hs /home<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="463" alt="스크린샷 2021-06-30 오후 10 52 05" src="https://user-images.githubusercontent.com/76810787/123975251-27560e00-d9f8-11eb-87d2-4fcaa2f013b0.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>EC2</code> -&gt; <code>스냅샷</code> -&gt; <code>스냅샷 생성</code> 클릭<br><br/></p>
+<img width="115" alt="스크린샷 2021-06-30 오후 10 53 57" src="https://user-images.githubusercontent.com/76810787/123975255-27eea480-d9f8-11eb-8e5d-6ceb9cf30fc1.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>볼륨 : EC2-STG1<br><br/></p>
+<img width="529" alt="스크린샷 2021-06-30 오후 10 54 18" src="https://user-images.githubusercontent.com/76810787/123975260-28873b00-d9f8-11eb-9d84-11345ace1e01.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>설명: FirstSnapshot -&gt; <code>스냅샷 생성</code> 클릭<br><br/></p>
+<img width="1194" alt="스크린샷 2021-06-30 오후 10 55 10" src="https://user-images.githubusercontent.com/76810787/123975263-291fd180-d9f8-11eb-9678-6c101139c885.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 더미 파일 생성</span><br><span class="hljs-attribute">fallocate</span> -l <span class="hljs-number">5</span>G /home/<span class="hljs-number">1</span>G.dummy<br></code></pre></td></tr></table></figure>
+
+<img width="427" alt="스크린샷 2021-07-01 오전 12 08 43" src="https://user-images.githubusercontent.com/76810787/123986322-2b3a5e00-da01-11eb-9b57-454c0577096b.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>EC2</code> -&gt; <code>스냅샷</code> -&gt; <code>스냅샷 생성</code> 클릭<br><br/></p>
+<img width="127" alt="스크린샷 2021-07-01 오전 12 09 16" src="https://user-images.githubusercontent.com/76810787/123986328-2d042180-da01-11eb-964e-0eb09d001852.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>볼륨 : EC2-STG1<br><br/></p>
+<img width="643" alt="스크린샷 2021-07-01 오전 12 09 24" src="https://user-images.githubusercontent.com/76810787/123986331-2e354e80-da01-11eb-874c-486a81afbb7b.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>설명: SecondSnapshot -&gt; <code>스냅샷 생성</code> 클릭<br><br/></p>
+<img width="1225" alt="스크린샷 2021-07-01 오전 12 09 50" src="https://user-images.githubusercontent.com/76810787/123986334-2f667b80-da01-11eb-87f9-732089e6eb02.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>두번째 스냅샷의 진행 상황을 봅시다 .. 뭔가 오래 걸릴 거 같군요 …<br><br/></p>
+<img width="245" alt="스크린샷 2021-07-01 오전 12 10 37" src="https://user-images.githubusercontent.com/76810787/123986338-2fff1200-da01-11eb-9f2b-b8a5e8e452a0.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>몇십분 걸릴 줄 알았는데, 몇십초 있으니 바로 생성 됐네요 … 엄청 빨라요 ..<br><br/></p>
+<img width="672" alt="스크린샷 2021-07-01 오전 12 11 07" src="https://user-images.githubusercontent.com/76810787/123986339-2fff1200-da01-11eb-9b3e-1427fefef1b8.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>EFS</code> -&gt; <code>파일 시스템 생성</code> 클릭<br><br/></p>
+<img width="336" alt="스크린샷 2021-07-01 오전 12 11 39" src="https://user-images.githubusercontent.com/76810787/123986342-3097a880-da01-11eb-8304-d73b26f73877.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">이름: 마음대로</span><br><span class="hljs-section">VPC: ELB-VPC</span><br>리전<br></code></pre></td></tr></table></figure>
+
+<p><code>생성</code> 클릭<br><br/></p>
+<img width="594" alt="스크린샷 2021-07-01 오전 12 12 01" src="https://user-images.githubusercontent.com/76810787/123986345-31303f00-da01-11eb-8b69-4ad461fcf094.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>EFS가 만들어졌네요 자 이름을 클릭해봅시다 !<br><br/></p>
+<img width="653" alt="스크린샷 2021-07-01 오전 12 12 20" src="https://user-images.githubusercontent.com/76810787/123986351-31c8d580-da01-11eb-8460-98058d98a03b.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>하단에 <code>네트워크</code> 클릭<br><br/></p>
+<img width="164" alt="스크린샷 2021-07-01 오전 12 12 26" src="https://user-images.githubusercontent.com/76810787/123986352-32616c00-da01-11eb-8ee0-795a42faa58e.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>사용 가능</code> 이라고 뜨면 <code>관리</code> 클릭<br><br/></p>
+<img width="552" alt="스크린샷 2021-07-01 오전 12 23 06" src="https://user-images.githubusercontent.com/76810787/123994853-c1be4d80-da08-11eb-920b-9bf8ea31615f.png" srcset="/img/loading.gif" lazyload>
+<img width="137" alt="스크린샷 2021-07-01 오전 12 23 09" src="https://user-images.githubusercontent.com/76810787/123994864-c4b93e00-da08-11eb-9ea0-a9ce91d84d32.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>맨 하단에 보안그룹 전부 제거<br><br/><br><img width="441" alt="스크린샷 2021-07-01 오전 12 23 29" src="https://user-images.githubusercontent.com/76810787/123994868-c551d480-da08-11eb-877e-4046f2a0a4df.png" srcset="/img/loading.gif" lazyload><br><img width="339" alt="스크린샷 2021-07-01 오전 12 23 35" src="https://user-images.githubusercontent.com/76810787/123994874-c5ea6b00-da08-11eb-999e-c16374eba33f.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<p><code>default</code>말고 다른 보안 그룹 클릭<br><br/><br><img width="329" alt="스크린샷 2021-07-01 오전 12 23 44" src="https://user-images.githubusercontent.com/76810787/123994876-c5ea6b00-da08-11eb-8262-a297fffffa97.png" srcset="/img/loading.gif" lazyload><br><img width="317" alt="스크린샷 2021-07-01 오전 12 23 54" src="https://user-images.githubusercontent.com/76810787/123994877-c6830180-da08-11eb-888e-d0f8a13f6f4c.png" srcset="/img/loading.gif" lazyload><br><img width="510" alt="스크린샷 2021-07-01 오전 12 24 03" src="https://user-images.githubusercontent.com/76810787/123994881-c71b9800-da08-11eb-8e91-d678b07c6f42.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<p><strong>EC2-STG1 에 EFS 마운트</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs gradle">curl localhost<br>mkdir <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>efs<br>mount -t efs -o tls 자신의-EFS-ID:<span class="hljs-regexp">/ /</span>var<span class="hljs-regexp">/www/</span>html/efs<br>echo <span class="hljs-string">&quot;&lt;html&gt;&lt;h1&gt;Hello from Amazon EFS&lt;/h1&gt;&lt;/html&gt;&quot;</span> &gt; <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>efs/index.html<br>curl localhost<span class="hljs-regexp">/efs/</span><br>df |<span class="hljs-keyword">grep</span> efs<br>df -hT |<span class="hljs-keyword">grep</span> efs<br>dig +<span class="hljs-keyword">short</span> 자신의-EFS-ID.efs.ap-northeast-<span class="hljs-number">2</span>.amazonaws.com<br></code></pre></td></tr></table></figure>
+
+<img width="385" alt="스크린샷 2021-07-01 오전 12 24 36" src="https://user-images.githubusercontent.com/76810787/123994886-c7b42e80-da08-11eb-8ef4-9ee2325b357f.png" srcset="/img/loading.gif" lazyload>
+<img width="395" alt="스크린샷 2021-07-01 오전 12 25 25" src="https://user-images.githubusercontent.com/76810787/123994887-c84cc500-da08-11eb-85ee-dcf670167739.png" srcset="/img/loading.gif" lazyload>
+<img width="565" alt="스크린샷 2021-07-01 오전 12 26 08" src="https://user-images.githubusercontent.com/76810787/123994890-c84cc500-da08-11eb-94a8-99de5c9cc2a1.png" srcset="/img/loading.gif" lazyload>
+<img width="570" alt="스크린샷 2021-07-01 오전 12 27 36" src="https://user-images.githubusercontent.com/76810787/123994892-c8e55b80-da08-11eb-91fb-5b5a911445f4.png" srcset="/img/loading.gif" lazyload>
+<img width="350" alt="스크린샷 2021-07-01 오전 12 27 42" src="https://user-images.githubusercontent.com/76810787/123994893-c97df200-da08-11eb-9c51-7c65ebcd690b.png" srcset="/img/loading.gif" lazyload>
+<img width="567" alt="스크린샷 2021-07-01 오전 12 27 47" src="https://user-images.githubusercontent.com/76810787/123994894-c97df200-da08-11eb-83b5-80b1cc05d0f9.png" srcset="/img/loading.gif" lazyload>
+<img width="516" alt="스크린샷 2021-07-01 오전 12 28 26" src="https://user-images.githubusercontent.com/76810787/123994895-ca168880-da08-11eb-8256-070079adba88.png" srcset="/img/loading.gif" lazyload>
+<img width="567" alt="스크린샷 2021-07-01 오전 12 33 07" src="https://user-images.githubusercontent.com/76810787/123994918-cd117900-da08-11eb-83e5-92f64e9742ef.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><strong>EC2-STG2 에 EFS 마운트</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs gradle">sudo su<br>mkdir <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>efs<br>mount -t efs -o tls 자신의-EFS-ID:<span class="hljs-regexp">/ /</span>var<span class="hljs-regexp">/www/</span>html/efs<br>curl localhost<span class="hljs-regexp">/efs/</span><br>df -hT |<span class="hljs-keyword">grep</span> efs<br>dig +<span class="hljs-keyword">short</span> 자신의-EFS-ID.efs.ap-northeast-<span class="hljs-number">2</span>.amazonaws.com<br></code></pre></td></tr></table></figure>
+
+<br/>
+<img width="301" alt="스크린샷 2021-07-01 오전 12 29 48" src="https://user-images.githubusercontent.com/76810787/123994900-caaf1f00-da08-11eb-82f6-1dae61dbf012.png" srcset="/img/loading.gif" lazyload>
+<img width="560" alt="스크린샷 2021-07-01 오전 12 30 53" src="https://user-images.githubusercontent.com/76810787/123994903-cb47b580-da08-11eb-83e6-0f5a83833b0a.png" srcset="/img/loading.gif" lazyload>
+<img width="406" alt="스크린샷 2021-07-01 오전 12 30 58" src="https://user-images.githubusercontent.com/76810787/123994909-cbe04c00-da08-11eb-925a-820fe41dd7b1.png" srcset="/img/loading.gif" lazyload>
+<img width="494" alt="스크린샷 2021-07-01 오전 12 31 16" src="https://user-images.githubusercontent.com/76810787/123994913-cc78e280-da08-11eb-82e5-76d0086361f3.png" srcset="/img/loading.gif" lazyload>
+<img width="1210" alt="스크린샷 2021-07-01 오전 12 32 59" src="https://user-images.githubusercontent.com/76810787/123994917-cc78e280-da08-11eb-8f2e-867a1404104b.png" srcset="/img/loading.gif" lazyload>
+<br/>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 파일 100개 생성</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;<span class="hljs-number">1</span>..<span class="hljs-number">100</span>&#125;; <span class="hljs-keyword">do</span> touch <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>efs/deleteme.<span class="hljs-variable">$i</span>; done;<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="567" alt="스크린샷 2021-07-01 오전 12 33 46" src="https://user-images.githubusercontent.com/76810787/123994922-cd117900-da08-11eb-8b4a-0fbbf3c8691f.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 파일 확인</span><br>ls <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>efs<br></code></pre></td></tr></table></figure>
+
+<br/>
+<img width="561" alt="스크린샷 2021-07-01 오전 12 34 02" src="https://user-images.githubusercontent.com/76810787/123994923-cdaa0f80-da08-11eb-90a7-e1dd7362a4ee.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>EC2-STG1도 똑같이 100개의 파일이 보인다 (처음 봤을 때 완전 신기 ..)<br><br/></p>
+<img width="1214" alt="스크린샷 2021-07-01 오전 12 34 31" src="https://user-images.githubusercontent.com/76810787/123994926-ce42a600-da08-11eb-8dcf-20d94d34f431.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><strong>EC2-STG1에서 파일 삭제</strong><br><br/></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 파일 삭제</span><br>rm -rf <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>efs/deleteme*.*<br><br><span class="hljs-comment"># 짜쟌 파일이 사라졌습니다</span><br>ls <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>efs<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="531" alt="스크린샷 2021-07-01 오전 12 35 42" src="https://user-images.githubusercontent.com/76810787/123994936-cf73d300-da08-11eb-86ab-a172118ca3ef.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>두개의 인스턴스에서 전부 파일이 사라진 걸 확인해볼 수 있습니다 !<br><br/><br><img width="1019" alt="스크린샷 2021-07-01 오전 12 35 56" src="https://user-images.githubusercontent.com/76810787/123994940-cf73d300-da08-11eb-90b0-6e198ce84d9f.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<h1 id="재부팅에서-EFS-자동-탑재"><a href="#재부팅에서-EFS-자동-탑재" class="headerlink" title="재부팅에서 EFS 자동 탑재"></a>재부팅에서 EFS 자동 탑재</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 마운트 해제</span><br>umount <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>efs<br><br><span class="hljs-comment"># /etc/fatab 에 아래 내용 추가</span><br>echo <span class="hljs-string">&quot;자신의-EFS-ID:/ /var/www/html/efs efs _netdev,noresvport,tls,iam 0 0&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/</span>fstab<br><br><span class="hljs-comment"># 다시 마운트 해주기</span><br>mount -fav<br><br><span class="hljs-comment"># 재부팅</span><br>reboot<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="387" alt="스크린샷 2021-07-01 오전 12 38 38" src="https://user-images.githubusercontent.com/76810787/123994943-d00c6980-da08-11eb-80eb-2d5f70b6a5cc.png" srcset="/img/loading.gif" lazyload>
+<img width="570" alt="스크린샷 2021-07-01 오전 12 38 43" src="https://user-images.githubusercontent.com/76810787/123994944-d00c6980-da08-11eb-9e43-16cc6e6704f9.png" srcset="/img/loading.gif" lazyload>
+<img width="378" alt="스크린샷 2021-07-01 오전 12 39 07" src="https://user-images.githubusercontent.com/76810787/123994946-d0a50000-da08-11eb-8dd0-71dfd9a07dfe.png" srcset="/img/loading.gif" lazyload>
+<img width="566" alt="스크린샷 2021-07-01 오전 12 39 17" src="https://user-images.githubusercontent.com/76810787/123994948-d13d9680-da08-11eb-9506-5c37105ed7f2.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>재부팅 후 자동 탑재 확인</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c">df -hT <span class="hljs-string">|grep nfs</span><br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="504" alt="스크린샷 2021-07-01 오전 12 40 20" src="https://user-images.githubusercontent.com/76810787/123994950-d13d9680-da08-11eb-896c-d62b9d448829.png" srcset="/img/loading.gif" lazyload>
+<br/>
+<br/>
+
+<h2 id="자원-삭제"><a href="#자원-삭제" class="headerlink" title="자원 삭제"></a>자원 삭제</h2><p><strong>EC2 인스턴스 종료<br>EBS 스냅샷 삭제<br>EBS 볼륨 삭제<br>EFS 삭제<br>S3 삭제<br>CloudFormation 삭제</strong></p>
+<br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 4주차-2 CloudFormation, EFS 실습</div>
+      <div>http://example.com/2021/06/30/2021-06-30-AFOS-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>June 30, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/01/2021-06-30-AFOS-3/" title="[AWS] 4주차-3 AWS S3 실습">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 4주차-3 AWS S3 실습</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/30/2021-06-30-AFOS-1/" title="[AWS] 4주차-1 스토리지 서비스">
+                        <span class="hidden-mobile">[AWS] 4주차-1 스토리지 서비스</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

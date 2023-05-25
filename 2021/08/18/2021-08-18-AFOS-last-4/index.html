@@ -1,0 +1,732 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="최종 구성  EC2 -&gt; EC2 시작 템플릿 생성 -&gt; 아래 내용 입력 후 시작 템플릿 생성 클릭 12345678910111213시작 템플릿 이름 : WPEC2LaunchTemplate설명 : Wordpress Web Auto Scaling v1.0Auto Scaling 지침 : 체크AMI : Amazon Linux 2 AMI(HVM), SSD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 10주차 -4 AutoScaling 그룹을 이용하여 WebSrvs 구성">
+<meta property="og:url" content="http://example.com/2021/08/18/2021-08-18-AFOS-last-4/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="최종 구성  EC2 -&gt; EC2 시작 템플릿 생성 -&gt; 아래 내용 입력 후 시작 템플릿 생성 클릭 12345678910111213시작 템플릿 이름 : WPEC2LaunchTemplate설명 : Wordpress Web Auto Scaling v1.0Auto Scaling 지침 : 체크AMI : Amazon Linux 2 AMI(HVM), SSD">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-08-18T06:30:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:51:08.631Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 10주차 -4 AutoScaling 그룹을 이용하여 WebSrvs 구성 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AutoScaling 그룹을 이용하여 WebSrvs 구성"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-18 15:30" pubdate>
+          August 18, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AutoScaling 그룹을 이용하여 WebSrvs 구성</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="최종-구성"><a href="#최종-구성" class="headerlink" title="최종 구성"></a>최종 구성</h2><img src="/css/images/1313.png" srcset="/img/loading.gif" lazyload>
+
+<p>EC2 -&gt; EC2 시작 템플릿 생성 -&gt; 아래 내용 입력 후 <code>시작 템플릿 생성</code> 클릭</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">시작 템플릿 이름 : WPEC2LaunchTemplate<br>설명 : Wordpress Web Auto Scaling v1.0<br>Auto Scaling 지침 : 체크<br>AMI : Amazon Linux 2 AMI(HVM), SSD Volume Type - 아키텍처 : 64비트(x86)<br>인스턴스 유형 : t2.micro<br>키 페어 : (각자 자신의 SSH 키페어 선택)<br>네트워킹 플랫폼 : VPC<br>보안 그룹 : <span class="hljs-comment">###-WP-VPC1SG-### 포함된것 선택</span><br>리소스 태그 : 키(Lab) , 값(WPLab)<br>고급 세부 정보 ← 클릭<br>- IAM 인스턴스 프로파일 : WPLabInstanceProfile<br>- 세부 CloudWatch 모니터링 : 활성화<br>- 사용자 데이터 : 아래 내용 복붙!<br></code></pre></td></tr></table></figure>
+
+<p><strong>아래 EFS 사용 시 각자 자신의 EFS 파일시스템 ID로 변경할 것</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>amazon-linux-extras install lamp-mariadb10.2-php7.2 php7.2 -y<br>yum install httpd htop amazon-efs-utils tree -y<br>systemctl start httpd &amp;&amp; systemctl <span class="hljs-built_in">enable</span> httpd<br>yum install gcc php-xml php-mbstring php-sodium php-devel php-pear ImageMagick-devel ghostscript -y<br><span class="hljs-built_in">cat</span> &lt;&lt;<span class="hljs-string">EOT&gt; /etc/php.d/40-imagick.ini</span><br><span class="hljs-string">extension = imagick.so</span><br><span class="hljs-string">EOT</span><br><span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;\n&quot;</span> | pecl install imagick<br>sed -i <span class="hljs-string">&#x27;s/^upload_max_filesize = 2M/upload_max_filesize = 64M/g&#x27;</span> /etc/php.ini<br>sed -i <span class="hljs-string">&#x27;s/^post_max_size = 8M/post_max_size = 64M/g&#x27;</span> /etc/php.ini<br>sed -i <span class="hljs-string">&#x27;s/^max_execution_time = 30/max_execution_time = 300/g&#x27;</span> /etc/php.ini<br>sed -i <span class="hljs-string">&#x27;s/^memory_limit = 128M/memory_limit = -1/g&#x27;</span> /etc/php.ini<br><span class="hljs-built_in">mkdir</span> -p /var/www/wordpress/<br>mount -t efs 자신의EFS파일시스템ID:/ /var/www/wordpress<br><span class="hljs-built_in">chown</span> -R apache:apache /var/www<br><span class="hljs-built_in">chmod</span> 2775 /var/www<br>find /var/www -<span class="hljs-built_in">type</span> d -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">chmod</span> 2775 &#123;&#125; \;<br>find /var/www -<span class="hljs-built_in">type</span> f -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">chmod</span> 0664 &#123;&#125; \;<br><span class="hljs-built_in">chmod</span> u+wrx /var/www/wordpress/wp-content/*<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;ServerName 127.0.0.1:80&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;DocumentRoot /var/www/wordpress&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&lt;Directory /var/www/wordpress&gt;&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;  Options Indexes FollowSymLinks&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;  AllowOverride All&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;  Require all granted&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&lt;/Directory&gt;&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br>systemctl restart php-fpm<br>systemctl restart httpd<br></code></pre></td></tr></table></figure>
+
+<p>생성된 시작 템플릿</p>
+<p><code>시작 템플릿 생성</code> 클릭<br><img width="307" alt="스크린샷 2021-08-20 오후 9 05 17" src="https://user-images.githubusercontent.com/87232411/130241220-75fe5043-fa33-4f20-bb9f-4478c4e17fd9.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">시작 템플릿 이름 : WPEC2LaunchTemplate<br>설명 : Wordpress Web Auto Scaling v1.0<br>Auto Scaling 지침 : 체크<br></code></pre></td></tr></table></figure>
+
+<img width="868" alt="스크린샷 2021-08-20 오후 9 05 39" src="https://user-images.githubusercontent.com/87232411/130241224-df092a36-016e-44bd-854b-4b55a01fe4fa.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>AMI : Amazon Linux 2 AMI(HVM), SSD Volume Type - 아키텍처 : 64비트(x86)<br>인스턴스 유형 : t2.micro<br>키 페어 : (각자 자신의 SSH 키페어 선택)<br></code></pre></td></tr></table></figure>
+
+<img width="867" alt="스크린샷 2021-08-20 오후 9 05 56" src="https://user-images.githubusercontent.com/87232411/130241227-76a7d059-b314-425b-bc0e-743ea6139649.png" srcset="/img/loading.gif" lazyload>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">네트워킹 플랫폼 : VPC<br>보안 그룹 : <span class="hljs-comment">###-WP-VPC1SG-### 포함된것 선택</span><br></code></pre></td></tr></table></figure>
+
+<img width="850" alt="스크린샷 2021-08-20 오후 9 06 36" src="https://user-images.githubusercontent.com/87232411/130241237-ce8f2829-bc6b-411c-8424-75c3c4412ea3.png" srcset="/img/loading.gif" lazyload>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">리소스 태그 : 키(Lab) , 값(WPLab)<br></code></pre></td></tr></table></figure>
+
+<img width="839" alt="스크린샷 2021-08-20 오후 9 06 58" src="https://user-images.githubusercontent.com/87232411/130241239-375dd296-3dcb-4913-9d67-37d6f7e44bd7.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">IAM 인스턴스 프로파일 : WPLabInstanceProfile<br>세부 CloudWatch 모니터링 : 활성화<br>사용자 데이터 : 아래 내용 복붙!<br></code></pre></td></tr></table></figure>
+
+<p><strong>아래 EFS 사용 시 각자 자신의 EFS 파일 시스템 ID로 변경할 것</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>amazon-linux-extras install lamp-mariadb10.2-php7.2 php7.2 -y<br>yum install httpd htop amazon-efs-utils tree -y<br>systemctl start httpd &amp;&amp; systemctl <span class="hljs-built_in">enable</span> httpd<br>yum install gcc php-xml php-mbstring php-sodium php-devel php-pear ImageMagick-devel ghostscript -y<br><span class="hljs-built_in">cat</span> &lt;&lt;<span class="hljs-string">EOT&gt; /etc/php.d/40-imagick.ini</span><br><span class="hljs-string">extension = imagick.so</span><br><span class="hljs-string">EOT</span><br><span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;\n&quot;</span> | pecl install imagick<br>sed -i <span class="hljs-string">&#x27;s/^upload_max_filesize = 2M/upload_max_filesize = 64M/g&#x27;</span> /etc/php.ini<br>sed -i <span class="hljs-string">&#x27;s/^post_max_size = 8M/post_max_size = 64M/g&#x27;</span> /etc/php.ini<br>sed -i <span class="hljs-string">&#x27;s/^max_execution_time = 30/max_execution_time = 300/g&#x27;</span> /etc/php.ini<br>sed -i <span class="hljs-string">&#x27;s/^memory_limit = 128M/memory_limit = -1/g&#x27;</span> /etc/php.ini<br><span class="hljs-built_in">mkdir</span> -p /var/www/wordpress/<br>mount -t efs **자신의EFS파일시스템ID**:/ /var/www/wordpress<br><span class="hljs-built_in">chown</span> -R apache:apache /var/www<br><span class="hljs-built_in">chmod</span> 2775 /var/www<br>find /var/www -<span class="hljs-built_in">type</span> d -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">chmod</span> 2775 &#123;&#125; \;<br>find /var/www -<span class="hljs-built_in">type</span> f -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">chmod</span> 0664 &#123;&#125; \;<br><span class="hljs-built_in">chmod</span> u+wrx /var/www/wordpress/wp-content/*<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;ServerName 127.0.0.1:80&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;DocumentRoot /var/www/wordpress&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&lt;Directory /var/www/wordpress&gt;&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;  Options Indexes FollowSymLinks&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;  AllowOverride All&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;  Require all granted&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&lt;/Directory&gt;&#x27;</span> &gt;&gt; /etc/httpd/conf.d/MyBlog.conf<br>systemctl restart php-fpm<br>systemctl restart httpd<br></code></pre></td></tr></table></figure>
+
+<img width="834" alt="스크린샷 2021-08-20 오후 9 07 17" src="https://user-images.githubusercontent.com/87232411/130241242-c0e9aa8c-3660-4fc0-a814-dc32bf2e81ae.png" srcset="/img/loading.gif" lazyload>
+<img width="705" alt="스크린샷 2021-08-20 오후 9 07 32" src="https://user-images.githubusercontent.com/87232411/130241251-8686752c-d9d1-4bde-afe8-b92ed6f7f690.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>시작 템플릿 생성</code> 클릭<br><img width="831" alt="스크린샷 2021-08-20 오후 9 07 49" src="https://user-images.githubusercontent.com/87232411/130241254-d9673a56-af78-4266-a307-ac0fcf06e92b.png" srcset="/img/loading.gif" lazyload></p>
+<p>작업 -&gt; <code>Auto Scaling 그룹 생성</code> 클릭<br><img width="1126" alt="스크린샷 2021-08-20 오후 9 08 03" src="https://user-images.githubusercontent.com/87232411/130241262-a7d58eee-eaca-4c72-97ad-1bb07a2cdc89.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">Auto Scaling 그룹 이름 : FirstEC2AutoScalingGroup<br>시작 템플릿 : WPEC2LaunchTemplate<br></code></pre></td></tr></table></figure>
+
+<img width="853" alt="스크린샷 2021-08-20 오후 9 08 22" src="https://user-images.githubusercontent.com/87232411/130241277-e986e8a1-7e27-47e8-941a-b6a3db76a5d5.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>다음</code> 클릭<br><img width="190" alt="스크린샷 2021-08-20 오후 9 08 27" src="https://user-images.githubusercontent.com/87232411/130241284-6e959ca2-281f-4e5e-8c21-caa50ec3cfe3.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">인스턴스 구매 옵션 : 시작 템플릿 준수<br>네트워크 - VPC : WP-VPC1<br>네트워크 - 서브넷 : WP-VPC1-Subnet-1, WP-VPC1-Subnet-2<br></code></pre></td></tr></table></figure>
+
+<p><code>다음</code> 클릭<br><img width="846" alt="스크린샷 2021-08-20 오후 9 10 10" src="https://user-images.githubusercontent.com/87232411/130241289-94e6dfc3-c5ea-484b-acfc-97b2cca1d519.png" srcset="/img/loading.gif" lazyload><br><img width="839" alt="스크린샷 2021-08-20 오후 9 10 15" src="https://user-images.githubusercontent.com/87232411/130241296-d33650ea-12e5-4e0e-9d43-81b2a3748d64.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">로드 밸런싱 : 기존 로드 밸런서에 연결<br>로그 밸런서 대상 그룹에서 선택 : 선택<br>기존 로드 밸런서 대상 그룹 : ALB-TG<br>상태 확인 유형 : ELB (Check)<br>상태 확인 유예 기간 : 60초<br>모니터링 - CloudWatch 내에서 그룹 지표 수집 활성화 : 체크<br></code></pre></td></tr></table></figure>
+
+<img width="845" alt="스크린샷 2021-08-20 오후 9 10 36" src="https://user-images.githubusercontent.com/87232411/130241299-f7b38541-ce1a-4666-8d36-1115e6e96a8a.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>다음</code> 클릭<br><img width="847" alt="스크린샷 2021-08-20 오후 9 10 57" src="https://user-images.githubusercontent.com/87232411/130241304-9c5696da-4ed6-44b9-881c-380fc3179c66.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">원하는 용량 : 2<br>최소 용량 : 2<br>최대 용량 : 4<br>조정 정책 : 대상 추척 조정 정책<br>조정 정책 이름 : Scale Out Policy<br>대상 값 : 30 → 3분 동안 3번 연속 CPU 30% 경우(1분 마다 기록)<br>인스턴스 요구 사항 : 60초 → 지표에 포함하기 전 워밍업 시간(초)<br>확대 정책만 생성하려면 축소 비활성화 : Check → 축소 설정하지 않음<br>인스턴스 축소 보호 활성화 : UnCheck<br></code></pre></td></tr></table></figure>
+
+<img width="840" alt="스크린샷 2021-08-20 오후 9 11 07" src="https://user-images.githubusercontent.com/87232411/130241306-a9b94963-4f61-4150-aa30-89950c8d477d.png" srcset="/img/loading.gif" lazyload>
+<img width="845" alt="스크린샷 2021-08-20 오후 9 11 41" src="https://user-images.githubusercontent.com/87232411/130241308-0e0e0377-beb4-4084-8e41-a20ae4df4f1c.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>다음</code> 클릭<br><img width="838" alt="스크린샷 2021-08-20 오후 9 11 46" src="https://user-images.githubusercontent.com/87232411/130241314-0d922c44-f343-4b1c-8edd-54f058d33519.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>다음</code> 클릭<br><img width="219" alt="스크린샷 2021-08-20 오후 9 11 50" src="https://user-images.githubusercontent.com/87232411/130241320-e47c5a74-cb2e-4613-a4d0-c25e791c95b4.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">태그 : 키(Name) , 값(WebServers)<br></code></pre></td></tr></table></figure>
+
+<p><code>다음</code> 클릭<br><img width="848" alt="스크린샷 2021-08-20 오후 9 12 08" src="https://user-images.githubusercontent.com/87232411/130241323-dc8fcd6f-d5b5-4ace-b8f6-96539238b192.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>AutoScaling 그룹 생성</code> 클릭<br><img width="296" alt="스크린샷 2021-08-20 오후 9 12 14" src="https://user-images.githubusercontent.com/87232411/130241326-1d822de3-52f7-4ddf-a39f-ade7a95c58fc.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2 2개가 생성 됨<br><img width="1113" alt="스크린샷 2021-08-20 오후 9 13 02" src="https://user-images.githubusercontent.com/87232411/130241328-bcdb3225-1747-4e33-9317-b8ef3fa7e06f.png" srcset="/img/loading.gif" lazyload><br><img width="1159" alt="스크린샷 2021-08-20 오후 9 23 42" src="https://user-images.githubusercontent.com/87232411/130241337-1b0e9199-e876-4d4e-8d06-3c0f1a9c3b6a.png" srcset="/img/loading.gif" lazyload></p>
+<p>워드프레스 사이트도 접속이 됩니다.<br><img width="1437" alt="스크린샷 2021-08-20 오후 9 25 52" src="https://user-images.githubusercontent.com/87232411/130241345-6b995f19-66a8-40b7-863f-85409b192eed.png" srcset="/img/loading.gif" lazyload>\</p>
+<h2 id="CPU-부하-발생-및-Auto-Scaling-확인"><a href="#CPU-부하-발생-및-Auto-Scaling-확인" class="headerlink" title="CPU 부하 발생 및 Auto Scaling 확인"></a>CPU 부하 발생 및 Auto Scaling 확인</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 웹 접속 테스트 (리전, 인스턴스ID, Private IP)</span><br>WPDNS=cloudfront.net<br>Web1=퍼블릭 주소<br>Web2=퍼블릭 주소<br><br><span class="hljs-comment"># 터미널1 - 1개 요청(풀)로 총합 500번 요청 진행</span><br>ab -n 500 -c 1 http://<span class="hljs-variable">$Web1</span>/load.php<br><br><span class="hljs-comment"># 터미널2 - 20개 요청(풀)로 총합 1000번 요청 진행</span><br>ab -n 1000 -c 20 http://<span class="hljs-variable">$Web2</span>/load.php<br>ab -n 1000 -c 20 http://<span class="hljs-variable">$WPDNS</span>/load.php<br><br><span class="hljs-comment"># 접속 되는 EC2 마다 현재 CPU 부하 출력</span><br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> curl <span class="hljs-variable">$WPDNS</span>/xff.php --silent --connect-timeout 1; <span class="hljs-built_in">date</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;---[AutoScaling]---&quot;</span>; <span class="hljs-built_in">sleep</span> 1; <span class="hljs-keyword">done</span><br><br><span class="hljs-comment"># EC2 증가 이후 증감 확인</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..100&#125;; <span class="hljs-keyword">do</span> curl <span class="hljs-variable">$WPDNS</span>/xff.php --silent;<span class="hljs-built_in">echo</span> ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br></code></pre></td></tr></table></figure>
+
+<img width="455" alt="스크린샷 2021-08-20 오후 9 28 04" src="https://user-images.githubusercontent.com/87232411/130241351-4cc84d39-d8d6-4dda-968d-6bd674f49ad0.png" srcset="/img/loading.gif" lazyload>
+<img width="668" alt="스크린샷 2021-08-20 오후 9 32 58" src="https://user-images.githubusercontent.com/87232411/130241354-90d70e94-a659-4a3b-991d-7d3ba5678968.png" srcset="/img/loading.gif" lazyload>
+
+<p>새로 생성된 EC2 두개가 ALB 타겟그룹에 포함되어 있습니다<br><img width="1139" alt="스크린샷 2021-08-20 오후 9 33 24" src="https://user-images.githubusercontent.com/87232411/130241361-c0dd98ed-e013-4fae-9ad7-6789571ebc30.png" srcset="/img/loading.gif" lazyload><br><img width="543" alt="스크린샷 2021-08-20 오후 9 37 26" src="https://user-images.githubusercontent.com/87232411/130241375-c9b0e953-a3b8-4586-b544-51c1ba6f93bc.png" srcset="/img/loading.gif" lazyload><br><img width="597" alt="스크린샷 2021-08-20 오후 9 37 51" src="https://user-images.githubusercontent.com/87232411/130241379-b5a0bc22-632f-4af9-b53e-1edf20d57da1.png" srcset="/img/loading.gif" lazyload><br><img width="1045" alt="스크린샷 2021-08-20 오후 9 38 11" src="https://user-images.githubusercontent.com/87232411/130241382-507c6a65-1015-45be-a877-1df472fa7635.png" srcset="/img/loading.gif" lazyload><br><img width="559" alt="스크린샷 2021-08-20 오후 9 38 17" src="https://user-images.githubusercontent.com/87232411/130241394-6428981a-0fa4-40a6-b6a4-92660802828b.png" srcset="/img/loading.gif" lazyload><br><img width="528" alt="스크린샷 2021-08-20 오후 9 38 23" src="https://user-images.githubusercontent.com/87232411/130241397-e1b095ab-bde6-42a3-ae48-411c368472d0.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2가 4개로 증가했습니다<br><img width="1023" alt="스크린샷 2021-08-20 오후 9 38 46" src="https://user-images.githubusercontent.com/87232411/130241400-f520a5b7-49c3-494a-aafc-221428f4c777.png" srcset="/img/loading.gif" lazyload></p>
+<p>CPU 사용률을 비교해봅시다<br><img width="1330" alt="스크린샷 2021-08-20 오후 9 40 00" src="https://user-images.githubusercontent.com/87232411/130241409-065876f0-bf6e-4220-aa0b-e3a98eb58a0a.png" srcset="/img/loading.gif" lazyload></p>
+<p>1시간으로 바꿔줍니다<br><img width="592" alt="스크린샷 2021-08-20 오후 9 38 58" src="https://user-images.githubusercontent.com/87232411/130241407-5169b7b5-cad9-4f8b-b3d1-b6d77247968c.png" srcset="/img/loading.gif" lazyload></p>
+<p>이렇게 변화했네요<br><img width="415" alt="스크린샷 2021-08-20 오후 9 40 06" src="https://user-images.githubusercontent.com/87232411/130241413-40307efd-0199-4b6f-a08d-1c0544d4d75c.png" srcset="/img/loading.gif" lazyload><br><img width="1328" alt="스크린샷 2021-08-20 오후 9 41 54" src="https://user-images.githubusercontent.com/87232411/130241415-c3c08088-a845-4e01-90c0-a56427374d24.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2가 4개로 증가했습니다<br><img width="940" alt="스크린샷 2021-08-20 오후 9 42 06" src="https://user-images.githubusercontent.com/87232411/130241422-56c78a88-b984-42fd-994e-17d7ceea2f09.png" srcset="/img/loading.gif" lazyload></p>
+<p>타겟그룹에도 포함되고 있습니다<br><img width="1158" alt="스크린샷 2021-08-20 오후 9 42 54" src="https://user-images.githubusercontent.com/87232411/130241429-cca2c2bc-1244-43b2-9cbe-86cb65ed3797.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2에서도 확인할 수 있습니다</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..100&#125;; <span class="hljs-keyword">do</span> curl <span class="hljs-variable">$WPDNS</span>/xff.php --silent;<span class="hljs-built_in">echo</span> ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -n<br></code></pre></td></tr></table></figure>
+
+<img width="666" alt="스크린샷 2021-08-20 오후 9 50 12" src="https://user-images.githubusercontent.com/87232411/130241468-f6d217a9-cb36-4f95-971a-c93ba30fb1e5.png" srcset="/img/loading.gif" lazyload>
+
+<br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료: AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 10주차 -4 AutoScaling 그룹을 이용하여 WebSrvs 구성</div>
+      <div>http://example.com/2021/08/18/2021-08-18-AFOS-last-4/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 18, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/18/2021-08-18-AFOS-last-5/" title="[AWS] 10주차 -5 장애 발생 및 지속 서비스 확인">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 10주차 -5 장애 발생 및 지속 서비스 확인</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/18/2021-08-18-AFOS-last-3/" title="[AWS] 10주차 -3 WebSrv-Leader 인스턴스를 이용하여 Wordpress 초기 구성">
+                        <span class="hidden-mobile">[AWS] 10주차 -3 WebSrv-Leader 인스턴스를 이용하여 Wordpress 초기 구성</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

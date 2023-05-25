@@ -1,0 +1,780 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="CloudFormation 스택 생성https:&#x2F;&#x2F;console.aws.amazon.com&#x2F;cloudformation&#x2F;home?region&#x3D;ap-northeast-2#&#x2F;stacks&#x2F;new?stackName&#x3D;AutoScalingLab&amp;templateURL&#x3D;https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 8주차-2 EC2 Auto Scaling 구성 실습">
+<meta property="og:url" content="http://example.com/2021/07/28/2021-07-28-AFOS-2/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="CloudFormation 스택 생성https:&#x2F;&#x2F;console.aws.amazon.com&#x2F;cloudformation&#x2F;home?region&#x3D;ap-northeast-2#&#x2F;stacks&#x2F;new?stackName&#x3D;AutoScalingLab&amp;templateURL&#x3D;https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-07-28T14:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:50:40.795Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 8주차-2 EC2 Auto Scaling 구성 실습 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="EC2 Auto Scaling 구성 실습"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-28 23:00" pubdate>
+          July 28, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          38 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">EC2 Auto Scaling 구성 실습</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="CloudFormation-스택-생성"><a href="#CloudFormation-스택-생성" class="headerlink" title="CloudFormation 스택 생성"></a>CloudFormation 스택 생성</h2><p><a target="_blank" rel="noopener" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=AutoScalingLab&templateURL=https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws.com%2Fchapter5%2Fautoscaling-AFOS.yaml">https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2#/stacks/new?stackName=AutoScalingLab&amp;templateURL=https:%2F%2Fcloudneta-book.s3.ap-northeast-2.amazonaws.com%2Fchapter5%2Fautoscaling-AFOS.yaml</a></p>
+<p><code>다음</code> 클릭<br><img width="1032" alt="스크린샷 2021-07-28 오후 10 02 04" src="https://user-images.githubusercontent.com/87232411/127346525-ac77a844-2f6c-4195-a8b7-535d97466ca4.png" srcset="/img/loading.gif" lazyload></p>
+<p>키 선택 후 <code>다음</code> 클릭<br><img width="1040" alt="스크린샷 2021-07-28 오후 10 02 15" src="https://user-images.githubusercontent.com/87232411/127346533-2e31b8eb-132a-4677-9c67-b0087f936fe6.png" srcset="/img/loading.gif" lazyload></p>
+<p>기본 값으로 둔 후 <code>다음</code> 클릭<br><img width="259" alt="스크린샷 2021-07-28 오후 10 02 26" src="https://user-images.githubusercontent.com/87232411/127346537-af87e995-8fc7-4f37-9b09-ec2379b05148.png" srcset="/img/loading.gif" lazyload></p>
+<p>파란 박스 체크 후 <code>스택 생성</code> 클릭<br><img width="1067" alt="스크린샷 2021-07-28 오후 10 02 35" src="https://user-images.githubusercontent.com/87232411/127346540-42f2ee0d-739e-4533-a53a-211519e9dad2.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="기본-환경-검증-MyEC2-SSH-접속"><a href="#기본-환경-검증-MyEC2-SSH-접속" class="headerlink" title="기본 환경 검증 - MyEC2 SSH 접속"></a>기본 환경 검증 - MyEC2 SSH 접속</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># AWS CLI 확인</span><br>aws --version<br>aws ec2 describe-instances<br>aws ec2 describe-instances --query <span class="hljs-string">&#x27;Reservations[*].Instances[*].[InstanceId, State.Name, PrivateIpAddress]&#x27;</span> --output text<br><br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> aws ec2 describe-instances --query <span class="hljs-string">&#x27;Reservations[*].Instances[*].[InstanceId, State.Name, PrivateIpAddress]&#x27;</span> --output text; <span class="hljs-built_in">date</span>; <span class="hljs-built_in">sleep</span> 1; <span class="hljs-keyword">done</span><br><br><span class="hljs-comment"># ApachBench 확인</span><br>ab -V<br><br><span class="hljs-comment"># ALB DNS 이름 변수 지정</span><br>ALB=ALB-TEST-1714841830.ap-northeast-2.elb.amazonaws.com<br>dig +short <span class="hljs-variable">$ALB</span><br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> curl <span class="hljs-variable">$ALB</span> --silent --connect-timeout 1; <span class="hljs-built_in">date</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;---[AutoScaling]---&quot;</span>; <span class="hljs-built_in">sleep</span> 1; <span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<img width="670" alt="스크린샷 2021-07-28 오후 10 09 56" src="https://user-images.githubusercontent.com/87232411/127346547-b0704acc-c268-4023-923d-2aa138e40435.png" srcset="/img/loading.gif" lazyload>
+<img width="604" alt="스크린샷 2021-07-28 오후 10 11 51" src="https://user-images.githubusercontent.com/87232411/127346549-a4dd5da8-1647-4626-9290-02dd9c9a82d7.png" srcset="/img/loading.gif" lazyload>
+<img width="599" alt="스크린샷 2021-07-28 오후 10 12 07" src="https://user-images.githubusercontent.com/87232411/127346552-2aedd53e-91d4-4817-b02d-40686ecff32d.png" srcset="/img/loading.gif" lazyload>
+<img width="577" alt="스크린샷 2021-07-28 오후 10 13 17" src="https://user-images.githubusercontent.com/87232411/127346553-7aa25b2b-b00c-4ff2-a9c6-3618d8619685.png" srcset="/img/loading.gif" lazyload>
+<img width="605" alt="스크린샷 2021-07-28 오후 10 13 42" src="https://user-images.githubusercontent.com/87232411/127346557-775a7b37-69f8-4fd6-b549-8c16752ff946.png" srcset="/img/loading.gif" lazyload>
+
+<p>EC2-&gt;시작 템플릿 -&gt; <code>시작 템플릿 생성</code> 클릭<br><img width="225" alt="스크린샷 2021-07-28 오후 10 14 22" src="https://user-images.githubusercontent.com/87232411/127346559-2cffb422-b28c-4a04-970f-54a4c77603cb.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">시작 템플릿 이름 : EC2LaunchTemplate<br>설명 : EC2 Auto Scaling v1.0<br>Auto Scaling 지침 : 체크<br>AMI : Amazon Linux 2 AMI(HVM), SSD Volume Type - 아키텍처 : 64비트(x86)<br>인스턴스 유형 : t2.micro<br>키 페어 : (각자 자신의 SSH 키페어 선택)<br>네트워킹 플랫폼 : VPC<br>보안 그룹 : <span class="hljs-comment">###-VPC1SG-### 포함된것 선택</span><br>리소스 태그 : 키(Lab) , 값(ASLab)<br>고급 세부 정보 ← 클릭<br>- 세부 CloudWatch 모니터링 : 활성화<br>- 사용자 데이터 : 아래 내용 복붙!<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>RZAZ=`curl http://169.254.169.254/latest/meta-data/placement/availability-zone-id`<br>IID=`curl 169.254.169.254/latest/meta-data/instance-id`<br>LIP=`curl 169.254.169.254/latest/meta-data/local-ipv4`<br>amazon-linux-extras install -y php7.2<br>yum install httpd htop tmux -y<br>systemctl start httpd &amp;&amp; systemctl <span class="hljs-built_in">enable</span> httpd<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&lt;h1&gt;RegionAz(<span class="hljs-variable">$RZAZ</span>) : Instance ID(<span class="hljs-variable">$IID</span>) : Private IP(<span class="hljs-variable">$LIP</span>) : Web Server&lt;/h1&gt;&quot;</span> &gt; /var/www/html/index.html<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;1&quot;</span> &gt; /var/www/html/HealthCheck.txt<br>curl -o /var/www/html/load.php https://cloudneta-book.s3.ap-northeast-2.amazonaws.com/chapter5/load.php --silent<br>curl -o /var/www/html/cpuload.php https://cloudneta-book.s3.ap-northeast-2.amazonaws.com/chapter5/cpuload-aws.php --silent<br></code></pre></td></tr></table></figure>
+
+<img width="883" alt="스크린샷 2021-07-28 오후 10 15 14" src="https://user-images.githubusercontent.com/87232411/127346562-f068a7b0-a9dc-4346-b336-93aa1c147828.png" srcset="/img/loading.gif" lazyload>
+<img width="846" alt="스크린샷 2021-07-28 오후 10 15 21" src="https://user-images.githubusercontent.com/87232411/127346565-900e6564-91e2-4302-b06a-7e9d33fbb5d4.png" srcset="/img/loading.gif" lazyload>
+<img width="846" alt="스크린샷 2021-07-28 오후 10 15 44" src="https://user-images.githubusercontent.com/87232411/127346570-a3a93571-a50f-4946-bf78-d937d766bbf6.png" srcset="/img/loading.gif" lazyload>
+<img width="845" alt="스크린샷 2021-07-28 오후 10 16 09" src="https://user-images.githubusercontent.com/87232411/127346573-97f1369f-a6ff-4792-a8bd-417b0d9964b4.png" srcset="/img/loading.gif" lazyload>
+<img width="2" alt="스크린샷 2021-07-28 오후 10 16 39" src="https://user-images.githubusercontent.com/87232411/127346578-3ffe695a-643e-4fc7-9f01-ce9cfdf7c77d.png" srcset="/img/loading.gif" lazyload>
+<img width="838" alt="스크린샷 2021-07-28 오후 10 16 46" src="https://user-images.githubusercontent.com/87232411/127346582-0ba44fab-c77d-4d98-9721-c10b926c212b.png" srcset="/img/loading.gif" lazyload>
+<img width="831" alt="스크린샷 2021-07-28 오후 10 16 51" src="https://user-images.githubusercontent.com/87232411/127346584-2d7a7a4a-cf05-4ed5-94e1-c9089e4f626f.png" srcset="/img/loading.gif" lazyload>
+
+<img width="837" alt="스크린샷 2021-07-28 오후 10 17 14" src="https://user-images.githubusercontent.com/87232411/127346587-dbab3a9f-5fe4-4657-9d1e-1eef9849d278.png" srcset="/img/loading.gif" lazyload>
+
+<h2 id="시작-템플릿-구성"><a href="#시작-템플릿-구성" class="headerlink" title="시작 템플릿 구성"></a>시작 템플릿 구성</h2><p>생성돤 시작 템플릿 -&gt; <code>Auto Scaling 그룹 생성</code> 클릭<br><img width="1047" alt="스크린샷 2021-07-28 오후 10 17 45" src="https://user-images.githubusercontent.com/87232411/127346591-7dc80ffe-d4c4-4c7d-a135-efa44c61dae4.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">Auto Scaling 그룹 이름 : FirstEC2AutoScalingGroup<br>시작 템플릿 : EC2LaunchTemplate<br></code></pre></td></tr></table></figure>
+
+<img width="850" alt="스크린샷 2021-07-28 오후 10 18 02" src="https://user-images.githubusercontent.com/87232411/127346594-3601bc51-6bf4-49cc-a6e8-918ec0aa0ccf.png" srcset="/img/loading.gif" lazyload>
+<img width="215" alt="스크린샷 2021-07-28 오후 10 18 09" src="https://user-images.githubusercontent.com/87232411/127346595-0d41fb02-4b00-4785-b5d2-e23ca72ffdcb.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">인스턴스 구매 옵션 : 시작 템플릿 준수<br>네트워크 - VPC : VPC1<br>네트워크 - 서브넷 : VPC1-Public-SN-1 , VPC1-Public-SN-2<br></code></pre></td></tr></table></figure>
+
+<img width="845" alt="스크린샷 2021-07-28 오후 10 18 29" src="https://user-images.githubusercontent.com/87232411/127346596-9d233cc6-2b83-4b7d-948b-8dd08802564c.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">로드 밸런싱 : 기존 로드 밸런서에 연결<br>로그 밸런서 대상 그룹에서 선택 : 선택<br>기존 로드 밸런서 대상 그룹 : ALB-TG<br>상태 확인 유형 : ELB (Check)<br>상태 확인 유예 기간 : 60초<br>모니터링 - CloudWatch 내에서 그룹 지표 수집 활성화 : 체크<br></code></pre></td></tr></table></figure>
+
+<img width="856" alt="스크린샷 2021-07-28 오후 10 18 50" src="https://user-images.githubusercontent.com/87232411/127346597-0dcdb76c-0258-40d2-8d44-213561469a06.png" srcset="/img/loading.gif" lazyload>
+<img width="844" alt="스크린샷 2021-07-28 오후 10 19 05" src="https://user-images.githubusercontent.com/87232411/127346601-75a34a0a-1ce0-4c9b-abaf-29cd73eabc6b.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">원하는 용량 : 1<br>최소 용량 : 1<br>최대 용량 : 4<br>조정 정책 : 대상 추척 조정 정책<br>조정 정책 이름 : Scale Out Policy<br>대상 값 : 80 → 3분 동안 3번 연속 CPU 80% 경우(1분 마다 기록)<br>인스턴스 요구 사항 : 60초 → 지표에 포함하기 전 워밍업 시간(초)<br>확대 정책만 생성하려면 축소 비활성화 : Check → 축소는 직접 정책 추가 예정<br>인스턴스 축소 보호 활성화 : UnCheck<br></code></pre></td></tr></table></figure>
+
+<img width="876" alt="스크린샷 2021-07-28 오후 10 19 27" src="https://user-images.githubusercontent.com/87232411/127346605-43d3f0d5-bf4b-47a9-a0c6-087a4bfc5067.png" srcset="/img/loading.gif" lazyload>
+<img width="869" alt="스크린샷 2021-07-28 오후 10 20 22" src="https://user-images.githubusercontent.com/87232411/127346610-7560c21d-66d3-4300-a6e2-276baed6709a.png" srcset="/img/loading.gif" lazyload>
+<img width="847" alt="스크린샷 2021-07-28 오후 10 20 29" src="https://user-images.githubusercontent.com/87232411/127346612-ce25bc91-737e-4d07-8f11-17d77a882a5a.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>다음</code> 클릭<br><img width="514" alt="스크린샷 2021-07-28 오후 10 20 41" src="https://user-images.githubusercontent.com/87232411/127346616-6b2bec11-6907-4aa1-9db2-efffa249e2ac.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">태그 : 키(Name) , 값(WebServers)<br></code></pre></td></tr></table></figure>
+
+<p><code> 다음</code> 클릭<br><img width="867" alt="스크린샷 2021-07-28 오후 10 21 11" src="https://user-images.githubusercontent.com/87232411/127346617-64c30e1f-a0b9-41f4-a20c-748c31a32cfa.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>Auto Scaling 그룹 생성</code> 클릭<br><img width="339" alt="스크린샷 2021-07-28 오후 10 21 20" src="https://user-images.githubusercontent.com/87232411/127346623-b34dc1e4-82a4-495d-8da4-dcdcf2c938a2.png" srcset="/img/loading.gif" lazyload></p>
+<p>짜쟌<br><img width="778" alt="스크린샷 2021-07-28 오후 10 21 31" src="https://user-images.githubusercontent.com/87232411/127346626-41b2388f-455e-447a-83a8-ae7f202800f6.png" srcset="/img/loading.gif" lazyload></p>
+<p>생성된 Auto Scaling 그룹 클릭 → 세부 정보 → 하단 고급 구성 편집 클릭<br><img width="419" alt="스크린샷 2021-07-28 오후 10 21 45" src="https://user-images.githubusercontent.com/87232411/127346628-291c2ae9-b771-4653-9142-7bc3de7fd03e.png" srcset="/img/loading.gif" lazyload><br><img width="1110" alt="스크린샷 2021-07-28 오후 10 21 53" src="https://user-images.githubusercontent.com/87232411/127346632-d48457b8-70a2-4676-9c20-8ddc675f8bc2.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">종료 정책 : Newest Instance → 기본 Default 는 제거<br>기본 휴지 기간 : 180초<br></code></pre></td></tr></table></figure>
+
+<p><code>업데이트</code> 클릭<br><img width="842" alt="스크린샷 2021-07-28 오후 10 22 26" src="https://user-images.githubusercontent.com/87232411/127346633-4bf9ed69-0065-4ff7-a439-4467de9935ba.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="축소-정책-추가"><a href="#축소-정책-추가" class="headerlink" title="축소 정책 추가"></a>축소 정책 추가</h2><p>생성된 Auto Scaling 그룹 클릭 → 자동 조정 → <code>Create dynamic scaling policy </code> 클릭<br><img width="1063" alt="스크린샷 2021-07-28 오후 10 23 12" src="https://user-images.githubusercontent.com/87232411/127346638-f681d0b4-4809-42c5-a886-26a599a8e13d.png" srcset="/img/loading.gif" lazyload></p>
+<p>정책 유형(단순 조정) 선택 후 CloudWatch 경보 생성 클릭<br><img width="551" alt="스크린샷 2021-07-28 오후 10 23 43" src="https://user-images.githubusercontent.com/87232411/127346642-84074763-bf7f-459d-9f3a-9a11fb9813f9.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>지표 선택</code> 클릭<br><img width="493" alt="스크린샷 2021-07-28 오후 10 23 58" src="https://user-images.githubusercontent.com/87232411/127346647-74269bee-9c44-4815-951c-f72eba3c335e.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>EC2</code> 클릭<br><img width="293" alt="스크린샷 2021-07-28 오후 10 24 12" src="https://user-images.githubusercontent.com/87232411/127346651-b86e11c6-7b58-4c05-98d5-beaeda10c541.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>Auto Scaling 그룹별</code> 클릭<br><img width="303" alt="스크린샷 2021-07-28 오후 10 24 19" src="https://user-images.githubusercontent.com/87232411/127346654-6cbd22d5-58b7-440a-8415-ce23bd6e9876.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>CPUUtilization</code> 클릭 -&gt; <code>지표 선택</code> 클릭<br><img width="1225" alt="스크린샷 2021-07-28 오후 10 24 41" src="https://user-images.githubusercontent.com/87232411/127346656-e51649fd-8915-47b7-a4dd-84042ef0faf4.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>기간: 1분</code> 클릭<br><img width="809" alt="스크린샷 2021-07-28 오후 10 24 55" src="https://user-images.githubusercontent.com/87232411/127346663-7c37517a-160b-42ef-a17d-6bf458380d94.png" srcset="/img/loading.gif" lazyload></p>
+<p>정적 -&gt; 보다 작음 -&gt; …보다(10) -&gt; 경보를 알릴 데이터 포인트 (2&#x2F;2) -&gt; <code>다음</code> 클릭<br><img width="807" alt="스크린샷 2021-07-28 오후 10 25 28" src="https://user-images.githubusercontent.com/87232411/127346676-268276c6-bc44-41ca-929f-a44bf762a746.png" srcset="/img/loading.gif" lazyload></p>
+<p>경보 상태 트리거 제거 -&gt; <code>다음</code> 클릭<br><img width="828" alt="스크린샷 2021-07-28 오후 10 25 47" src="https://user-images.githubusercontent.com/87232411/127346679-3690d25b-d7d1-4571-a4b5-d12e4943a2a3.png" srcset="/img/loading.gif" lazyload><br><img width="237" alt="스크린샷 2021-07-28 오후 10 25 53" src="https://user-images.githubusercontent.com/87232411/127346682-3eeec42e-5b75-44d0-a47b-2a61b9f063a0.png" srcset="/img/loading.gif" lazyload></p>
+<p>경보 이름: ASG-CpuLow -&gt; <code>다음</code> 클릭<br><img width="808" alt="스크린샷 2021-07-28 오후 10 26 10" src="https://user-images.githubusercontent.com/87232411/127346685-b43b010b-e85b-45a9-a2c6-598e4a0d9626.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>경보 생성</code> 클릭<br><img width="264" alt="스크린샷 2021-07-28 오후 10 26 18" src="https://user-images.githubusercontent.com/87232411/127346689-12dce6dd-dbbd-4a50-aa23-f9941e2765a2.png" srcset="/img/loading.gif" lazyload></p>
+<p>경보가 만들어졌습니다<br><img width="434" alt="스크린샷 2021-07-28 오후 10 26 32" src="https://user-images.githubusercontent.com/87232411/127346692-0bdd072a-e381-4674-b92b-bb4a2bd1d3dc.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">정책 유형: 단순 조정<br>조정 정책 이름: Scale In Policy<br>CloudWatch: ASG-CpuLow<br>작업 수행: 제거, 1(용량 단위)<br>그런 다음 대기: 60<br></code></pre></td></tr></table></figure>
+
+<p>생성 클릭<br><img width="849" alt="스크린샷 2021-07-28 오후 10 26 58" src="https://user-images.githubusercontent.com/87232411/127346694-098513bf-43e6-41f0-bf3f-8fb60d56f187.png" srcset="/img/loading.gif" lazyload></p>
+<p>CloudWatch 경보 2개를 대시보드에 추가<br><img width="1123" alt="스크린샷 2021-07-28 오후 10 27 22" src="https://user-images.githubusercontent.com/87232411/127346703-ca1ca3f4-cb89-4a5c-bdb9-e44a45237fb9.png" srcset="/img/loading.gif" lazyload></p>
+<p>이름 마음대로 -&gt; 기본 값 -&gt; <code>대시보드에 추가</code> 클릭<br><img width="956" alt="스크린샷 2021-07-28 오후 10 28 00" src="https://user-images.githubusercontent.com/87232411/127346708-99954eee-f0b1-49c0-89d5-0be5a40748a0.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>위젯 추가</code> 클릭<br><img width="388" alt="스크린샷 2021-07-28 오후 10 31 18" src="https://user-images.githubusercontent.com/87232411/127346712-327d9c5b-61ec-45eb-af2c-58aefb367aba.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>행</code> 클릭 -&gt; <code>다음</code> 클릭<br><img width="911" alt="스크린샷 2021-07-28 오후 10 31 24" src="https://user-images.githubusercontent.com/87232411/127346715-28094844-5148-4961-a03b-76539a3b44af.png" srcset="/img/loading.gif" lazyload><br>-&gt; <code>지표</code> 클릭 -&gt; <code>구성</code> 클릭<br><img width="909" alt="스크린샷 2021-07-28 오후 10 31 30" src="https://user-images.githubusercontent.com/87232411/127346719-89266004-fcff-49e5-a4af-1b280a92e7b1.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>GroupInServiceInstances</code> 검색 후 선택<br><img width="1378" alt="스크린샷 2021-07-28 오후 10 31 59" src="https://user-images.githubusercontent.com/87232411/127346720-030f6769-ff88-4c26-a35d-538f12a70dc7.png" srcset="/img/loading.gif" lazyload></p>
+<p>통계: 평균, 기간: 1분 설정 후 -&gt; <code>위젯 생성</code> 클릭<br><img width="537" alt="스크린샷 2021-07-28 오후 10 32 52" src="https://user-images.githubusercontent.com/87232411/127346724-40e2e4f4-cb9a-413d-bc9c-d763e21cbea0.png" srcset="/img/loading.gif" lazyload></p>
+<p>최종 모습<br><img width="1180" alt="스크린샷 2021-07-28 오후 10 33 44" src="https://user-images.githubusercontent.com/87232411/127346726-cba2541c-cc44-4ec8-9599-db4a1d03c6da.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="EC2-인스턴스에-CPU-부하-발생-및-Auto-Scaling-확인"><a href="#EC2-인스턴스에-CPU-부하-발생-및-Auto-Scaling-확인" class="headerlink" title="EC2 인스턴스에 CPU 부하 발생 및 Auto Scaling 확인"></a>EC2 인스턴스에 CPU 부하 발생 및 Auto Scaling 확인</h2><p>배포된 Web EC2. 접속</p>
+<p>아이피 주소를 웹 창에 입력하면 인스턴스 정보가 뜨는 걸 알 수 있다<br><img width="1376" alt="스크린샷 2021-07-29 오전 12 49 59" src="https://user-images.githubusercontent.com/87232411/127360368-5abf6bfd-8158-443e-97bd-ddf15e26d726.png" srcset="/img/loading.gif" lazyload></p>
+<p>인스턴스가 아직 1개이다</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> curl <span class="hljs-variable">$ALB</span> --silent --connect-timeout 1; <span class="hljs-built_in">date</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;---[AutoScaling]---&quot;</span>; <span class="hljs-built_in">sleep</span> 1; <span class="hljs-keyword">done</span><br><br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> aws ec2 describe-instances --filter <span class="hljs-string">&quot;Name=tag:Lab,Values=ASLab&quot;</span> --query <span class="hljs-string">&#x27;Reservations[*].Instances[*].[InstanceId, State.Name, PrivateIpAddress]&#x27;</span> --output text; <span class="hljs-built_in">date</span>; <span class="hljs-built_in">sleep</span> 1; <span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<img width="1036" alt="스크린샷 2021-07-29 오전 12 54 29" src="https://user-images.githubusercontent.com/87232411/127360378-6f36369c-511a-451b-b8e9-3d9cf6c41a73.png" srcset="/img/loading.gif" lazyload>
+
+<p>Auto Scaling 그룹 -&gt; 작업 기록 -&gt; 성공적으로 런치된 걸 볼 수 있다.<br><img width="963" alt="스크린샷 2021-07-29 오전 12 55 40" src="https://user-images.githubusercontent.com/87232411/127360388-22a8208e-318c-43b3-afed-944bf7faf5fd.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">## (심화 옵션) Client IP 확인</span><br>vim /etc/httpd/conf/httpd.conf<br>196 <span class="hljs-built_in">shift</span>+G<br>%&#123;X-Forwarded-For&#125;i<br>systemctl reload httpd<br><span class="hljs-built_in">tail</span> -f /var/log/httpd/access_log |grep -v <span class="hljs-string">&quot;ELB-HealthChecker/2.0&quot;</span><br></code></pre></td></tr></table></figure>
+
+<img width="466" alt="스크린샷 2021-07-29 오전 12 59 11" src="https://user-images.githubusercontent.com/87232411/127360401-8efb1442-95d2-4cf8-9274-c6b3bcd92685.png" srcset="/img/loading.gif" lazyload>
+
+<img width="309" alt="스크린샷 2021-07-29 오전 12 58 47" src="https://user-images.githubusercontent.com/87232411/127360395-628065f1-8577-46bd-8473-cc7f3880ab77.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>curl $ALB</code> 를 쳤을 때는 CPU 사용량이 적은 걸 알 수 있다.<br><img width="1155" alt="스크린샷 2021-07-29 오전 1 02 39" src="https://user-images.githubusercontent.com/87232411/127360404-46f6f1ef-8c0b-40e2-a9de-bb986b5513b5.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="MyEC2-SSH-접속-⇒-ab-부하발생-→-4분-1대-증가-→-ab-off-ctrl-c-→-for-접속으로-부하분산-확인"><a href="#MyEC2-SSH-접속-⇒-ab-부하발생-→-4분-1대-증가-→-ab-off-ctrl-c-→-for-접속으로-부하분산-확인" class="headerlink" title="MyEC2 SSH 접속 ⇒ ab 부하발생 → 4분(1대 증가) → ab off(ctrl+c) → for 접속으로 부하분산 확인"></a>MyEC2 SSH 접속 ⇒ ab 부하발생 → 4분(1대 증가) → ab off(ctrl+c) → for 접속으로 부하분산 확인</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 접속 시 마다 CPU 부하 발생</span><br>curl <span class="hljs-variable">$ALB</span>/load.php;<span class="hljs-built_in">echo</span><br></code></pre></td></tr></table></figure>
+
+<img width="478" alt="스크린샷 2021-07-29 오전 1 03 20" src="https://user-images.githubusercontent.com/87232411/127360412-67bb48d5-8e7e-4887-ade9-a8b7a262e4f9.png" srcset="/img/loading.gif" lazyload>
+
+<p>갑자기 CPU 사용량이 올랐다가 내려가는 걸 볼 수 있다.<br><img width="223" alt="스크린샷 2021-07-29 오전 1 03 10" src="https://user-images.githubusercontent.com/87232411/127360411-6ea46fa4-2fba-4fb4-885d-93398a39eb69.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1개 요청(풀)로 총합 500번 요청 진행</span><br>ab -n 500 -c 1 http://<span class="hljs-variable">$ALB</span>/load.php<br></code></pre></td></tr></table></figure>
+
+<p>CPU 사용량이 계속 증가한다<br><img width="349" alt="스크린샷 2021-07-29 오전 1 05 28" src="https://user-images.githubusercontent.com/87232411/127360417-5a37b067-6d22-4179-965a-7121225740eb.png" srcset="/img/loading.gif" lazyload></p>
+<p>ALBDNS 주소로 웹 접속 후 주소 뒤에 &#x2F;lcpuload.php 를 넣으면 CPU 사용량을 볼 수 있다.<br><img width="682" alt="스크린샷 2021-07-29 오전 1 06 53" src="https://user-images.githubusercontent.com/87232411/127360432-8eed1794-0a9c-4b5a-a091-ace8a029e921.png" srcset="/img/loading.gif" lazyload></p>
+<p>CloudWatch 경보 대시보드를 보면 계속해서 그래프가 증가하는 걸 볼 수 있다.<br><img width="740" alt="스크린샷 2021-07-29 오전 1 07 29" src="https://user-images.githubusercontent.com/87232411/127360436-9283490d-f7fe-4ee7-a382-a67860559644.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="실수"><a href="#실수" class="headerlink" title="실수"></a>실수</h2><p>GroupInServiceInstances 경보 -&gt; 그래프 옵션 -&gt; Y축 한도를 최소 0, 최대 4로 설정 후 확인<br><img width="567" alt="스크린샷 2021-07-29 오전 1 11 07" src="https://user-images.githubusercontent.com/87232411/127360438-a149cacd-a793-45d1-aef8-206403aaf9cb.png" srcset="/img/loading.gif" lazyload><br><img width="736" alt="스크린샷 2021-07-29 오전 1 13 11" src="https://user-images.githubusercontent.com/87232411/127360441-82e06e7c-be4a-4d2a-bbbb-994d60092486.png" srcset="/img/loading.gif" lazyload></p>
+<p>확대 조정 정책 경보를 보면 계속 증가하면서 CPU 부하가 80%가 넘으니 경보를 울리는 걸 알 수 있다.<br><img width="754" alt="스크린샷 2021-07-29 오전 1 13 53" src="https://user-images.githubusercontent.com/87232411/127360445-5d2e1a1e-6082-46e4-a24d-7793065f2b9f.png" srcset="/img/loading.gif" lazyload></p>
+<img width="1" alt="스크린샷 2021-07-29 오전 1 17 37" src="https://user-images.githubusercontent.com/87232411/127360451-6544dd65-7661-4691-b1ef-cc258d53a9c0.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> aws ec2 describe-instances --filter <span class="hljs-string">&quot;Name=tag:Lab,Values=ASLab&quot;</span> --query <span class="hljs-string">&#x27;Reservations[*].Instances[*].[InstanceId, State.Name, PrivateIpAddress]&#x27;</span> --output text; <span class="hljs-built_in">date</span>; <span class="hljs-built_in">sleep</span> 1; <span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<p>전에는 인스턴스가 하나였는데 CPU 사용량 증가 이후 Auto Scaling 그룹 설정으로 3개로 증가했다.</p>
+<img width="532" alt="스크린샷 2021-07-29 오전 1 17 46" src="https://user-images.githubusercontent.com/87232411/127360453-90733e5d-61bf-4700-8012-df77045ea7b9.png" srcset="/img/loading.gif" lazyload>
+<img width="888" alt="스크린샷 2021-07-29 오전 1 17 56" src="https://user-images.githubusercontent.com/87232411/127360459-87152bad-1044-4383-991b-c53bbbc9e20a.png" srcset="/img/loading.gif" lazyload>
+
+<p>CloudWatch 경보에서도 확인할 수 있다.<br><img width="1331" alt="스크린샷 2021-07-29 오전 1 18 11" src="https://user-images.githubusercontent.com/87232411/127360465-02a3d5ff-6fa2-4a27-ab65-2cb639837e54.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># EC2 증가 이후 증감 확인</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..100&#125;; <span class="hljs-keyword">do</span> curl <span class="hljs-variable">$ALB</span> --silent ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br></code></pre></td></tr></table></figure>
+
+<img width="531" alt="스크린샷 2021-07-29 오전 1 18 58" src="https://user-images.githubusercontent.com/87232411/127360468-b089b18c-f4ab-4df7-8951-2d47cdcbb9a5.png" srcset="/img/loading.gif" lazyload>
+
+<p>이제 CPU 사용량을 0으로 하면<br><img width="206" alt="스크린샷 2021-07-29 오전 1 19 20" src="https://user-images.githubusercontent.com/87232411/127360470-9ee7a813-121a-491e-b3e8-45aa2fc08dc3.png" srcset="/img/loading.gif" lazyload>‘</p>
+<p>축소 조정 정책 경보가 울린다<br><img width="730" alt="스크린샷 2021-07-29 오전 1 19 35" src="https://user-images.githubusercontent.com/87232411/127360473-58f66a29-fcb7-42f0-88f2-5bff87bc64d2.png" srcset="/img/loading.gif" lazyload></p>
+<p>인스턴스도 감소하는 걸 볼 수 있다.<br><img width="881" alt="스크린샷 2021-07-29 오전 1 21 21" src="https://user-images.githubusercontent.com/87232411/127360496-0261a0a5-6aab-4ffe-807c-78a1a71d1bf5.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2 -&gt; Auto Scaling 그룹 -&gt; 활동 -&gt; 작업 기록을 보면 기록이 남아있다.<br><img src="https://user-images.githubusercontent.com/87232411/127366192-1212cb03-a038-4fc3-917e-d9d1a4228f8f.png" srcset="/img/loading.gif" lazyload alt="스크린샷 2021-07-29 오전 2 06 22"></p>
+<h2 id="자원-삭제-중요"><a href="#자원-삭제-중요" class="headerlink" title="자원 삭제(중요!)"></a>자원 삭제(중요!)</h2><h3 id="CloudWatch-대시보드에-추가된-지표-Metric-삭제-→-대시보드-삭제"><a href="#CloudWatch-대시보드에-추가된-지표-Metric-삭제-→-대시보드-삭제" class="headerlink" title="CloudWatch (대시보드에 추가된 지표 Metric 삭제 → 대시보드 삭제)"></a>CloudWatch (대시보드에 추가된 지표 Metric 삭제 → 대시보드 삭제)</h3><h3 id="EC2-Auto-Scaling-Group-삭제"><a href="#EC2-Auto-Scaling-Group-삭제" class="headerlink" title="EC2 Auto Scaling Group 삭제"></a>EC2 Auto Scaling Group 삭제</h3><h3 id="EC2-시작-템플릿-Launch-Templates-삭제"><a href="#EC2-시작-템플릿-Launch-Templates-삭제" class="headerlink" title="EC2 시작 템플릿(Launch Templates) 삭제"></a>EC2 시작 템플릿(Launch Templates) 삭제</h3><h3 id="CloudFormation-템플릿-스택-삭제"><a href="#CloudFormation-템플릿-스택-삭제" class="headerlink" title="CloudFormation 템플릿 스택 삭제"></a>CloudFormation 템플릿 스택 삭제</h3><br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 8주차-2 EC2 Auto Scaling 구성 실습</div>
+      <div>http://example.com/2021/07/28/2021-07-28-AFOS-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 28, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/04/2021-08-04-AFOS-1/" title="[AWS] 9주차-1 Wordpress &amp; WooCommerce">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 9주차-1 Wordpress &amp; WooCommerce</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/28/2021-07-28-AFOS-1/" title="[AWS] 8주차-1 EC2 Auto Scaling">
+                        <span class="hidden-mobile">[AWS] 8주차-1 EC2 Auto Scaling</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

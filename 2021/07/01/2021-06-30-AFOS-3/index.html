@@ -1,0 +1,822 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Public S3 버킷 생성S3에서 버킷 만들기 클릭    이름: 유니크한 걸로 ! (icebear-afos-s3로 바꿨습니다.), 모든 퍼블릭 액세스 차단 해제 후, 하단에 현재 설정으로 인해 ~ 체크해주기     버킷 만들기 클릭    만든 버킷 안에 들어가서 업로드 클릭    업로드할 사진 올려주기 ! (아무 사진)    업로드 클릭    짜쟌">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 4주차-3 AWS S3 실습">
+<meta property="og:url" content="http://example.com/2021/07/01/2021-06-30-AFOS-3/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="Public S3 버킷 생성S3에서 버킷 만들기 클릭    이름: 유니크한 걸로 ! (icebear-afos-s3로 바꿨습니다.), 모든 퍼블릭 액세스 차단 해제 후, 하단에 현재 설정으로 인해 ~ 체크해주기     버킷 만들기 클릭    만든 버킷 안에 들어가서 업로드 클릭    업로드할 사진 올려주기 ! (아무 사진)    업로드 클릭    짜쟌">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-06-30T15:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:50:03.635Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 4주차-3 AWS S3 실습 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AWS S3 실습"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-01 00:00" pubdate>
+          July 1, 2021 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AWS S3 실습</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Public-S3-버킷-생성"><a href="#Public-S3-버킷-생성" class="headerlink" title="Public S3 버킷 생성"></a>Public S3 버킷 생성</h2><p><code>S3</code>에서 <code>버킷 만들기</code> 클릭<br><br/></p>
+<img width="176" alt="스크린샷 2021-07-02 오후 10 02 47" src="https://user-images.githubusercontent.com/86812249/124284576-16d49d80-db88-11eb-905c-8fa6d4acdf60.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>이름: 유니크한 걸로 ! (<strong>icebear-afos-s3로 바꿨습니다.</strong>), <code>모든 퍼블릭 액세스 차단</code> 해제 후, 하단에 <code>현재 설정으로 인해 ~</code> 체크해주기<br><br/></p>
+<img width="882" alt="스크린샷 2021-07-02 오후 10 03 00" src="https://user-images.githubusercontent.com/86812249/124284585-1805ca80-db88-11eb-865f-d54125b888cd.png" srcset="/img/loading.gif" lazyload>
+<img width="849" alt="스크린샷 2021-07-02 오후 10 03 13" src="https://user-images.githubusercontent.com/86812249/124284596-19cf8e00-db88-11eb-929b-81db2d36b905.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>버킷 만들기</code> 클릭<br><br/></p>
+<img width="214" alt="스크린샷 2021-07-02 오후 10 03 24" src="https://user-images.githubusercontent.com/86812249/124284602-1b00bb00-db88-11eb-89f4-54fba4cad937.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>만든 버킷 안에 들어가서 <code>업로드</code> 클릭<br><br/></p>
+<img width="245" alt="스크린샷 2021-07-02 오후 10 04 10" src="https://user-images.githubusercontent.com/86812249/124284603-1b00bb00-db88-11eb-8f8a-650fbea971b1.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>업로드할 사진 올려주기 ! (아무 사진)<br><br/></p>
+<img width="872" alt="스크린샷 2021-07-02 오후 10 04 28" src="https://user-images.githubusercontent.com/86812249/124284605-1b995180-db88-11eb-989d-1a315d957cdc.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>업로드</code> 클릭<br><br/></p>
+<img width="224" alt="스크린샷 2021-07-02 오후 10 04 42" src="https://user-images.githubusercontent.com/86812249/124284610-1b995180-db88-11eb-9ff1-368c703e7a14.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>짜쟌<br><br/></p>
+<img width="232" alt="스크린샷 2021-07-02 오후 10 05 19" src="https://user-images.githubusercontent.com/86812249/124284615-1cca7e80-db88-11eb-922a-344f2eba5138.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>파일에 들어가서 <code>객체 URL</code>를 복사해 웹으로 접속하면<br><br/></p>
+<img width="601" alt="스크린샷 2021-07-02 오후 10 05 48" src="https://user-images.githubusercontent.com/86812249/124284618-1cca7e80-db88-11eb-878f-987f73a0cb99.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>접근 거부가 된다. 다른 사람이 볼 수 있게 설정해 줘야 한다.<br><br/></p>
+ <img width="823" alt="스크린샷 2021-07-02 오후 10 06 48" src="https://user-images.githubusercontent.com/86812249/124284627-1dfbab80-db88-11eb-86ac-88f965ffef6c.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>사진을 클릭 후에, <code>작업</code>을 눌러서 <code>퍼블릭으로 설정</code>을 눌러주자<br><br/></p>
+<img width="944" alt="스크린샷 2021-07-02 오후 10 05 12" src="https://user-images.githubusercontent.com/86812249/124284613-1c31e800-db88-11eb-91f0-988ac3bf6245.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>하단에 <code>퍼블릭 설정</code>을 눌러주자<br><br/><br><img width="232" alt="스크린샷 2021-07-02 오후 10 05 19" src="https://user-images.githubusercontent.com/86812249/124284615-1cca7e80-db88-11eb-922a-344f2eba5138.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<p>사진이 드디어 보입니다 !<br><br/></p>
+<img width="993" alt="스크린샷 2021-07-02 오후 10 06 01" src="https://user-images.githubusercontent.com/86812249/124293490-b0ed1380-db91-11eb-9c10-ce6efe18bae5.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>사진에 들어가서 객체 URL를 복사한다.<br><code>STG1 인스턴스</code>에 들어가서 웹서버의 <code>index.html</code> 파일을 수정</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs gherkin"><span class="hljs-comment">#root 권한으로 변경</span><br>sudo su<br><br><span class="hljs-comment"># index.html 파일 양식</span><br>cat <span class="hljs-variable">&lt;&lt;EOF&gt;</span> /var/www/html/index.html<br><span class="hljs-variable">&lt;html&gt;</span><br><span class="hljs-variable">&lt;body&gt;</span><br><span class="hljs-variable">&lt;h1&gt;</span>닉네임 S3 Storage<span class="hljs-variable">&lt;br&gt;</span><br><span class="hljs-variable">&lt;img src=&quot;https://S3 객체 URL 주소 입력&quot;&gt;</span><br><span class="hljs-variable">&lt;/body&gt;</span><br><span class="hljs-variable">&lt;/html&gt;</span><br>EOF<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="668" alt="스크린샷 2021-07-02 오후 10 10 27" src="https://user-images.githubusercontent.com/86812249/124284640-1fc56f00-db88-11eb-8a0d-6d07c2dc906f.png" srcset="/img/loading.gif" lazyload>
+<img width="293" alt="스크린샷 2021-07-02 오후 10 09 18" src="https://user-images.githubusercontent.com/86812249/124284632-1e944200-db88-11eb-815d-18d42d899adf.png" srcset="/img/loading.gif" lazyload>
+<img width="569" alt="스크린샷 2021-07-02 오후 10 11 15" src="https://user-images.githubusercontent.com/86812249/124284641-1fc56f00-db88-11eb-810c-5e401b0f8762.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>EC2</code> -&gt; <code>인스턴스</code>에서 <code>퍼블릭 IPv4주소</code>를 복사하자<br><br/></p>
+<img width="510" alt="스크린샷 2021-07-02 오후 10 09 54" src="https://user-images.githubusercontent.com/86812249/124284638-1f2cd880-db88-11eb-8ec2-51debddbae34.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>성공 !<br><br/></p>
+<img width="1079" alt="스크린샷 2021-07-02 오후 10 11 31" src="https://user-images.githubusercontent.com/86812249/124293706-e72a9300-db91-11eb-8de7-f74a0cce7e9e.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="옵션-지랑하기"><a href="#옵션-지랑하기" class="headerlink" title="옵션) 지랑하기"></a>옵션) 지랑하기</h2><p><code>S3에서 만든 버킷</code> -&gt; <code>업로드</code> 클릭<br><br/><br><img width="186" alt="스크린샷 2021-07-02 오후 10 12 14" src="https://user-images.githubusercontent.com/86812249/124284644-20f69c00-db88-11eb-99d7-803f1f49f96d.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<p>바다 영상을 올립니다.<br><Br/><br><img width="890" alt="스크린샷 2021-07-02 오후 10 12 37" src="https://user-images.githubusercontent.com/86812249/124284647-218f3280-db88-11eb-841c-4895949a2750.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<p><code>업로드</code> 클릭 !<br><br/></p>
+<img width="233" alt="스크린샷 2021-07-02 오후 10 12 40" src="https://user-images.githubusercontent.com/86812249/124284649-218f3280-db88-11eb-8d94-082f46bf47fc.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>이전 사진처럼 퍼블릭으로 설정해줘야 접속이 가능<br><br/></p>
+<img width="892" alt="스크린샷 2021-07-02 오후 10 12 57" src="https://user-images.githubusercontent.com/86812249/124284651-2227c900-db88-11eb-8600-bba7ef66a0d8.png" srcset="/img/loading.gif" lazyload>
+<img width="273" alt="스크린샷 2021-07-02 오후 10 13 01" src="https://user-images.githubusercontent.com/86812249/124284653-2227c900-db88-11eb-8b33-7cf0e683f083.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>바다.mp4</code>에 들어가서 <code>객체 URL</code> 복사<br><br/><br><img width="693" alt="스크린샷 2021-07-02 오후 10 13 10" src="https://user-images.githubusercontent.com/86812249/124284655-22c05f80-db88-11eb-9080-736cee1c5555.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<p>성공 ~<br><br/><br><img width="914" alt="스크린샷 2021-07-02 오후 10 13 24" src="https://user-images.githubusercontent.com/86812249/124284659-22c05f80-db88-11eb-9de7-e3b896a7fa08.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<h2 id="옵션-결과"><a href="#옵션-결과" class="headerlink" title="옵션 결과)"></a>옵션 결과)</h2><p>지금은 11시 20분 .. 제 친구들은 다들 새나라 어린이인가 봅니다<br><br/></p>
+<img width="481" alt="스크린샷 2021-07-02 오후 11 20 10" src="https://user-images.githubusercontent.com/86812249/124288402-1a6a2380-db8c-11eb-99a0-dbf21b3869f6.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="옵션-객체마다-모든-사람-읽기를-체크하지-않고-버킷에-객체가-업로드-gt-자동으로-모든-사람-읽기-기능"><a href="#옵션-객체마다-모든-사람-읽기를-체크하지-않고-버킷에-객체가-업로드-gt-자동으로-모든-사람-읽기-기능" class="headerlink" title="옵션) 객체마다 모든 사람 읽기를 체크하지 않고 버킷에 객체가 업로드 -&gt; 자동으로 모든 사람 읽기 기능"></a>옵션) 객체마다 모든 사람 읽기를 <code>체크</code>하지 않고 버킷에 객체가 업로드 -&gt; 자동으로 모든 사람 읽기 기능</h2><p><code>만든 S3 버킷</code>에서 <code>권한</code> 클릭<br><br/><br><img width="337" alt="스크린샷 2021-07-02 오후 10 16 51" src="https://user-images.githubusercontent.com/86812249/124284664-2358f600-db88-11eb-951a-ac2274c78bf9.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<p>버킷 정책에 <code>편집</code> 클릭<br><br/></p>
+<img width="1208" alt="스크린샷 2021-07-02 오후 10 17 15" src="https://user-images.githubusercontent.com/86812249/124284669-23f18c80-db88-11eb-8307-027185a79795.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>정책에 붙여놓기 하기</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs prolog">&#123;<br>  <span class="hljs-string">&quot;Version&quot;</span>: <span class="hljs-string">&quot;2012-10-17&quot;</span>,<br>  <span class="hljs-string">&quot;Statement&quot;</span>: [<br>    &#123;<br>      <span class="hljs-string">&quot;Sid&quot;</span>: <span class="hljs-string">&quot;PublicReadGetObject&quot;</span>,<br>      <span class="hljs-string">&quot;Effect&quot;</span>: <span class="hljs-string">&quot;Allow&quot;</span>,<br>      <span class="hljs-string">&quot;Principal&quot;</span>: <span class="hljs-string">&quot;*&quot;</span>,<br>      <span class="hljs-string">&quot;Action&quot;</span>: [<br>        <span class="hljs-string">&quot;s3:GetObject&quot;</span><br>        ],<br>      <span class="hljs-string">&quot;Resource&quot;</span>: [<br>        <span class="hljs-string">&quot;arn:aws:s3:::BUCKET_NAME/*&quot;</span><br>        ]<br>    &#125;<br>  ]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="841" alt="스크린샷 2021-07-02 오후 10 17 58" src="https://user-images.githubusercontent.com/86812249/124284672-248a2300-db88-11eb-81e1-1c49cfd3f0de.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>변경 사항 저장</code> 클릭<br><br/></p>
+<img width="284" alt="스크린샷 2021-07-02 오후 10 18 05" src="https://user-images.githubusercontent.com/86812249/124284676-248a2300-db88-11eb-9608-c15a78a1f873.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="테스트"><a href="#테스트" class="headerlink" title="테스트"></a>테스트</h2><p>사진을 올려주고 ‘업로드’ 클릭<br><br/><br><img width="878" alt="스크린샷 2021-07-02 오후 10 20 02" src="https://user-images.githubusercontent.com/86812249/124284678-2522b980-db88-11eb-8c29-1aa57f7fb25f.png" srcset="/img/loading.gif" lazyload><br><img width="188" alt="스크린샷 2021-07-02 오후 10 20 05" src="https://user-images.githubusercontent.com/86812249/124284681-25bb5000-db88-11eb-80b7-d5ed3fe672b6.png" srcset="/img/loading.gif" lazyload><br><br/></p>
+<p>올린 사진에 들어가서 <code>객체 URL</code> 복사 클릭<br><br/></p>
+<img width="661" alt="스크린샷 2021-07-02 오후 10 20 15" src="https://user-images.githubusercontent.com/86812249/124284683-25bb5000-db88-11eb-8f08-c67749cdbf34.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>이제 <code>퍼블릭</code>을 따로 설정해주지 않아도 됨<br><br/></p>
+<img width="965" alt="스크린샷 2021-07-02 오후 10 20 27" src="https://user-images.githubusercontent.com/86812249/124284684-2653e680-db88-11eb-84e1-d5d5b07c6f9a.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="Private-S3-실습-AWS-CLI-S3-사용"><a href="#Private-S3-실습-AWS-CLI-S3-사용" class="headerlink" title="Private S3 실습) AWS CLI-S3 사용"></a>Private S3 실습) AWS CLI-S3 사용</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-comment"># S3 조회</span><br>aws s3 <span class="hljs-keyword">ls</span><br><br><span class="hljs-comment"># 버킷 조회(하위 디렉터리 포함)</span><br>aws s3 <span class="hljs-keyword">ls</span> s3:<span class="hljs-string">//</span>버킷<br>aws s3 <span class="hljs-keyword">ls</span> s3:<span class="hljs-string">//</span>버킷 <span class="hljs-params">--recursive</span><br><br><span class="hljs-comment"># S3 버킷 생성</span><br>aws s3 mb s3:<span class="hljs-string">//</span>버킷<span class="hljs-params">(유일한 이름)</span> <span class="hljs-params">--region</span> ap-northeast-2<br><br><span class="hljs-comment"># 버킷 이름을 변수에 지정</span><br>MyS3=버킷<br><br><span class="hljs-comment"># 로컬 파일을 S3로 업로드</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;111&quot;</span> &gt; <span class="hljs-string">/var/www/html/111.txt</span><br>aws s3 cp <span class="hljs-string">/var/www/html/111.txt</span> s3:<span class="hljs-string">//</span>$MyS3<br>aws s3 <span class="hljs-keyword">ls</span> s3:<span class="hljs-string">//</span>$MyS3<br><br><span class="hljs-comment"># 웹 디렉터리(하위 포함)을 버킷에 업로드(백업)하기</span><br>tree <span class="hljs-string">/var/www/html</span><br>aws s3 sync <span class="hljs-params">--delete</span> <span class="hljs-string">/var/www/html</span> s3:<span class="hljs-string">//</span>$MyS3<br>aws s3 <span class="hljs-keyword">ls</span> s3:<span class="hljs-string">//</span>$MyS3 <span class="hljs-params">--recursive</span><br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="289" alt="스크린샷 2021-07-02 오후 10 20 50" src="https://user-images.githubusercontent.com/86812249/124284687-2653e680-db88-11eb-8807-685407733dab.png" srcset="/img/loading.gif" lazyload>
+<img width="558" alt="스크린샷 2021-07-02 오후 10 21 48" src="https://user-images.githubusercontent.com/86812249/124284689-26ec7d00-db88-11eb-902f-f1e6f5387895.png" srcset="/img/loading.gif" lazyload>
+<img width="553" alt="스크린샷 2021-07-02 오후 10 22 23" src="https://user-images.githubusercontent.com/86812249/124284692-26ec7d00-db88-11eb-9c36-eed250b5d7c0.png" srcset="/img/loading.gif" lazyload>
+<img width="567" alt="스크린샷 2021-07-02 오후 10 23 09" src="https://user-images.githubusercontent.com/86812249/124284695-27851380-db88-11eb-8447-a7fc637bc21d.png" srcset="/img/loading.gif" lazyload>
+<img width="365" alt="스크린샷 2021-07-02 오후 10 26 22" src="https://user-images.githubusercontent.com/86812249/124284700-281daa00-db88-11eb-83b2-e143104d0b72.png" srcset="/img/loading.gif" lazyload>
+<img width="451" alt="스크린샷 2021-07-02 오후 10 24 04" src="https://user-images.githubusercontent.com/86812249/124284699-281daa00-db88-11eb-90f6-078788ed16ae.png" srcset="/img/loading.gif" lazyload>
+
+<img width="508" alt="스크린샷 2021-07-02 오후 10 26 31" src="https://user-images.githubusercontent.com/86812249/124284703-28b64080-db88-11eb-86c6-4e67a34c7e96.png" srcset="/img/loading.gif" lazyload>
+<img width="361" alt="스크린샷 2021-07-02 오후 10 26 54" src="https://user-images.githubusercontent.com/86812249/124284706-28b64080-db88-11eb-8f33-99491c75528f.png" srcset="/img/loading.gif" lazyload>
+<img width="378" alt="스크린샷 2021-07-02 오후 10 27 43" src="https://user-images.githubusercontent.com/86812249/124284707-294ed700-db88-11eb-9141-b821ea23085d.png" srcset="/img/loading.gif" lazyload>
+<img width="561" alt="스크린샷 2021-07-02 오후 10 27 58" src="https://user-images.githubusercontent.com/86812249/124284712-29e76d80-db88-11eb-804d-1733e7a3593d.png" srcset="/img/loading.gif" lazyload>
+<img width="452" alt="스크린샷 2021-07-02 오후 10 28 39" src="https://user-images.githubusercontent.com/86812249/124284715-2a800400-db88-11eb-8d2f-9159776c7a37.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="옵션-1분-마다-웹-디렉터리-하위-포함-을-버킷에-업로드-백업-하기-동기화하기"><a href="#옵션-1분-마다-웹-디렉터리-하위-포함-을-버킷에-업로드-백업-하기-동기화하기" class="headerlink" title="옵션) 1분 마다 웹 디렉터리(하위 포함)을 버킷에 업로드(백업)하기 -동기화하기"></a>옵션) 1분 마다 웹 디렉터리(하위 포함)을 버킷에 업로드(백업)하기 -동기화하기</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># crontab 내용 추가</span><br>cat &lt;&lt;EOF &gt;&gt; <span class="hljs-regexp">/etc/</span>crontab<br>*<span class="hljs-regexp">/1 * * * * root aws s3 sync --delete /</span>var<span class="hljs-regexp">/www/</span>html s3:<span class="hljs-regexp">//</span><span class="hljs-variable">$MyS3</span><br>EOF<br><br><span class="hljs-comment"># 적용 및 실시간 로그</span><br>systemctl restart crond<br>tail -f <span class="hljs-regexp">/var/</span>log/cron<br><br><span class="hljs-comment"># 파일 추가 생성</span><br>echo <span class="hljs-string">&quot;222&quot;</span> &gt; <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span><span class="hljs-number">222</span>.txt<br>echo <span class="hljs-string">&quot;333&quot;</span> &gt; <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span><span class="hljs-number">333</span>.txt<br><span class="hljs-keyword">while</span> true; <span class="hljs-keyword">do</span> aws s3 ls s3:<span class="hljs-regexp">//</span><span class="hljs-variable">$MyS3</span>; date; echo <span class="hljs-string">&quot;---[S3 ls]---&quot;</span>; sleep <span class="hljs-number">3</span>; done<br><br></code></pre></td></tr></table></figure>
+
+<br/>
+<img width="484" alt="스크린샷 2021-07-02 오후 10 31 00" src="https://user-images.githubusercontent.com/86812249/124284717-2a800400-db88-11eb-9319-2ccbab2545d0.png" srcset="/img/loading.gif" lazyload>
+<img width="565" alt="스크린샷 2021-07-02 오후 10 31 33" src="https://user-images.githubusercontent.com/86812249/124284721-2b189a80-db88-11eb-9fc8-79f9c308cdaa.png" srcset="/img/loading.gif" lazyload>
+<img width="460" alt="스크린샷 2021-07-02 오후 10 32 29" src="https://user-images.githubusercontent.com/86812249/124284722-2b189a80-db88-11eb-8c64-53d9fb5d110d.png" srcset="/img/loading.gif" lazyload>
+<img width="561" alt="스크린샷 2021-07-02 오후 10 33 40" src="https://user-images.githubusercontent.com/86812249/124284726-2bb13100-db88-11eb-8655-0d7812d5c354.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="옵션-Pre-sign-URL-현재-버킷의-객체는-외부에서-접근이-불가능하지만-특정-기간-동안-특정-객체-다운-허용"><a href="#옵션-Pre-sign-URL-현재-버킷의-객체는-외부에서-접근이-불가능하지만-특정-기간-동안-특정-객체-다운-허용" class="headerlink" title="옵션) Pre-sign URL 현재 버킷의 객체는 외부에서 접근이 불가능하지만 특정 기간 동안 특정 객체 다운 허용"></a>옵션) Pre-sign URL 현재 버킷의 객체는 외부에서 접근이 불가능하지만 특정 기간 동안 특정 객체 다운 허용</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 파일 생성</span><br>echo <span class="hljs-string">&quot;presigned test&quot;</span> &gt; <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>presigned.txt<br>aws s3 cp <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>presigned.txt s3:<span class="hljs-regexp">//</span><span class="hljs-variable">$MyS3</span><br><br><span class="hljs-comment"># 직접 객체 URL 바로 접속 시 안됨</span><br><br><span class="hljs-comment"># Pre-sign URL 생성 : 120초</span><br>aws s3 presign s3:<span class="hljs-regexp">//</span><span class="hljs-variable">$MyS3</span>/presigned.txt --expires-<span class="hljs-keyword">in</span> <span class="hljs-number">120</span><br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<img width="568" alt="스크린샷 2021-07-02 오후 10 34 57" src="https://user-images.githubusercontent.com/86812249/124284727-2c49c780-db88-11eb-890d-3d865d5c812f.png" srcset="/img/loading.gif" lazyload>
+<img width="564" alt="스크린샷 2021-07-02 오후 10 36 39" src="https://user-images.githubusercontent.com/86812249/124292227-4daeb180-db90-11eb-9334-20181976d612.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>위에 링크를 복사해서 접속하면 접속이 된다.<br><br/></p>
+<img width="527" alt="스크린샷 2021-07-02 오후 10 37 03" src="https://user-images.githubusercontent.com/86812249/124292235-51423880-db90-11eb-965c-3b72618b3896.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="그럼-s3-객체-URL은-접속이-되나"><a href="#그럼-s3-객체-URL은-접속이-되나" class="headerlink" title="그럼 s3 객체 URL은 접속이 되나 ?"></a>그럼 s3 객체 URL은 접속이 되나 ?</h2><p><code>Private 버킷</code>에 들어가서 <code>presigned.txt</code>를 클릭<br><br/></p>
+<img width="1034" alt="스크린샷 2021-07-02 오후 10 35 33" src="https://user-images.githubusercontent.com/86812249/124284731-2c49c780-db88-11eb-9f29-f22cecef59a7.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p><code>객체 URL</code> 복사<br><br/></p>
+<img width="526" alt="스크린샷 2021-07-02 오후 10 35 39" src="https://user-images.githubusercontent.com/86812249/124284732-2ce25e00-db88-11eb-810c-2c13f85bee23.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<p>당연히 안 된다.<br><br/></p>
+<img width="813" alt="스크린샷 2021-07-02 오후 10 35 48" src="https://user-images.githubusercontent.com/86812249/124284733-2d7af480-db88-11eb-871c-d5392c776b38.png" srcset="/img/loading.gif" lazyload>
+<br/>
+
+<h2 id="심화-x2F-옵션-S3-Browser-통해서-S3-버킷-보기"><a href="#심화-x2F-옵션-S3-Browser-통해서-S3-버킷-보기" class="headerlink" title="심화&#x2F;옵션)S3 Browser 통해서 S3 버킷 보기"></a>심화&#x2F;옵션)S3 Browser 통해서 S3 버킷 보기</h2><ul>
+<li>맥북이라 못 한다..ㅠ 아쉽다<br/></li>
+</ul>
+<img width="759" alt="스크린샷 2021-07-03 오전 12 04 34" src="https://user-images.githubusercontent.com/86812249/124294162-5a340980-db92-11eb-9f61-1ad534692da8.png" srcset="/img/loading.gif" lazyload>
+
+<br/>
+<br/>
+<br/>
+
+<h2 id="자원-삭제-중요"><a href="#자원-삭제-중요" class="headerlink" title="자원 삭제(중요!)"></a>자원 삭제(중요!)</h2><h3 id="EC2-인스턴스-종료"><a href="#EC2-인스턴스-종료" class="headerlink" title="EC2 인스턴스 종료"></a>EC2 인스턴스 종료</h3><h3 id="EBS-스냅샷-삭제"><a href="#EBS-스냅샷-삭제" class="headerlink" title="EBS 스냅샷 삭제"></a>EBS 스냅샷 삭제</h3><h3 id="EBS-볼륨-삭제"><a href="#EBS-볼륨-삭제" class="headerlink" title="EBS 볼륨 삭제"></a>EBS 볼륨 삭제</h3><h3 id="EFS-삭제"><a href="#EFS-삭제" class="headerlink" title="EFS 삭제"></a>EFS 삭제</h3><h3 id="S3-삭제"><a href="#S3-삭제" class="headerlink" title="S3 삭제"></a>S3 삭제</h3><h3 id="CloudFormation-삭제"><a href="#CloudFormation-삭제" class="headerlink" title="CloudFormation 삭제**"></a>CloudFormation 삭제**</h3><br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 4주차-3 AWS S3 실습</div>
+      <div>http://example.com/2021/07/01/2021-06-30-AFOS-3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 1, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/07/2021-07-07-AFOS-1/" title="[AWS] 5주차-1 보안 서비스">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 5주차-1 보안 서비스</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/30/2021-06-30-AFOS-2/" title="[AWS] 4주차-2 CloudFormation, EFS 실습">
+                        <span class="hidden-mobile">[AWS] 4주차-2 CloudFormation, EFS 실습</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

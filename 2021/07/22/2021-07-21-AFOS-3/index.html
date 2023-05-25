@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="NLB 생성EC2 -&gt; 로드밸런서 -&gt; Load Balancer 생성 클릭 생성 클릭 12341. 기본 구성    - 이름(NLB-TEST), 인터넷 경계    - 리스너 : 프로토콜(UDP), 포트(161)    - 가용 영역 : ELB-VPC, 2a 와 2c 선택 - IP는 AWS에서 할당 or 사용자의 EIP 사용 가능     12대상 그룹">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 7주차-3 NLB를 통한 로드 밸런싱 실습">
+<meta property="og:url" content="http://example.com/2021/07/22/2021-07-21-AFOS-3/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="NLB 생성EC2 -&gt; 로드밸런서 -&gt; Load Balancer 생성 클릭 생성 클릭 12341. 기본 구성    - 이름(NLB-TEST), 인터넷 경계    - 리스너 : 프로토콜(UDP), 포트(161)    - 가용 영역 : ELB-VPC, 2a 와 2c 선택 - IP는 AWS에서 할당 or 사용자의 EIP 사용 가능     12대상 그룹">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-07-21T15:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:50:31.478Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 7주차-3 NLB를 통한 로드 밸런싱 실습 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="NLB를 통한 로드 밸런싱 실습"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-22 00:00" pubdate>
+          July 22, 2021 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">NLB를 통한 로드 밸런싱 실습</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="NLB-생성"><a href="#NLB-생성" class="headerlink" title="NLB 생성"></a>NLB 생성</h2><p>EC2 -&gt; 로드밸런서 -&gt; <code>Load Balancer 생성</code> 클릭<br><img width="200" alt="스크린샷 2021-07-22 오전 12 02 22" src="https://user-images.githubusercontent.com/87232411/126533019-7f75307b-fb26-446f-b6b7-ba8318f4dee5.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>생성</code> 클릭<br><img width="386" alt="스크린샷 2021-07-22 오전 12 02 27" src="https://user-images.githubusercontent.com/87232411/126533030-2465b670-f582-4be5-9f85-227fd4d3819c.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">1.</span> 기본 구성<br><span class="hljs-bullet">    -</span> 이름(NLB-TEST), 인터넷 경계<br><span class="hljs-bullet">    -</span> 리스너 : 프로토콜(UDP), 포트(161)<br><span class="hljs-bullet">    -</span> 가용 영역 : ELB-VPC, 2a 와 2c 선택 - IP는 AWS에서 할당 or 사용자의 EIP 사용 가능<br></code></pre></td></tr></table></figure>
+
+<img width="1136" alt="스크린샷 2021-07-22 오전 12 02 46" src="https://user-images.githubusercontent.com/87232411/126533037-4068dd8f-ca9e-4bf7-935b-3279c145bb0d.png" srcset="/img/loading.gif" lazyload>
+<img width="982" alt="스크린샷 2021-07-22 오전 12 02 58" src="https://user-images.githubusercontent.com/87232411/126533040-bf7cfd0c-d018-4875-a2a7-100dfed4c9fb.png" srcset="/img/loading.gif" lazyload>
+
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gcode">대상 그룹<span class="hljs-comment">(새 대상 그룹)</span>, 이름<span class="hljs-comment">(NLB-TG)</span>, 대상 유형<span class="hljs-comment">(인스턴스)</span>, 프로토콜<span class="hljs-comment">(UDP)</span>, 포트<span class="hljs-comment">(161)</span><br>상태 검사<span class="hljs-comment">(HTTP)</span> → 고급 상태 검사 설정 : 간격<span class="hljs-comment">(10)</span>, 나머지는 기본값 ⇒ UDP는 기본 단방향 통신으로 상태검사에 비적합<br></code></pre></td></tr></table></figure>
+
+<img width="1090" alt="스크린샷 2021-07-22 오전 12 03 29" src="https://user-images.githubusercontent.com/87232411/126533044-ebed91c0-c64b-41e3-8309-22586aa41ec3.png" srcset="/img/loading.gif" lazyload>
+<img width="943" alt="스크린샷 2021-07-22 오전 12 03 55" src="https://user-images.githubusercontent.com/87232411/126533047-da274995-74ad-4530-be1a-b3060860cc02.png" srcset="/img/loading.gif" lazyload>
+<img width="480" alt="스크린샷 2021-07-22 오전 12 04 34" src="https://user-images.githubusercontent.com/87232411/126533049-6af0c0eb-1812-44ed-a4b0-c032dc0fc265.png" srcset="/img/loading.gif" lazyload>
+
+<p>인스턴스 선택 후 -&gt; <code>Include as pending below</code> 클릭<br><img width="1180" alt="스크린샷 2021-07-22 오후 7 47 11" src="https://user-images.githubusercontent.com/87232411/126627916-be8cb052-f7b8-4abb-a504-2ff7b0f21514.png" srcset="/img/loading.gif" lazyload></p>
+<p>하단에 <code>Create target group</code> 클릭<br><img width="1348" alt="스크린샷 2021-07-22 오후 7 47 20" src="https://user-images.githubusercontent.com/87232411/126627931-fd743031-fcaa-45c9-bfcd-d9f7a9cc7d47.png" srcset="/img/loading.gif" lazyload></p>
+<p>대상 그룹 선택<br><img width="1121" alt="스크린샷 2021-07-22 오전 12 05 39" src="https://user-images.githubusercontent.com/87232411/126533058-3b9367fd-c2e0-4bef-83b9-65e80bb1f821.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>Create load balancer</code> 클릭<br><img width="407" alt="스크린샷 2021-07-22 오전 12 05 48" src="https://user-images.githubusercontent.com/87232411/126533061-e0f1ae19-d7a9-4e88-8bf9-ebfa734a37bd.png" srcset="/img/loading.gif" lazyload></p>
+<p>My-EC2 에서 확인</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">NLB= NLB DNS 주소<br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$NLB</span><br><br><span class="hljs-comment"># NLB는 아래 도메인 쿼리 응답 IP가 고정</span><br>dig <span class="hljs-variable">$NLB</span> +short<br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span> dig <span class="hljs-variable">$NLB</span> +short &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;------------------------------&quot;</span> &amp;&amp; <span class="hljs-built_in">date</span>; <span class="hljs-built_in">sleep</span> 5; <span class="hljs-keyword">done</span><br><br><br><span class="hljs-comment"># NLB IP를 변수에 지정 &lt;&lt; 아래 NLB1 NLB2 IP 정보는 각자 멤버들 &#x27;dig $NLB&#x27; 출력된 IP 2개 정보를 각각 입력</span><br>NLB1=3.38.32.124<br>NLB2=13.124.129.65<br><br> curl 접속 테스트<br><span class="hljs-comment"># NLB 는 5 Tuple Hash 결과로 분산하며 default 설정이 Cross Zone Load Balancing(교차 영역 로드 밸런싱)이 비활성화 상태</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..20&#125;; <span class="hljs-keyword">do</span> snmpget -v2c -c public <span class="hljs-variable">$NLB</span> 1.3.6.1.2.1.1.5.0 ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..20&#125;; <span class="hljs-keyword">do</span> snmpget -v2c -c public <span class="hljs-variable">$NLB1</span> 1.3.6.1.2.1.1.5.0 ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..20&#125;; <span class="hljs-keyword">do</span> snmpget -v2c -c public <span class="hljs-variable">$NLB2</span> 1.3.6.1.2.1.1.5.0 ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br></code></pre></td></tr></table></figure>
+
+<img width="585" alt="스크린샷 2021-07-22 오전 12 06 28" src="https://user-images.githubusercontent.com/87232411/126533062-55008ca4-20a1-48ec-bc48-a9b5e2280215.png" srcset="/img/loading.gif" lazyload>
+<img width="267" alt="스크린샷 2021-07-22 오전 12 06 36" src="https://user-images.githubusercontent.com/87232411/126533063-d4977ba3-e942-42c4-88c5-fdf081309e54.png" srcset="/img/loading.gif" lazyload>
+<img width="717" alt="스크린샷 2021-07-22 오전 12 08 44" src="https://user-images.githubusercontent.com/87232411/126533065-6e30202b-22a5-489b-8a2a-9717c4861ea4.png" srcset="/img/loading.gif" lazyload>
+<img width="369" alt="스크린샷 2021-07-22 오전 2 08 13" src="https://user-images.githubusercontent.com/87232411/126533066-2b7895f6-48fb-457e-9024-fb8e364b8a21.png" srcset="/img/loading.gif" lazyload>
+<img width="299" alt="스크린샷 2021-07-22 오전 2 08 53" src="https://user-images.githubusercontent.com/87232411/126533070-a1d48b69-a36f-4210-acaa-c3b2a60e6be6.png" srcset="/img/loading.gif" lazyload>
+<img width="559" alt="스크린샷 2021-07-22 오전 2 09 08" src="https://user-images.githubusercontent.com/87232411/126533073-43ffa4d2-9086-4264-9bff-a8085ca1b138.png" srcset="/img/loading.gif" lazyload>
+<img width="563" alt="스크린샷 2021-07-22 오전 2 09 19" src="https://user-images.githubusercontent.com/87232411/126533074-9d45ae31-d4ed-4ca6-b743-f22edab86b37.png" srcset="/img/loading.gif" lazyload>
+<img width="562" alt="스크린샷 2021-07-22 오전 2 09 30" src="https://user-images.githubusercontent.com/87232411/126533076-d275ff6d-afa2-4134-b561-cfd4b186b0ad.png" srcset="/img/loading.gif" lazyload>
+
+<p>ELB-EC2-1&#x2F;2 에서 확인</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 패킷덤프 시 클라이언트IP가 NLB를 경유해서 인입하였지만 변경 안됨 - 클라이언트IP보존</span><br><span class="hljs-comment"># EC2 보안그룹에 NLB로 서비스하는 포트의 대상을 대부분 0.0.0.0/0 지정하게됨 - 클라이언트IP로 인입되기 때문</span><br><span class="hljs-attribute">tcpdump</span> udp port <span class="hljs-number">161</span> -nn<br></code></pre></td></tr></table></figure>
+
+<p><strong>오류 수정 완료!</strong><br>잘 나온다 ㅎㅎ 만약에 어쩌고 저쩌고 bytes 하는 글만 나온다면 My-EC2에 위에 for문 첫 번째 코드를 다시 돌려보자.<br><img width="774" alt="스크린샷 2021-07-22 오후 7 52 43" src="https://user-images.githubusercontent.com/87232411/126628407-6846b507-4967-410f-90f4-def3493ee3af.png" srcset="/img/loading.gif" lazyload><br><img width="603" alt="스크린샷 2021-07-22 오후 7 52 52" src="https://user-images.githubusercontent.com/87232411/126628421-ca0e3cf6-bda2-47f9-83ca-a4d4d548356c.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="NLB-Cross-Zone-Load-Balancing-활성화"><a href="#NLB-Cross-Zone-Load-Balancing-활성화" class="headerlink" title="NLB Cross Zone Load Balancing 활성화"></a>NLB Cross Zone Load Balancing 활성화</h3><p>EC2 -&gt; 로드밸런서 -&gt; 작업 클릭 -&gt; 속성 편집 클릭<br><img width="340" alt="스크린샷 2021-07-22 오전 2 21 16" src="https://user-images.githubusercontent.com/87232411/126533084-8b961892-4822-4fda-ae78-c1613fba25a0.png" srcset="/img/loading.gif" lazyload></p>
+<p>교차 영역 로드 밸런싱 활성화 클릭<br><img width="1001" alt="스크린샷 2021-07-22 오전 2 21 23" src="https://user-images.githubusercontent.com/87232411/126533086-345b68ee-a167-45fc-9adb-55b949f12132.png" srcset="/img/loading.gif" lazyload></p>
+<p>My-EC2 에서 확인</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># curl 접속 테스트</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..20&#125;; <span class="hljs-keyword">do</span> snmpget -v2c -c public <span class="hljs-variable">$NLB1</span> 1.3.6.1.2.1.1.5.0 ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..20&#125;; <span class="hljs-keyword">do</span> snmpget -v2c -c public <span class="hljs-variable">$NLB2</span> 1.3.6.1.2.1.1.5.0 ; <span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr<br></code></pre></td></tr></table></figure>
+
+<p><strong>오류 수정 완료!</strong><br>요즘에 오류를 고치고 성공적인 결과가 나올 때 제일 행복한 거 같다 ㅎㅎ<br><img width="867" alt="스크린샷 2021-07-22 오후 8 00 18" src="https://user-images.githubusercontent.com/87232411/126629205-b6117981-6906-4e7f-97d9-d40b8798e630.png" srcset="/img/loading.gif" lazyload></p>
+<hr/>
+
+<h3 id="자원-삭제-중요"><a href="#자원-삭제-중요" class="headerlink" title="자원 삭제(중요!)"></a>자원 삭제(중요!)</h3><h3 id="로드-밸런서-삭제-EC2-→-로드-밸런싱-→-로드-밸런서-→-작업-→-삭제"><a href="#로드-밸런서-삭제-EC2-→-로드-밸런싱-→-로드-밸런서-→-작업-→-삭제" class="headerlink" title="로드 밸런서 삭제 (EC2 → 로드 밸런싱 → 로드 밸런서 → 작업 → 삭제)"></a>로드 밸런서 삭제 (EC2 → 로드 밸런싱 → 로드 밸런서 → 작업 → 삭제)</h3><h3 id="대상-그룹-삭제-EC2-→-로드-밸런싱-→-대상-그룹-→-작업-→-삭제"><a href="#대상-그룹-삭제-EC2-→-로드-밸런싱-→-대상-그룹-→-작업-→-삭제" class="headerlink" title="대상 그룹 삭제 (EC2 → 로드 밸런싱 → 대상 그룹 → 작업 → 삭제)"></a>대상 그룹 삭제 (EC2 → 로드 밸런싱 → 대상 그룹 → 작업 → 삭제)</h3><h3 id="CloudFormation-스택-삭제-CloudFormation-→-스택-→-스택-삭제"><a href="#CloudFormation-스택-삭제-CloudFormation-→-스택-→-스택-삭제" class="headerlink" title="CloudFormation 스택 삭제 (CloudFormation → 스택 → 스택 삭제)"></a>CloudFormation 스택 삭제 (CloudFormation → 스택 → 스택 삭제)</h3><br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 7주차-3 NLB를 통한 로드 밸런싱 실습</div>
+      <div>http://example.com/2021/07/22/2021-07-21-AFOS-3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>July 22, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/22/2021-07-21-AFOS-4/" title="[AWS] 7주차-4 실습 문제 풀기">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 7주차-4 실습 문제 풀기</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/21/2021-07-21-AFOS-2/" title="[AWS] 7주차-2 ALB를 통한 로드 밸런싱 실습">
+                        <span class="hidden-mobile">[AWS] 7주차-2 ALB를 통한 로드 밸런싱 실습</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

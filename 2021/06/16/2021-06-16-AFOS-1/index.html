@@ -1,0 +1,813 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="AWS 글로벌 인프라 AWS는 전 세계에 분포되어 있는 데이터 센터에서 다양한 서비스를 제공하고 있는 클라우드 플랫폼 현재 AWS는 25개의 리전, 80개의 가용영역, 230개 이상의 POP을 운영 중 각각의 리전은 이중화된 100G 케이블 (해저 케이블)로 연결 됨, 암호화되어 전달">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 2주차-1 컴퓨팅 서비스">
+<meta property="og:url" content="http://example.com/2021/06/16/2021-06-16-AFOS-1/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="AWS 글로벌 인프라 AWS는 전 세계에 분포되어 있는 데이터 센터에서 다양한 서비스를 제공하고 있는 클라우드 플랫폼 현재 AWS는 25개의 리전, 80개의 가용영역, 230개 이상의 POP을 운영 중 각각의 리전은 이중화된 100G 케이블 (해저 케이블)로 연결 됨, 암호화되어 전달">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-06-16T13:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:49:45.767Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 2주차-1 컴퓨팅 서비스 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="컴퓨팅 서비스"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-06-16 22:00" pubdate>
+          June 16, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">컴퓨팅 서비스</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="AWS-글로벌-인프라"><a href="#AWS-글로벌-인프라" class="headerlink" title="AWS 글로벌 인프라"></a>AWS 글로벌 인프라</h2><ul>
+<li>AWS는 전 세계에 분포되어 있는 데이터 센터에서 다양한 서비스를 제공하고 있는 클라우드 플랫폼</li>
+<li>현재 AWS는 25개의 리전, 80개의 가용영역, 230개 이상의 POP을 운영 중</li>
+<li>각각의 리전은 이중화된 100G 케이블 (해저 케이블)로 연결 됨, 암호화되어 전달<br/>
+<br/></li>
+</ul>
+<span id="more"></span>
+
+<ul>
+<li>대륙별 국가별로 데이터 센터를 두는 이유는 운영 주체 구분&#x2F; 거리에 따른 지연&#x2F; 법적 규제 및 데이터 거버넌스&#x2F; 리전 내에서 사용 가능한 서비스&#x2F; 비용(리전 별로 다름) 등이 있다.<br/>
+<br/></li>
+</ul>
+<h3 id="Latency"><a href="#Latency" class="headerlink" title="Latency"></a>Latency</h3><ul>
+<li>패킷을 전송하는 곳에서 전달받는 곳까지 이동하는 데 걸리는 시간이다</li>
+<li>1초 &#x3D; 1000ms</li>
+<li>레이턴시를 극복하기 위해 대륙별 지역 서버를 배치한다. (ex. 게임 서버)<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="AWS-리전-amp-가용영역-amp-Edge"><a href="#AWS-리전-amp-가용영역-amp-Edge" class="headerlink" title="AWS 리전 &amp; 가용영역 &amp; Edge"></a>AWS 리전 &amp; 가용영역 &amp; Edge</h2><h3 id="Region"><a href="#Region" class="headerlink" title="Region"></a>Region</h3><ul>
+<li>지리적인 영역 내에서 격리 됨, 여러 개의 가용 영역(AZ)의 모음</li>
+<li>리전은 최소 2개의 가용 영역으로 구성 (최대 6개의 가용 영역 구성)<br/>
+<br/></li>
+</ul>
+<h3 id="가용-영역-AZ-Availabilty-Zone"><a href="#가용-영역-AZ-Availabilty-Zone" class="headerlink" title="가용 영역 (AZ, Availabilty Zone)"></a>가용 영역 (AZ, Availabilty Zone)</h3><ul>
+<li><p>한 개 이상의 데이터 센터들의 모음</p>
+</li>
+<li><p>각 센터는 광통신 전용망으로 연결 됨</p>
+</li>
+<li><p>가용 영역과 인터넷 연결을 위한 이중화된 트랜짓 센터가 있음</p>
+<br/>
+</li>
+<li><p>트랜짓 센터 : AWS 글로벌 백본 네트워크에 연결이 되고, 엣지 POP을 통해 CDN 등 서비스를 실행</p>
+</li>
+<li><p>CDN (Contents Delivery Network) : 사용자에게 웹 콘텐츠를 효율적으로 제공할 수 있게 전 세계에 분산되어 있는 서버 네트워크 * ex. <code>CloudFront, Global Accelerator</code></p>
+<br/>
+</li>
+<li><p>AZ에서도 장애가 날 수 있다. 그러므로 <strong>서비스 구성 시 여러 가용 영역에 분산하여 처리할 수 있도록 구성</strong>을 권장</p>
+<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="Edge"><a href="#Edge" class="headerlink" title="Edge"></a>Edge</h2><ul>
+<li>외부 인터넷과 AWS 글로벌 네트워크망과 연결하는 별도의 센터</li>
+<li>Edge는 <code>Edge Location</code>과 리전별 <code>Edge Cache</code>로 구성</li>
+<li><code>CloudFront</code> 와 같은 CDN 서비스의 데이터 캐시 기능을 제공<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="EC2란-Elastic-Compute-Cloud"><a href="#EC2란-Elastic-Compute-Cloud" class="headerlink" title="EC2란 ? (Elastic Compute Cloud)"></a>EC2란 ? (Elastic Compute Cloud)</h2><ul>
+<li><strong>Amazon EC2</strong> 는 AWS 클라우드에서 확장 가능 컴퓨팅 용량을 제공</li>
+<li>EC2를 사용하면 선투자 필요 X, 더 빠르게 애플리케이션 개발&#x2F;배포</li>
+<li>원하는 만큼의 가상서버 (&#x3D;인스턴스, Instance)를 구축하고 보안 및 네트워크 구성과 스토리지 관리 가능</li>
+<li>EC2는 변동 사항에 따라 신속하게 규모를 확장&#x2F;축소할 수 있어 서버 트래픽 예측 필요성이 줄어듬<br/></li>
+</ul>
+<h3 id="EC2-제공-기능"><a href="#EC2-제공-기능" class="headerlink" title="EC2 제공 기능"></a>EC2 제공 기능</h3><ul>
+<li>인스턴스 : 가상 컴퓨팅 환경</li>
+<li>Amazon Machine Image (AMI) : 서버에 필요한 운영체제와 소프트웨어들이 구성된 상태로 제공되는 템플릿 (인스턴스 쉽게 제작 가능)</li>
+<li>인스턴스 유형(Type) : 인스턴스를 위한 CPU, Memory, Storage, Networking 용량의 여러가지 구성 제공</li>
+<li>키 페어를 사용하여 인스턴스 로그인 정보 보호 (AWS는 Public Key를 저장, 사용자는 Private Key를 안전한 장소에 보관하는 방식)</li>
+<li>Amazon Elastic Block Store(Amazon EBS) 볼륨을 사용해 영구 스토리지 볼륨에 데이터 저장</li>
+<li>인스턴스와 Amzon EBS 볼륨 등의 리소스를 다른 물리적 장소에서 액세스 할 수 있는 리전 및 가용 영역</li>
+<li>보안 그룹을 사용해 인스턴스에 연결할 수 있는 프로토콜, 포트, 소스 IP 범위를 지정하는 방화벽 기능</li>
+<li>탄력적 IP 주소 (Elastic IP) : 동적 클라우드 컴퓨팅을 위한 고정 IPv4 주소</li>
+<li>태그 : 사용자가 생성하여 Amazon EC2 리소스에 할당하여 구분하는 용도</li>
+<li>VPC (Virtual Private Clouds) : AWS에서 고객의 네트워크와 간편히 연결할 수 있는 가상 네트워크<br/>
+<br/></li>
+</ul>
+<h3 id="인스턴스-유형-Types"><a href="#인스턴스-유형-Types" class="headerlink" title="인스턴스 유형 (Types)"></a>인스턴스 유형 (Types)</h3><ul>
+<li>인스턴스를 실행할 때 인스턴스 유형에 따라 인스턴스에 사용되는 호스트 컴퓨터의 하드웨어가 결정</li>
+<li>각 인스턴스 유형은 다른 컴퓨팅, 메모리, 스토리지 용량을 제공 (이 용량애 따라 서로 다른 인스턴스 패밀리로 분류 됨)<br/>
+<br/></li>
+</ul>
+<h3 id="인스턴스-구입-옵션"><a href="#인스턴스-구입-옵션" class="headerlink" title="인스턴스 구입 옵션"></a>인스턴스 구입 옵션</h3><ul>
+<li>온디맨드 인스턴스 : 시작 후, 인스턴스에 대한 비용을 초 단위로 지불</li>
+<li>Saving Plans : 1년 or 3년 기간 동안 시간당 USD로 일관된 컴퓨팅 사용량을 약정하여 Amazon EC2 비용을 절감 가능</li>
+<li>예약 인스턴스(RI) : 1년 or 3년 기간 동안 약정</li>
+<li>스팟 인스턴스(Spot) : 미 사용 EC2 인스턴스를 요청 (EC2 비용 대폭 감소)</li>
+<li>전용 호스트 : 인스턴스를 실행을 전담하는 실제 호스트 비용 지불, 기존의 소켓, 코어 또는 VM 소프트웨어 별 라이선스를 가져와 비용 절감</li>
+<li>용량 예약 : 원하는 기간 동안 특정 가용 영역의 EC2 인스턴스에 대한 용량 예약<br/>
+<br/></li>
+</ul>
+<h3 id="AMI-Amazon-Machine-Image"><a href="#AMI-Amazon-Machine-Image" class="headerlink" title="AMI (Amazon Machine Image)"></a>AMI (Amazon Machine Image)</h3><ul>
+<li>소프트웨어 구성이 기재된 템플릿 (ex. OS, 애플리케이션 서버, 애플리케이션)</li>
+<li>AMI에서 인스턴스 바로 실행 가능 (이 인스턴스는 AMI 사본으로, 클라우드에서 실행되는 가상 서버)<br/>
+<br/></li>
+</ul>
+<h3 id="인스턴스-중지"><a href="#인스턴스-중지" class="headerlink" title="인스턴스 중지"></a>인스턴스 중지</h3><ul>
+<li>정상적인 실행 종료 과정이 이루어지고 Stopped 상태가 됨</li>
+<li>인스턴스의 모든 Amazon EBS 볼륨이 연결된 상태로 유지, 나중에 언제든지 시작 가능</li>
+<li>중지되어 있는 상태 동안 추가 사용량에 대한 요금 부과 X (중지 -&gt; 실행 : 최소 1분의 요금 부과)</li>
+<li>인스턴스 유형 변경 가능 (요금 부과)<br/>
+<br/></li>
+</ul>
+<h3 id="인스턴스-종료"><a href="#인스턴스-종료" class="headerlink" title="인스턴스 종료"></a>인스턴스 종료</h3><ul>
+<li>인스턴스 삭제</li>
+<li>루트 디바이스 볼륨은 삭제 됨 but, Amazon EBS 볼륨은 기본적으로 유지</li>
+<li>인스턴스 종료를 비활성화 시키면 실수로 인스턴스를 종료하는 일을 방지 가능<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="EC2-Storage"><a href="#EC2-Storage" class="headerlink" title="EC2 Storage"></a>EC2 Storage</h2><h3 id="Amazon-EBS-Elastic-Block-Store"><a href="#Amazon-EBS-Elastic-Block-Store" class="headerlink" title="Amazon EBS (Elastic Block Store)"></a>Amazon EBS (Elastic Block Store)</h3><ul>
+<li><p>내구성이 있는 블록 수준 스토리지 볼륨을 제공</p>
+</li>
+<li><p>실행 중인 인스턴스에 연결하는 것이 가능</p>
+</li>
+<li><p>한 인스턴스에서 EBS 볼륨을 분리한 다음 다른 인스턴스에 연결하는 것도 가능</p>
+</li>
+<li><p>인스턴스에 연결된 볼륨의 구성을 동적으로 변경 가능</p>
+</li>
+<li><p>EBS 암호화 기능을 사용하여 EBS 볼륨을 암호화된 볼륨으로 생성 가능</p>
+</li>
+<li><p>EBS 볼륨의 스냅샷을 생성하여 Amazon S3에 저장하면 데이터의 백업 사본을 유지 가능</p>
+<br/>
+</li>
+<li><p>EBS Snapshot : 백업 기능, 증분식 백업이여서 마지막 스냅샷 이후 변경된 디바이스의 블록만이 저장 됨</p>
+<br/>
+<br/></li>
+</ul>
+<h2 id="Amazon-EC2-인스턴스-스토어-Instance-Storage"><a href="#Amazon-EC2-인스턴스-스토어-Instance-Storage" class="headerlink" title="Amazon EC2 인스턴스 스토어 (Instance Storage)"></a>Amazon EC2 인스턴스 스토어 (Instance Storage)</h2><ul>
+<li>호스트 컴퓨터에 물리적으로 연결된 디스크의 스토리지</li>
+<li>인스턴스에서 블록 수준의 <strong>임시 스토리지</strong>를 제공</li>
+<li>인스턴스 스토어에 저장된 데이터는 연관 인스턴스의 수명 기간 동안에만 유지 됨</li>
+<li>해당 인스턴스를 중단하거나 최대 절전 모드로 전환하거나 종료하면 <strong>인스턴스 스토어의 볼륨의 데이터가 손실</strong> 됨<br/>
+<br/></li>
+</ul>
+<h3 id="Amazon-EFS-Elastic-File-System"><a href="#Amazon-EFS-Elastic-File-System" class="headerlink" title="Amazon EFS (Elastic File System)"></a>Amazon EFS (Elastic File System)</h3><ul>
+<li>EC2에서 사용할 수 있는 <strong>리눅스 환경</strong>에 확장 가능한 파일 스토리지를 제공</li>
+<li>EFS 파일 시스템을 만든 후 파일 시스템을 마운트하도록 인스턴스를 구성 가능</li>
+<li>EBS는 단일 인스턴스에서만 연결 가능하지만, EFS는 <strong>여러 인스턴스에서 연결 가능</strong><br/>
+<br/></li>
+</ul>
+<h3 id="Amazon-S3-Simple-Storage-Service"><a href="#Amazon-S3-Simple-Storage-Service" class="headerlink" title="Amazon S3 (Simple Storage Service)"></a>Amazon S3 (Simple Storage Service)</h3><ul>
+<li>저렴하고 신뢰성 있는 데이터 스토리지 인프라에 액세스 가능</li>
+<li>S3는 언제든지 EC2 내 또는 웹의 어디서나 원하는 데이터의 양을 저장하고, 가져올 수 있게 해주어서 웹 규모의 컴퓨팅 작업을 쉽게 수행할 수 있도록 설계 됨</li>
+<li>데이터 및 애플리케이션의 백업 사본을 저장 가능<br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="EBS-볼륨-유형-SSD-HDD"><a href="#EBS-볼륨-유형-SSD-HDD" class="headerlink" title="EBS 볼륨 유형 (SSD, HDD)"></a>EBS 볼륨 유형 (SSD, HDD)</h2><h3 id="SSD-Solid-State-Drive"><a href="#SSD-Solid-State-Drive" class="headerlink" title="SSD(Solid-State Drive)"></a>SSD(Solid-State Drive)</h3><ul>
+<li>주요 성능 특성이 IOPS인 작은 I&#x2F;O 크기의 읽기&#x2F; 쓰기 작업을 자주 처리하는 트랜잭션 워크로드에 최적화 됨</li>
+<li>범용 SSD : 가격과 성능 간의 균형을 제공, 대부분의 워크로드에 이 볼륨을 사용하는 것이 좋음</li>
+<li>프로비저닝된 IOPS SSD : 지연 시간이 짧거나, 처리량이 많은 미션 크리티컬 워크로드에 적합한 고성능을 제공<br/>
+<br/></li>
+</ul>
+<h3 id="HDD-Hard-Disk-Drive"><a href="#HDD-Hard-Disk-Drive" class="headerlink" title="HDD (Hard Disk Drive)"></a>HDD (Hard Disk Drive)</h3><ul>
+<li>주요 성능 특성이 처리량인 대규모 스트리밍 워크로드에 최적화되어 있음</li>
+<li>처리량에 최적화된 HDD : 자주 액세스하는 처리량 집약적 워크로드에 적합한 저비용 HDD</li>
+<li>Cold HDD : 자주 액세스하지 않는 워크로드에 적합한 가장 저렴한 HDD<br/>
+<br/></li>
+</ul>
+<h3 id="이전-세대"><a href="#이전-세대" class="headerlink" title="이전 세대"></a>이전 세대</h3><ul>
+<li>데이터를 자주 액세스하지 않고 성능이 중요하지 않은 소규모 데이터 세트가 있는 워크로드에 사용할 수 있는 하드 디스크 드라이브</li>
+<li><strong>이전 세대 사용은 비권장</strong><br/>
+<br/>
+<br/></li>
+</ul>
+<h2 id="CloudWatch-모니터링"><a href="#CloudWatch-모니터링" class="headerlink" title="CloudWatch 모니터링"></a>CloudWatch 모니터링</h2><ul>
+<li>Amaozon CloudWatch는 AWS 리소스와 AWS에서 실시간으로 실행 중인 애플리케이션을 모니터링</li>
+<li>지표를 감시해 알림을 보내거나 임계값을 위반한 경우, 모니터링 중인 리소스를 자동으로 변경하는 경보를 생성 가능<br/>
+<br/></li>
+</ul>
+<hr/>
+
+<p><strong>참고 자료 : AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 2주차-1 컴퓨팅 서비스</div>
+      <div>http://example.com/2021/06/16/2021-06-16-AFOS-1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>June 16, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/16/2021-06-16-AFOS-2/" title="[AWS] 2주차-2 인스턴스 배포 실습">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 2주차-2 인스턴스 배포 실습</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/09/2021-06-09-AFOS-2/" title="[AWS] 1주차-2 EC2(가상 서버) 배포 및 사용 - 실습">
+                        <span class="hidden-mobile">[AWS] 1주차-2 EC2(가상 서버) 배포 및 사용 - 실습</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

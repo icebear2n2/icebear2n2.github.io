@@ -1,0 +1,727 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/SB_logo.PNG">
+  <link rel="icon" href="/img/SB_logo.PNG">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sujeong Hyeon">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="실습 관련 구성    CloudFront -&gt; ID 클릭 Domain Name 확인 EC2 AllnOne 퍼블릭 IP주소로 웹 접속 Wordpress 관리자 계정 설정 로그인 설정으로 들어간다 주소를 CloudFront Domain 주소로 바꿔준다 https:&#x2F;&#x2F; 에서 s를 빼고 입력한다 변경사항 저장 클릭 ALB &amp; 대상 그">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[AWS] 10주차 -2 AllInOne 인스턴스를 이용하여 CloudFront, ELB, S3(WP Offload Media Lite) 활용">
+<meta property="og:url" content="http://example.com/2021/08/18/2021-08-18-AFOS-last-2/index.html">
+<meta property="og:site_name" content="Sujeong&#39;s Blog">
+<meta property="og:description" content="실습 관련 구성    CloudFront -&gt; ID 클릭 Domain Name 확인 EC2 AllnOne 퍼블릭 IP주소로 웹 접속 Wordpress 관리자 계정 설정 로그인 설정으로 들어간다 주소를 CloudFront Domain 주소로 바꿔준다 https:&#x2F;&#x2F; 에서 s를 빼고 입력한다 변경사항 저장 클릭 ALB &amp; 대상 그">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/aws.png">
+<meta property="article:published_time" content="2021-08-18T04:30:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:50:58.119Z">
+<meta property="article:author" content="Sujeong Hyeon">
+<meta property="article:tag" content="AFOS[2기]">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/aws.png">
+  
+  
+  
+  <title>[AWS] 10주차 -2 AllInOne 인스턴스를 이용하여 CloudFront, ELB, S3(WP Offload Media Lite) 활용 - Sujeong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>My Space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/quinton-coetzee-gpa8Y_Fk7Rg-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AllInOne 인스턴스를 이용하여 CloudFront, ELB, S3(WP Offload Media Lite) 활용"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-18 13:30" pubdate>
+          August 18, 2021 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AllInOne 인스턴스를 이용하여 CloudFront, ELB, S3(WP Offload Media Lite) 활용</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="실습-관련-구성"><a href="#실습-관련-구성" class="headerlink" title="실습 관련 구성"></a>실습 관련 구성</h2><img src="/css/images/스크린샷 2021-08-18 오후 2.31.06.png" srcset="/img/loading.gif" lazyload>
+<br/>
+<br/>
+
+<p>CloudFront -&gt; <code>ID</code> 클릭<br><img width="410" alt="스크린샷 2021-08-18 오후 1 39 36" src="https://user-images.githubusercontent.com/87232411/129839840-d66f82b1-6bf2-4855-a02e-814fd8c9a9f2.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>Domain Name</code> 확인<br><img width="410" alt="스크린샷 2021-08-18 오후 1 40 02" src="https://user-images.githubusercontent.com/87232411/129839847-1a588bd6-d1b2-46c9-b58f-708a63253bb0.png" srcset="/img/loading.gif" lazyload></p>
+<p>EC2 AllnOne 퍼블릭 IP주소로 웹 접속<br><img width="1430" alt="스크린샷 2021-08-18 오후 1 41 00" src="https://user-images.githubusercontent.com/87232411/129839851-165783f1-3fa4-48b8-9f32-5d363427b44e.png" srcset="/img/loading.gif" lazyload></p>
+<p>Wordpress 관리자 계정 설정<br><img width="904" alt="스크린샷 2021-08-18 오후 1 41 19" src="https://user-images.githubusercontent.com/87232411/129839860-7a96af38-34e4-4b57-a116-7f7e374f8bbb.png" srcset="/img/loading.gif" lazyload></p>
+<p>로그인<br><img width="639" alt="스크린샷 2021-08-18 오후 1 41 31" src="https://user-images.githubusercontent.com/87232411/129839866-2a58d6b1-fc5f-4ade-acda-524f1aea60fe.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>설정</code>으로 들어간다<br><img width="78" alt="스크린샷 2021-08-18 오후 1 41 49" src="https://user-images.githubusercontent.com/87232411/129839872-e6302df6-dee8-47fd-a173-e2284e5667df.png" srcset="/img/loading.gif" lazyload></p>
+<p>주소를 CloudFront Domain 주소로 바꿔준다<br><img width="668" alt="스크린샷 2021-08-18 오후 1 42 01" src="https://user-images.githubusercontent.com/87232411/129839874-b6134c66-0585-4701-b67d-05200b293f59.png" srcset="/img/loading.gif" lazyload></p>
+<p>https:&#x2F;&#x2F; 에서 <code>s</code>를 빼고 입력한다<br><img width="673" alt="스크린샷 2021-08-18 오후 1 42 24" src="https://user-images.githubusercontent.com/87232411/129839876-245e9e4c-1cc9-4253-98c4-173104da1479.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>변경사항 저장</code> 클릭<br><img width="220" alt="스크린샷 2021-08-18 오후 1 43 45" src="https://user-images.githubusercontent.com/87232411/129839881-351d6a38-7de7-4eb7-9170-3b79ee73b54b.png" srcset="/img/loading.gif" lazyload></p>
+<p>ALB &amp; 대상 그룹 확인</p>
+<p>AllInOne 인스턴스가 포함되어 있다.<br><img width="1161" alt="스크린샷 2021-08-18 오후 1 43 25" src="https://user-images.githubusercontent.com/87232411/129839877-3b517f96-f390-409a-9579-5d45fdf6dc20.png" srcset="/img/loading.gif" lazyload></p>
+<p>CloudFront 의 Domain Name 으로 관리자 웹 접속</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span>CloudFrontDomainName<span class="hljs-regexp">/wp-admin/</span><br></code></pre></td></tr></table></figure>
+
+<img width="799" alt="스크린샷 2021-08-18 오후 1 44 01" src="https://user-images.githubusercontent.com/87232411/129839882-2cb7737e-8d8c-4f1c-afad-d65673ba756f.png" srcset="/img/loading.gif" lazyload>
+
+<p>CloudFront 의 Domain Name 으로 웹 접속</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-variable constant_">HTTP</span><span class="hljs-symbol">://CloudFrontDomainName/</span><br></code></pre></td></tr></table></figure>
+
+<img width="585" alt="스크린샷 2021-08-18 오후 1 44 16" src="https://user-images.githubusercontent.com/87232411/129839885-9720642c-e7de-4350-912e-629f2ba2baea.png" srcset="/img/loading.gif" lazyload>
+
+<p>AllInOne 인스턴스 SSH 접속 -&gt; 업로드 폴더 확인</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>wp-content/uploads<br><br><span class="hljs-comment"># 업로드 폴더 정보 확인</span><br>tree<br></code></pre></td></tr></table></figure>
+
+<img width="500" alt="스크린샷 2021-08-18 오후 1 45 38" src="https://user-images.githubusercontent.com/87232411/129839891-2215e5bd-45c3-4a2c-ad0a-b58ad3d09618.png" srcset="/img/loading.gif" lazyload>
+
+<p>글 -&gt; <code>새로 추가</code> 클릭<br><img width="148" alt="스크린샷 2021-08-18 오후 1 46 48" src="https://user-images.githubusercontent.com/87232411/129839894-bc20b689-9962-46b0-82bf-7e4ff04b80e6.png" srcset="/img/loading.gif" lazyload><br><img width="251" alt="스크린샷 2021-08-18 오후 1 46 55" src="https://user-images.githubusercontent.com/87232411/129839896-cec12b2f-0ba3-4d2b-a59d-79b4b2e51891.png" srcset="/img/loading.gif" lazyload></p>
+<p>글 작성 후 <code>공개</code> 클릭</p>
+<img width="281" alt="스크린샷 2021-08-18 오후 1 47 57" src="https://user-images.githubusercontent.com/87232411/129839900-eda95ff6-4ac9-40bb-a793-ab10f76cf591.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>공개</code> 클릭<br><img width="292" alt="스크린샷 2021-08-18 오후 1 48 01" src="https://user-images.githubusercontent.com/87232411/129839902-94500a68-43c2-4e3e-8933-8033002d36f0.png" srcset="/img/loading.gif" lazyload></p>
+<p>제 성격이 보이는 이모티콘 입니다 ㅎ<br><img width="1435" alt="스크린샷 2021-08-18 오후 1 48 16" src="https://user-images.githubusercontent.com/87232411/129839903-25f2fe9a-dee3-432e-b0c2-c0faa61273e3.png" srcset="/img/loading.gif" lazyload></p>
+<p>워드프레스에 글 작성 후 AllInOne의 업로드 폴더 확인</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dos"><span class="hljs-built_in">tree</span><br></code></pre></td></tr></table></figure>
+
+<img width="694" alt="스크린샷 2021-08-18 오후 1 48 37" src="https://user-images.githubusercontent.com/87232411/129839906-0380a878-0aa2-4276-926c-4da564493a65.png" srcset="/img/loading.gif" lazyload>
+
+<h3 id="업로드-저장소를-S3로-변경하여-저장-및-파일-제공-최적화"><a href="#업로드-저장소를-S3로-변경하여-저장-및-파일-제공-최적화" class="headerlink" title="업로드 저장소를 S3로 변경하여 저장 및 파일 제공 최적화"></a>업로드 저장소를 S3로 변경하여 저장 및 파일 제공 최적화</h3><p>플러그인 -&gt; 새로 추가 클릭</p>
+<img width="327" alt="스크린샷 2021-08-18 오후 1 48 55" src="https://user-images.githubusercontent.com/87232411/129839912-cafcd44b-ff9b-4588-8f72-0d5b33ac44b3.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>WP Offload Media Lite</code> 검색 후 설치<br><img width="635" alt="스크린샷 2021-08-18 오후 1 49 15" src="https://user-images.githubusercontent.com/87232411/129839913-b9ed2850-23d5-4b3f-a165-b601560c10eb.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>활성화</code> 클릭 -&gt; <code>Settings</code> 클릭<br><img width="249" alt="스크린샷 2021-08-18 오후 1 50 11" src="https://user-images.githubusercontent.com/87232411/129839916-f64221b3-8145-46d3-a457-a46a57306f22.png" srcset="/img/loading.gif" lazyload></p>
+<p>아래 중간 선택 후 하단 <code>NEXT</code> 선택<br><img width="685" alt="스크린샷 2021-08-18 오후 1 50 27" src="https://user-images.githubusercontent.com/87232411/129839921-91bd602f-3bcd-4d08-acb7-7403dbe91d38.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>Create new bucket</code> 클릭<br><img width="180" alt="스크린샷 2021-08-18 오후 1 50 34" src="https://user-images.githubusercontent.com/87232411/129839926-aa1a65e4-29d6-4673-90f8-c4a87064c05c.png" srcset="/img/loading.gif" lazyload></p>
+<p>Region 선택 -&gt; Bucket 이름 작성 -&gt; <code>Create New Bucket</code> 클릭<br><img width="684" alt="스크린샷 2021-08-18 오후 1 50 45" src="https://user-images.githubusercontent.com/87232411/129839928-cc1b5a45-74da-4e4d-ac59-6c80874f07d3.png" srcset="/img/loading.gif" lazyload></p>
+<p>하단의 <code>ADBANCED OPTIONS</code> ON으로 클릭 -&gt; <code>Save Changes</code> 클릭<br><img width="694" alt="스크린샷 2021-08-18 오후 1 51 12" src="https://user-images.githubusercontent.com/87232411/129839932-35c150e5-fe9b-4f33-ab38-d1ac471a3e7a.png" srcset="/img/loading.gif" lazyload></p>
+<p>두 번째 글 작성 -&gt; <code>공개</code> 클릭<br><img width="277" alt="스크린샷 2021-08-18 오후 1 53 12" src="https://user-images.githubusercontent.com/87232411/129839938-d9b5979f-ec60-4672-abfe-00aa6ac2dfd7.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>공개</code> 클릭<br><img width="286" alt="스크린샷 2021-08-18 오후 1 53 17" src="https://user-images.githubusercontent.com/87232411/129839941-66ec3400-7f70-4970-afff-3abef49d8a30.png" srcset="/img/loading.gif" lazyload></p>
+<p>잘 찍었죠 ?<br><img width="1439" alt="스크린샷 2021-08-18 오후 1 53 56" src="https://user-images.githubusercontent.com/87232411/129839942-b73582ab-63d9-4388-8182-c640c7144b3a.png" srcset="/img/loading.gif" lazyload></p>
+<p>S3 -&gt; 만든 버킷 클릭<br><img width="464" alt="스크린샷 2021-08-18 오후 1 54 38" src="https://user-images.githubusercontent.com/87232411/129839966-4a4546fa-e84a-4590-ba61-4ba45361db4c.png" srcset="/img/loading.gif" lazyload></p>
+<p>사진이 나올 때까지 계속 클릭 해줍니다<br><img width="409" alt="스크린샷 2021-08-18 오후 1 54 45" src="https://user-images.githubusercontent.com/87232411/129839967-1c2c1cae-e56f-48ad-a37a-73db330c21eb.png" srcset="/img/loading.gif" lazyload><br><img width="400" alt="스크린샷 2021-08-18 오후 1 54 51" src="https://user-images.githubusercontent.com/87232411/129839969-1b4862e6-f827-41ca-8232-6fd96c72460a.png" srcset="/img/loading.gif" lazyload><br><img width="378" alt="스크린샷 2021-08-18 오후 1 54 54" src="https://user-images.githubusercontent.com/87232411/129839970-5fb8bd47-66ec-4288-9564-3c7970edcb52.png" srcset="/img/loading.gif" lazyload><br><img width="372" alt="스크린샷 2021-08-18 오후 1 54 57" src="https://user-images.githubusercontent.com/87232411/129839972-7829ee0c-7496-47f1-b116-4ad9beb122ed.png" srcset="/img/loading.gif" lazyload><br><img width="396" alt="스크린샷 2021-08-18 오후 1 55 02" src="https://user-images.githubusercontent.com/87232411/129839973-b7bd94e9-7fd0-4c42-bf61-29d9423e0214.png" srcset="/img/loading.gif" lazyload></p>
+<p>사진이 S3 버킷에 저장이 되었습니다<br><img width="753" alt="스크린샷 2021-08-18 오후 1 55 10" src="https://user-images.githubusercontent.com/87232411/129839975-4c9e8b96-bfa8-4bfa-af98-8480419a3933.png" srcset="/img/loading.gif" lazyload></p>
+<p>AllInOne의 업로드 폴더에 이미지 존재 여부 확인, S3 버킷에 저장된 내용 확인</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 기존 파일만 존재</span><br>tree <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>wp-content/upload<br><br><span class="hljs-comment"># S3 버킷에 저장된 내용 확인</span><br>aws s3 ls s3:<span class="hljs-regexp">//</span>&lt;자신의 버킷 이름&gt; --recursive<br>aws s3 ls s3:<span class="hljs-regexp">//</span>beaswp --recursive<br></code></pre></td></tr></table></figure>
+
+<img width="481" alt="스크린샷 2021-08-18 오후 1 56 04" src="https://user-images.githubusercontent.com/87232411/129839981-947c44da-a105-4dc9-aba0-260f3bd8b20c.png" srcset="/img/loading.gif" lazyload>
+<img width="619" alt="스크린샷 2021-08-18 오후 1 56 45" src="https://user-images.githubusercontent.com/87232411/129839984-204daa1b-6af0-4c72-829c-ef77360d1180.png" srcset="/img/loading.gif" lazyload>
+
+<h3 id="옵션-S3-버킷-설정"><a href="#옵션-S3-버킷-설정" class="headerlink" title="옵션) S3 버킷 설정"></a>옵션) S3 버킷 설정</h3><p>버킷 -&gt; 권한 클릭<br><img width="383" alt="스크린샷 2021-08-18 오후 1 57 10" src="https://user-images.githubusercontent.com/87232411/129839988-eca74b99-79b3-4e56-ac64-86cec8dfa785.png" srcset="/img/loading.gif" lazyload></p>
+<p>버킷 정책에서 <code>편집</code> 클릭<br><img width="1067" alt="스크린샷 2021-08-18 오후 1 57 20" src="https://user-images.githubusercontent.com/87232411/129839989-add9e165-9093-42a0-a6bd-b8f259d3dacc.png" srcset="/img/loading.gif" lazyload></p>
+<p>붙여놓기 후 자신의 버킷 이름 -&gt; 변경</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs JSON"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;Version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2012-10-17&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;Statement&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;Sid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;PublicReadGetObject&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;Effect&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Allow&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;Principal&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;*&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;Action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>        <span class="hljs-string">&quot;s3:GetObject&quot;</span><br>        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;Resource&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>        <span class="hljs-string">&quot;arn:aws:s3:::자신의버킷이름/*&quot;</span><br>        <span class="hljs-punctuation">]</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure>
+
+<img width="883" alt="스크린샷 2021-08-18 오후 1 58 23" src="https://user-images.githubusercontent.com/87232411/129839996-5e2b85aa-47e5-4174-8128-636686285237.png" srcset="/img/loading.gif" lazyload>
+
+<p><code>변경 사항 저장</code> 클릭<br><img width="253" alt="스크린샷 2021-08-18 오후 1 58 27" src="https://user-images.githubusercontent.com/87232411/129840000-b9951651-a017-4f75-911f-070b5a6ba456.png" srcset="/img/loading.gif" lazyload></p>
+<p>실습 끝<br><img width="340" alt="스크린샷 2021-08-18 오후 1 58 34" src="https://user-images.githubusercontent.com/87232411/129840004-7a618aa7-a312-4627-8c9a-4c7926b2c49e.png" srcset="/img/loading.gif" lazyload><br><br/><br><br/></p>
+<h2 id="다음-실습을-위해-해야-할-사항"><a href="#다음-실습을-위해-해야-할-사항" class="headerlink" title="다음 실습을 위해 해야 할 사항"></a>다음 실습을 위해 해야 할 사항</h2><p>AllInOne 인스턴스 중지<br>S3 버킷 초기화: S3 버킷 -&gt; 비어있음 -&gt; <code>영구 삭제</code> 입력 -&gt; <code>비어있음</code> 클릭 -&gt; <code>종료</code> 클릭</p>
+<br/>
+<br/>
+<br/>
+
+<hr/>
+
+<p><strong>참고 자료: AFOS[2기] 노션 내용</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AWS/" class="category-chain-item">AWS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AFOS-2%EA%B8%B0/">#AFOS[2기]</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[AWS] 10주차 -2 AllInOne 인스턴스를 이용하여 CloudFront, ELB, S3(WP Offload Media Lite) 활용</div>
+      <div>http://example.com/2021/08/18/2021-08-18-AFOS-last-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sujeong Hyeon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 18, 2021</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/18/2021-08-18-AFOS-last-3/" title="[AWS] 10주차 -3 WebSrv-Leader 인스턴스를 이용하여 Wordpress 초기 구성">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[AWS] 10주차 -3 WebSrv-Leader 인스턴스를 이용하여 Wordpress 초기 구성</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/18/2021-08-18-AFOS-last-1/" title="[AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비">
+                        <span class="hidden-mobile">[AWS] 10주차 -1 Wordpress 이중화 구성, 실습 환경 소개 &amp; 실습 준비</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
