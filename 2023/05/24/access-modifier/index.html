@@ -16,16 +16,16 @@
   <meta name="author" content="Sujeong Hyeon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="객체란,객체(Object)란 물리적으로 존재하거나 추상적으로 생각할 수 있는 것 중에서 자신의 속성을 가지고 있으면서 식별 가능한 것을 말한다.객체는 속성과 동작으로 구성되어 있다. 자바는 속성과 동작을 각각 필드(field)와 메소드(method)라고 부른다. 객체의 상호작용객체의 상호작용은 객체 간의 메소드 호출을 의미하며 매개값과 리턴값을 통해서 데이">
+    <meta name="description" content="접근 제한자접근 제한자(Access Modifier)는 말 그래도 제한하기 위해 사용한다.여기서 접근이란 클래스 및 인터페이스 그리고 이들이 가지고 있는 멤버의 접근을 말한다. 어떤 경우에는 클래스와 인터페이스를 다른 패키지에서 사용하지 못하도록 막을 필요가 있다.또한 객체 생성을 막기 위해 생성자를 호출하지 못하게 하거나 필드나 메소드를 사용하지 못하도록">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Java] 객체 개념">
-<meta property="og:url" content="http://example.com/2023/05/23/object/index.html">
+<meta property="og:title" content="[Java] 접근 제한자">
+<meta property="og:url" content="http://example.com/2023/05/24/access-modifier/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="객체란,객체(Object)란 물리적으로 존재하거나 추상적으로 생각할 수 있는 것 중에서 자신의 속성을 가지고 있으면서 식별 가능한 것을 말한다.객체는 속성과 동작으로 구성되어 있다. 자바는 속성과 동작을 각각 필드(field)와 메소드(method)라고 부른다. 객체의 상호작용객체의 상호작용은 객체 간의 메소드 호출을 의미하며 매개값과 리턴값을 통해서 데이">
+<meta property="og:description" content="접근 제한자접근 제한자(Access Modifier)는 말 그래도 제한하기 위해 사용한다.여기서 접근이란 클래스 및 인터페이스 그리고 이들이 가지고 있는 멤버의 접근을 말한다. 어떤 경우에는 클래스와 인터페이스를 다른 패키지에서 사용하지 못하도록 막을 필요가 있다.또한 객체 생성을 막기 위해 생성자를 호출하지 못하게 하거나 필드나 메소드를 사용하지 못하도록">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/img/Screenshot%202023-05-24%20at%208.20.45%20PM.png">
-<meta property="article:published_time" content="2023-05-23T09:40:09.000Z">
-<meta property="article:modified_time" content="2023-05-24T11:21:15.549Z">
+<meta property="article:published_time" content="2023-05-24T09:05:25.000Z">
+<meta property="article:modified_time" content="2023-05-24T11:22:28.693Z">
 <meta property="article:author" content="Sujeong Hyeon">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
   
   
   
-  <title>[Java] 객체 개념 - Sujeong&#39;s Blog</title>
+  <title>[Java] 접근 제한자 - Sujeong&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="[Java] 객체 개념"></span>
+            <span id="subtitle" data-typed-text="[Java] 접근 제한자"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-23 18:40" pubdate>
-          May 23, 2023 pm
+        <time datetime="2023-05-24 18:05" pubdate>
+          May 24, 2023 pm
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          605 words
+          1.1k words
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          6 mins
+          9 mins
         
       </span>
     
@@ -271,18 +271,24 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">[Java] 객체 개념</h1>
+            <h1 style="display: none">[Java] 접근 제한자</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="객체란"><a href="#객체란" class="headerlink" title="객체란,"></a>객체란,</h2><p>객체(Object)란 물리적으로 존재하거나 추상적으로 생각할 수 있는 것 중에서 자신의 속성을 가지고 있으면서 식별 가능한 것을 말한다.<br>객체는 속성과 동작으로 구성되어 있다. 자바는 속성과 동작을 각각 필드(field)와 메소드(method)라고 부른다.</p>
-<h2 id="객체의-상호작용"><a href="#객체의-상호작용" class="headerlink" title="객체의 상호작용"></a>객체의 상호작용</h2><p>객체의 상호작용은 객체 간의 메소드 호출을 의미하며 매개값과 리턴값을 통해서 데이터를 주고 받는다.</p>
-<h2 id="객체-간의-관계"><a href="#객체-간의-관계" class="headerlink" title="객체 간의 관계"></a>객체 간의 관계</h2><p>객체는 개별적으로 사용될 수 있지만, 대부분 다른 객체와 관계를 맺고 있다.<br>이 관계의 종류에는 집합 관계, 사용 관계, 상속 관계가 있다.</p>
-<h3 id="집합-관계"><a href="#집합-관계" class="headerlink" title="집합 관계"></a>집합 관계</h3><p>객체는 하나는 부품이고 하나는 완성품에 해당한다.<br>Ex. 자동차는 엔진, 타이어, 핸들 등으로 구성 -&gt; 자동차와 부품들은 집합 관계이다.</p>
-<h3 id="사용-관계"><a href="#사용-관계" class="headerlink" title="사용 관계"></a>사용 관계</h3><p>객체 간의 상호작용을 말한다.<br>객체는 다른 객체의 메소드를 호출하여 원하는 결과를 얻어낸다.<br>Ex. 사람은 자동차를 사용하므로 사람과 자동차 -&gt; 사용관계<br>Ex. 사람은 자동차를 사용할 때 달린다, 멈춘다 등의 메소드를 호출</p>
-<h3 id="상속-관계"><a href="#상속-관계" class="headerlink" title="상속 관계"></a>상속 관계</h3><p>상위(부모) 객체를 기반으로 하위(자식) 객체를 생성하는 관계를 말한다.<br>일반적으로 상위 객체는 종류를 의미하고, 하위 객체는 구체적인 사물에 해당한다.<br>Ex. 자동차는 기계의 한 종류이다 -&gt; 기계(상위)와 자동차(하위)는 상속 관계에 있다고 볼 수 있다.</p>
-<h2 id="객체-지향-프로그래밍이란"><a href="#객체-지향-프로그래밍이란" class="headerlink" title="객체 지향 프로그래밍이란,"></a>객체 지향 프로그래밍이란,</h2><p>만들고자 하는 완성품인 객체를 모델링하고, 집합 관계에 있는 부품 객체와 사용 관계에 있는 객체를 하나씩 설계한 후 조립하는 방식으로 프로그램을 개발하는 방법이다.</p>
+                <h2 id="접근-제한자"><a href="#접근-제한자" class="headerlink" title="접근 제한자"></a>접근 제한자</h2><p>접근 제한자(Access Modifier)는 말 그래도 제한하기 위해 사용한다.<br>여기서 접근이란 클래스 및 인터페이스 그리고 이들이 가지고 있는 멤버의 접근을 말한다.</p>
+<p>어떤 경우에는 클래스와 인터페이스를 다른 패키지에서 사용하지 못하도록 막을 필요가 있다.<br>또한 객체 생성을 막기 위해 생성자를 호출하지 못하게 하거나 필드나 메소드를 사용하지 못하도록 막아야 하는 경우도 있다.<br>이때 접근 제한자를 사용할 수 있다.</p>
+<h3 id="접근-제한자-종류"><a href="#접근-제한자-종류" class="headerlink" title="접근 제한자 종류"></a>접근 제한자 종류</h3><p><strong><code>Public</code></strong> : 외부 클래스가 자유롭게 사용할 수 있도록 한다.<br><strong><code>Protected</code></strong> : 같은 패키지 또는 자식 클래스에서 사용할 수 있도록 한다.<br><strong><code>Private</code></strong> : 개인적인 것이라 외부에서 사용될 수 없도록 한다.<br><strong><code>default</code></strong> : 같은 패키지에 소속된 클래스에서만 사용할 수 있도록 한다. (위 세 가지 접근 제한자가 적용되지 않을 시)</p>
+<h2 id="클래스-접근-제한"><a href="#클래스-접근-제한" class="headerlink" title="클래스 접근 제한"></a>클래스 접근 제한</h2><p>클래스를 선언할 때 해당 클래스를 같은 패키지에서도 사용할 수 있도록 할 것인지 결정해야 한다.<br>클래스는 다음과 같이 public, default 접근 제한을 가진다.</p>
+<h3 id="default-접근-제한"><a href="#default-접근-제한" class="headerlink" title="default 접근 제한"></a>default 접근 제한</h3><p>클래스를 선언할 때 public을 생략했다면 클래스는 default 접근 제한을 가진다.<br>클래스가 default 접근 제한을 가지면 같은 패키지에서는 아무런 제한 없이 사용할 수 있지만<br>다른 패키지에서는 사용할 수 없도록 제한한다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="public-접근-제한"><a href="#public-접근-제한" class="headerlink" title="public 접근 제한"></a>public 접근 제한</h3><p>클래스를 선언할 때 public 접근 제한자를 붙였다면 클래스는 public 접근 제한을 가진다.<br>클래스가 public 접근 제한을 가지면, 같은 패키지 뿐만 아니라 다른 패키지에서도 아무런 제한 없이 사용할 수 있다.<br>클래스를 다른 개발자가 사용할 수 있도록 라이브러리 클래스로 개발한다면 반드시 public 접근 제한을 가지도록 해야 한다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="생성자의-접근-제한"><a href="#생성자의-접근-제한" class="headerlink" title="생성자의 접근 제한"></a>생성자의 접근 제한</h3><p>객체를 생성하기 위해서는 new 연산자로 생성자를 호출한다. 그러나 생성자를 어디에서나 호출할 수 있는 것은 아니다.<br>생성자가 어떤 접근 제한을 갖느냐에 따라 호출 가능 여부가 결정된다.</p>
+<p>생성자는 다음과 같이 <strong><code>public</code></strong> , <strong><code>protected</code></strong> , <strong><code>default</code></strong> , <strong><code>private</code></strong> 접근 제한을 가진다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// public 접근 제한</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span>(...)&#123;...&#125;<br><br><span class="hljs-comment">// protected 접근 제한</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span>(...)&#123;...&#125;<br><br><span class="hljs-comment">// default 접근 제한</span><br>ClassName(...)&#123;...&#125;<br><br><span class="hljs-comment">// private 접근 제한</span><br><span class="hljs-keyword">private</span> <span class="hljs-title function_">ClassName</span><span class="hljs-params">(...)</span>&#123;...&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -307,8 +313,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>[Java] 객체 개념</div>
-      <div>http://example.com/2023/05/23/object/</div>
+      <div>[Java] 접근 제한자</div>
+      <div>http://example.com/2023/05/24/access-modifier/</div>
     </div>
     <div class="license-meta">
       
@@ -320,7 +326,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>May 23, 2023</div>
+          <div>May 24, 2023</div>
         </div>
       
       
@@ -352,18 +358,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/05/23/class/" title="[Java] 클래스">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">[Java] 클래스</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/03/08/Terraform/" title="Terraform">
-                        <span class="hidden-mobile">Terraform</span>
+                      <a href="/2023/05/23/class/" title="[Java] 클래스">
+                        <span class="hidden-mobile">[Java] 클래스</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

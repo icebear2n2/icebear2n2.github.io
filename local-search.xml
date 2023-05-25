@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>[Java] 접근 제한자</title>
+    <link href="/2023/05/24/access-modifier/"/>
+    <url>/2023/05/24/access-modifier/</url>
+    
+    <content type="html"><![CDATA[<h2 id="접근-제한자"><a href="#접근-제한자" class="headerlink" title="접근 제한자"></a>접근 제한자</h2><p>접근 제한자(Access Modifier)는 말 그래도 제한하기 위해 사용한다.<br>여기서 접근이란 클래스 및 인터페이스 그리고 이들이 가지고 있는 멤버의 접근을 말한다.</p><p>어떤 경우에는 클래스와 인터페이스를 다른 패키지에서 사용하지 못하도록 막을 필요가 있다.<br>또한 객체 생성을 막기 위해 생성자를 호출하지 못하게 하거나 필드나 메소드를 사용하지 못하도록 막아야 하는 경우도 있다.<br>이때 접근 제한자를 사용할 수 있다.</p><h3 id="접근-제한자-종류"><a href="#접근-제한자-종류" class="headerlink" title="접근 제한자 종류"></a>접근 제한자 종류</h3><p><strong><code>Public</code></strong> : 외부 클래스가 자유롭게 사용할 수 있도록 한다.<br><strong><code>Protected</code></strong> : 같은 패키지 또는 자식 클래스에서 사용할 수 있도록 한다.<br><strong><code>Private</code></strong> : 개인적인 것이라 외부에서 사용될 수 없도록 한다.<br><strong><code>default</code></strong> : 같은 패키지에 소속된 클래스에서만 사용할 수 있도록 한다. (위 세 가지 접근 제한자가 적용되지 않을 시)</p><h2 id="클래스-접근-제한"><a href="#클래스-접근-제한" class="headerlink" title="클래스 접근 제한"></a>클래스 접근 제한</h2><p>클래스를 선언할 때 해당 클래스를 같은 패키지에서도 사용할 수 있도록 할 것인지 결정해야 한다.<br>클래스는 다음과 같이 public, default 접근 제한을 가진다.</p><h3 id="default-접근-제한"><a href="#default-접근-제한" class="headerlink" title="default 접근 제한"></a>default 접근 제한</h3><p>클래스를 선언할 때 public을 생략했다면 클래스는 default 접근 제한을 가진다.<br>클래스가 default 접근 제한을 가지면 같은 패키지에서는 아무런 제한 없이 사용할 수 있지만<br>다른 패키지에서는 사용할 수 없도록 제한한다.</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;&#125;<br></code></pre></td></tr></table></figure><h3 id="public-접근-제한"><a href="#public-접근-제한" class="headerlink" title="public 접근 제한"></a>public 접근 제한</h3><p>클래스를 선언할 때 public 접근 제한자를 붙였다면 클래스는 public 접근 제한을 가진다.<br>클래스가 public 접근 제한을 가지면, 같은 패키지 뿐만 아니라 다른 패키지에서도 아무런 제한 없이 사용할 수 있다.<br>클래스를 다른 개발자가 사용할 수 있도록 라이브러리 클래스로 개발한다면 반드시 public 접근 제한을 가지도록 해야 한다.</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;&#125;<br></code></pre></td></tr></table></figure><h3 id="생성자의-접근-제한"><a href="#생성자의-접근-제한" class="headerlink" title="생성자의 접근 제한"></a>생성자의 접근 제한</h3><p>객체를 생성하기 위해서는 new 연산자로 생성자를 호출한다. 그러나 생성자를 어디에서나 호출할 수 있는 것은 아니다.<br>생성자가 어떤 접근 제한을 갖느냐에 따라 호출 가능 여부가 결정된다.</p><p>생성자는 다음과 같이 <strong><code>public</code></strong> , <strong><code>protected</code></strong> , <strong><code>default</code></strong> , <strong><code>private</code></strong> 접근 제한을 가진다.</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// public 접근 제한</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span>(...)&#123;...&#125;<br><br><span class="hljs-comment">// protected 접근 제한</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span>(...)&#123;...&#125;<br><br><span class="hljs-comment">// default 접근 제한</span><br>ClassName(...)&#123;...&#125;<br><br><span class="hljs-comment">// private 접근 제한</span><br><span class="hljs-keyword">private</span> <span class="hljs-title function_">ClassName</span><span class="hljs-params">(...)</span>&#123;...&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>[Java] 클래스</title>
     <link href="/2023/05/23/class/"/>
     <url>/2023/05/23/class/</url>
