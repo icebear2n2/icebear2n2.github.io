@@ -16,24 +16,24 @@
   <meta name="author" content="Sujeong Hyeon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="자료구조기본 자료구조인 배열과 리스트는 비슷한 점도 많지만 다른 점도 많다.두 자료구조의 특징을 정확하게 이해하고 문제가 요구하는 조건에 따라 적절하게 선택해 사용하는 것이 중요하다. 배열과 리스트의 핵심 이론배열배열은 메모리의 연속 공간에 값이 채워져 있는 형태의 자료구조이다.배열의 값은 인덱스를 통해 참조할 수 있으며, 선언한 자료형의 값만 저장할 수">
+    <meta name="description" content="중첩 클래스란,중첩 클래스(nested class)는 내부에 선언한 클래스를 말한다.중첩 클래스를 사용하면 두 클래스의 맴버들을 서로 쉽게 접근할 수 있고, 외부에는 불필요한 관계 클래스를 감춤으로써 코드의 복잡성을 줄일 수 있다는 장점이 있다. 12345class ClassName &amp;#123;    class NestedClassName &amp;#123;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[자료구조] 배열과 리스트">
-<meta property="og:url" content="http://example.com/2023/05/29/array-list/index.html">
+<meta property="og:title" content="[Java] 중첩 클래스">
+<meta property="og:url" content="http://example.com/2023/05/29/nested-class/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="자료구조기본 자료구조인 배열과 리스트는 비슷한 점도 많지만 다른 점도 많다.두 자료구조의 특징을 정확하게 이해하고 문제가 요구하는 조건에 따라 적절하게 선택해 사용하는 것이 중요하다. 배열과 리스트의 핵심 이론배열배열은 메모리의 연속 공간에 값이 채워져 있는 형태의 자료구조이다.배열의 값은 인덱스를 통해 참조할 수 있으며, 선언한 자료형의 값만 저장할 수">
+<meta property="og:description" content="중첩 클래스란,중첩 클래스(nested class)는 내부에 선언한 클래스를 말한다.중첩 클래스를 사용하면 두 클래스의 맴버들을 서로 쉽게 접근할 수 있고, 외부에는 불필요한 관계 클래스를 감춤으로써 코드의 복잡성을 줄일 수 있다는 장점이 있다. 12345class ClassName &amp;#123;    class NestedClassName &amp;#123;">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/img/doit.jpeg">
-<meta property="article:published_time" content="2023-05-29T02:54:49.000Z">
-<meta property="article:modified_time" content="2023-05-29T03:12:12.583Z">
+<meta property="og:image" content="http://example.com/img/Screenshot%202023-05-24%20at%208.20.45%20PM.png">
+<meta property="article:published_time" content="2023-05-29T05:25:40.000Z">
+<meta property="article:modified_time" content="2023-05-29T05:40:02.711Z">
 <meta property="article:author" content="Sujeong Hyeon">
-<meta property="article:tag" content="자료구조">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/doit.jpeg">
+<meta name="twitter:image" content="http://example.com/img/Screenshot%202023-05-24%20at%208.20.45%20PM.png">
   
   
   
-  <title>[자료구조] 배열과 리스트 - Sujeong&#39;s Blog</title>
+  <title>[Java] 중첩 클래스 - Sujeong&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="[자료구조] 배열과 리스트"></span>
+            <span id="subtitle" data-typed-text="[Java] 중첩 클래스"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-29 11:54" pubdate>
-          May 29, 2023 am
+        <time datetime="2023-05-29 14:25" pubdate>
+          May 29, 2023 pm
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k words
+          765 words
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          9 mins
+          7 mins
         
       </span>
     
@@ -271,30 +271,26 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">[자료구조] 배열과 리스트</h1>
+            <h1 style="display: none">[Java] 중첩 클래스</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="자료구조"><a href="#자료구조" class="headerlink" title="자료구조"></a>자료구조</h1><p>기본 자료구조인 배열과 리스트는 비슷한 점도 많지만 다른 점도 많다.<br>두 자료구조의 특징을 정확하게 이해하고 문제가 요구하는 조건에 따라 적절하게 선택해 사용하는 것이 중요하다.</p>
-<h1 id="배열과-리스트의-핵심-이론"><a href="#배열과-리스트의-핵심-이론" class="headerlink" title="배열과 리스트의 핵심 이론"></a>배열과 리스트의 핵심 이론</h1><h2 id="배열"><a href="#배열" class="headerlink" title="배열"></a>배열</h2><p>배열은 메모리의 연속 공간에 값이 채워져 있는 형태의 자료구조이다.<br>배열의 값은 인덱스를 통해 참조할 수 있으며, 선언한 자료형의 값만 저장할 수 있다.<br><img src="https://github.com/icebear2n2/icebear2n2.github.io/assets/87232411/7a2b3c21-e5fb-4412-aa34-ae57b5cf352e" srcset="/img/loading.gif" lazyload alt="download (2)"></p>
-<h3 id="배열의-특징"><a href="#배열의-특징" class="headerlink" title="배열의 특징"></a>배열의 특징</h3><ul>
-<li>인덱스를 사용하여 값에 바로 접근할 수 있다.</li>
-<li>새로운 값을 삽입하거나 특정 인덱스가 있는 값을 삭제하기 어렵다. 값을 삽입하거나 삭제하려면 해당 인덱스 주변에 있는 값을 이동시키는 과정이 필요하다.</li>
-<li>배열의 크기는 선언할 때 지정할 수 있으며, 한번 선언하면 크기를 늘리거나 줄일 수 없다.</li>
-<li>구조가 간단하므로 코딩 테스트에서 많이 사용한다.</li>
-</ul>
-<h2 id="리스트"><a href="#리스트" class="headerlink" title="리스트"></a>리스트</h2><p>리스트는 값과 포인터를 묶은 노드라는 것을 포인터로 연결한 자료구조이다.<br>노드: 컴퓨터 과학에서 값, 포인터를 쌍으로 갖는 기초 단위를 부르는 말<br><img src="https://github.com/icebear2n2/icebear2n2.github.io/assets/87232411/cc5406c1-002d-4979-804d-59b062225a71" srcset="/img/loading.gif" lazyload alt="java_linked_list2"></p>
-<h3 id="리스트의-특징"><a href="#리스트의-특징" class="headerlink" title="리스트의 특징"></a>리스트의 특징</h3><ul>
-<li>인덱스가 없으므로 값에 접근하려면 Head 포인터부터 순서대로 접근해야 한다. -&gt; 값에 접근하는 속도가 느리다.</li>
-<li>포인터로 연결되어 있으므로 데이터를 삽입하거나 삭제하는 연산 속도가 빠르다.</li>
-<li>선언할 때 크기를 별도로 지정하지 않아도 된다. 다시 말해 리스트의 크기는 정해져 있지 않으며, 크기가 변하기 쉬운 데이터를 다룰 때 적절하다.</li>
-<li>포인터를 저장할 공간이 필요하므로 배열보다 구조가 복잡하다.</li>
-</ul>
-<br/>
-<br/>
+                <h2 id="중첩-클래스란"><a href="#중첩-클래스란" class="headerlink" title="중첩 클래스란,"></a>중첩 클래스란,</h2><p><code>중첩 클래스(nested class)</code>는 내부에 선언한 클래스를 말한다.<br>중첩 클래스를 사용하면 두 클래스의 맴버들을 서로 쉽게 접근할 수 있고, 외부에는 불필요한 관계 클래스를 감춤으로써 코드의 복잡성을 줄일 수 있다는 장점이 있다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span> &#123;<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">NestedClassName</span> &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>출처: <a target="_blank" rel="noopener" href="https://www.google.com/url?sa=i&url=https://www.appsdeveloperblog.com/linkedlist-in-java/&psig=AOvVaw2cmkIdLsTwzDVg0wWToBcd&ust=1685416035788000&source=images&cd=vfe&ved=0CBMQjhxqFwoTCKCdzZLGmf8CFQAAAAAdAAAAABAG">https://www.google.com/url?sa=i&amp;url=https%3A%2F%2Fwww.appsdeveloperblog.com%2Flinkedlist-in-java%2F&amp;psig=AOvVaw2cmkIdLsTwzDVg0wWToBcd&amp;ust=1685416035788000&amp;source=images&amp;cd=vfe&amp;ved=0CBMQjhxqFwoTCKCdzZLGmf8CFQAAAAAdAAAAABAG</a>, <a target="_blank" rel="noopener" href="https://www.google.com/url?sa=i&url=https://jenkov.com/tutorials/java/arrays.html&psig=AOvVaw3Oaz8vL19cHlWBTEUSQ-Ur&ust=1685415496806000&source=images&cd=vfe&ved=0CBMQjhxqFwoTCKDWz5HEmf8CFQAAAAAdAAAAABAE">https://www.google.com/url?sa=i&amp;url=https%3A%2F%2Fjenkov.com%2Ftutorials%2Fjava%2Farrays.html&amp;psig=AOvVaw3Oaz8vL19cHlWBTEUSQ-Ur&amp;ust=1685415496806000&amp;source=images&amp;cd=vfe&amp;ved=0CBMQjhxqFwoTCKDWz5HEmf8CFQAAAAAdAAAAABAE</a></p>
+<p>인터페이스도 클래스 내부에 선언할 수 있는데, 이런 인터페이스를 <code>중첩 인터페이스(nested interface)</code>라고 한다.<br>인터페이스를 클래스 내부에 선언하는 이유는 해당 클래스와 긴밀한 관계를 맺는 구현 클래스를 만들기 위해서이다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span> &#123;<br>    <span class="hljs-keyword">interface</span> <span class="hljs-title class_">NestedInterfaceName</span> &#123;<br>        <span class="hljs-comment">//중첩 인터페이스</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="다시-중첩-클래스"><a href="#다시-중첩-클래스" class="headerlink" title="다시 중첩 클래스"></a>다시 중첩 클래스</h2><p>중첩 클래스는 클래스 내부에 선언되는 위치에 따라서 두 가지로 분류된다. 클래스의 맴버로서 선언되는 중첩 클래스를 <code>맴버 클래스</code>라고 하고,<br>생성자 또는 메소드 내부에서 선언되는 중첩 클래스를 <code>로컬 클래스</code>라고 한다. 맴버 클래스는 클래스나 객체가 사용 중이라면 언제든지 재사용이 가능하지만, 로컬 클래스는 메소드를 실행할 때만 사용되고 메소드가 종료되면 없어진다.</p>
+<h3 id="맴버-클래스"><a href="#맴버-클래스" class="headerlink" title="맴버 클래스"></a>맴버 클래스</h3><p><code>인스턴스 맴버 클래스</code>: A 객체를 생성해야만 사용할 수 있는 B 클래스</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;...&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>정적 맴버 클래스</code>: A 클래스로 바로 접근할 수 있는 B 클래스</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;...&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="로컬-클래스"><a href="#로컬-클래스" class="headerlink" title="로컬 클래스"></a>로컬 클래스</h3><p>method()가 실행할 때만 사용할 수 있는 B 클래스</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;...&#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -313,7 +309,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/" class="category-chain-item">자료구조</a>
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
   
   
 
@@ -328,7 +324,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/">#자료구조</a>
+        <a href="/tags/Java/">#Java</a>
       
     </div>
   
@@ -340,8 +336,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>[자료구조] 배열과 리스트</div>
-      <div>http://example.com/2023/05/29/array-list/</div>
+      <div>[Java] 중첩 클래스</div>
+      <div>http://example.com/2023/05/29/nested-class/</div>
     </div>
     <div class="license-meta">
       
@@ -385,18 +381,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/05/29/nested-class/" title="[Java] 중첩 클래스">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">[Java] 중첩 클래스</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/05/26/playdata-1week/" title="[PLAYDATA 백엔드 1기] 1주차 회고록">
-                        <span class="hidden-mobile">[PLAYDATA 백엔드 1기] 1주차 회고록</span>
+                      <a href="/2023/05/29/array-list/" title="[자료구조] 배열과 리스트">
+                        <span class="hidden-mobile">[자료구조] 배열과 리스트</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

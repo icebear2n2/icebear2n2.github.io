@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>[Java] 중첩 클래스</title>
+    <link href="/2023/05/29/nested-class/"/>
+    <url>/2023/05/29/nested-class/</url>
+    
+    <content type="html"><![CDATA[<h2 id="중첩-클래스란"><a href="#중첩-클래스란" class="headerlink" title="중첩 클래스란,"></a>중첩 클래스란,</h2><p><code>중첩 클래스(nested class)</code>는 내부에 선언한 클래스를 말한다.<br>중첩 클래스를 사용하면 두 클래스의 맴버들을 서로 쉽게 접근할 수 있고, 외부에는 불필요한 관계 클래스를 감춤으로써 코드의 복잡성을 줄일 수 있다는 장점이 있다.</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span> &#123;<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">NestedClassName</span> &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>인터페이스도 클래스 내부에 선언할 수 있는데, 이런 인터페이스를 <code>중첩 인터페이스(nested interface)</code>라고 한다.<br>인터페이스를 클래스 내부에 선언하는 이유는 해당 클래스와 긴밀한 관계를 맺는 구현 클래스를 만들기 위해서이다.</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassName</span> &#123;<br>    <span class="hljs-keyword">interface</span> <span class="hljs-title class_">NestedInterfaceName</span> &#123;<br>        <span class="hljs-comment">//중첩 인터페이스</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="다시-중첩-클래스"><a href="#다시-중첩-클래스" class="headerlink" title="다시 중첩 클래스"></a>다시 중첩 클래스</h2><p>중첩 클래스는 클래스 내부에 선언되는 위치에 따라서 두 가지로 분류된다. 클래스의 맴버로서 선언되는 중첩 클래스를 <code>맴버 클래스</code>라고 하고,<br>생성자 또는 메소드 내부에서 선언되는 중첩 클래스를 <code>로컬 클래스</code>라고 한다. 맴버 클래스는 클래스나 객체가 사용 중이라면 언제든지 재사용이 가능하지만, 로컬 클래스는 메소드를 실행할 때만 사용되고 메소드가 종료되면 없어진다.</p><h3 id="맴버-클래스"><a href="#맴버-클래스" class="headerlink" title="맴버 클래스"></a>맴버 클래스</h3><p><code>인스턴스 맴버 클래스</code>: A 객체를 생성해야만 사용할 수 있는 B 클래스</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;...&#125;<br>&#125;<br></code></pre></td></tr></table></figure><p><code>정적 맴버 클래스</code>: A 클래스로 바로 접근할 수 있는 B 클래스</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;...&#125;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="로컬-클래스"><a href="#로컬-클래스" class="headerlink" title="로컬 클래스"></a>로컬 클래스</h3><p>method()가 실행할 때만 사용할 수 있는 B 클래스</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;...&#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>[자료구조] 배열과 리스트</title>
     <link href="/2023/05/29/array-list/"/>
     <url>/2023/05/29/array-list/</url>
