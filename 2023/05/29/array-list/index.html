@@ -16,24 +16,24 @@
   <meta name="author" content="Sujeong Hyeon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="새로운 도전회사를 관두게 되며 본가인 제주로 다시 내려오게 되었다.초반에는 클라우드를 알고 있으니 클라우드를 깊게 공부하면 되겠지 싶어 클라우드 강의를 끊고 공부를 하고 있었다. 강의 중 스프링부트를 사용하여 웹서버를 구축하는 실습이 있었다. 이제까지 웹서버를 Node.js나 Flask를 통해 만들어봤는데 스프링부트라니, 궁금했다.강의에서 배운 내용을 사용">
+    <meta name="description" content="자료구조기본 자료구조인 배열과 리스트는 비슷한 점도 많지만 다른 점도 많다.두 자료구조의 특징을 정확하게 이해하고 문제가 요구하는 조건에 따라 적절하게 선택해 사용하는 것이 중요하다. 배열과 리스트의 핵심 이론배열배열은 메모리의 연속 공간에 값이 채워져 있는 형태의 자료구조이다.배열의 값은 인덱스를 통해 참조할 수 있으며, 선언한 자료형의 값만 저장할 수">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[PLAYDATA 백엔드 1기] 1주차 회고록">
-<meta property="og:url" content="http://example.com/2023/05/26/playdata-1week/index.html">
+<meta property="og:title" content="[자료구조] 배열과 리스트">
+<meta property="og:url" content="http://example.com/2023/05/29/array-list/index.html">
 <meta property="og:site_name" content="Sujeong&#39;s Blog">
-<meta property="og:description" content="새로운 도전회사를 관두게 되며 본가인 제주로 다시 내려오게 되었다.초반에는 클라우드를 알고 있으니 클라우드를 깊게 공부하면 되겠지 싶어 클라우드 강의를 끊고 공부를 하고 있었다. 강의 중 스프링부트를 사용하여 웹서버를 구축하는 실습이 있었다. 이제까지 웹서버를 Node.js나 Flask를 통해 만들어봤는데 스프링부트라니, 궁금했다.강의에서 배운 내용을 사용">
+<meta property="og:description" content="자료구조기본 자료구조인 배열과 리스트는 비슷한 점도 많지만 다른 점도 많다.두 자료구조의 특징을 정확하게 이해하고 문제가 요구하는 조건에 따라 적절하게 선택해 사용하는 것이 중요하다. 배열과 리스트의 핵심 이론배열배열은 메모리의 연속 공간에 값이 채워져 있는 형태의 자료구조이다.배열의 값은 인덱스를 통해 참조할 수 있으며, 선언한 자료형의 값만 저장할 수">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/img/894f65054ba3a.png">
-<meta property="article:published_time" content="2023-05-26T08:05:02.000Z">
-<meta property="article:modified_time" content="2023-05-27T11:49:37.311Z">
+<meta property="og:image" content="http://example.com/img/doit.jpeg">
+<meta property="article:published_time" content="2023-05-29T02:54:49.000Z">
+<meta property="article:modified_time" content="2023-05-29T03:12:12.583Z">
 <meta property="article:author" content="Sujeong Hyeon">
-<meta property="article:tag" content="PLAYDATA">
+<meta property="article:tag" content="자료구조">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/894f65054ba3a.png">
+<meta name="twitter:image" content="http://example.com/img/doit.jpeg">
   
   
   
-  <title>[PLAYDATA 백엔드 1기] 1주차 회고록 - Sujeong&#39;s Blog</title>
+  <title>[자료구조] 배열과 리스트 - Sujeong&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="[PLAYDATA 백엔드 1기] 1주차 회고록"></span>
+            <span id="subtitle" data-typed-text="[자료구조] 배열과 리스트"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-26 17:05" pubdate>
-          May 26, 2023 pm
+        <time datetime="2023-05-29 11:54" pubdate>
+          May 29, 2023 am
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k words
+          1k words
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          10 mins
+          9 mins
         
       </span>
     
@@ -271,24 +271,30 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">[PLAYDATA 백엔드 1기] 1주차 회고록</h1>
+            <h1 style="display: none">[자료구조] 배열과 리스트</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="새로운-도전"><a href="#새로운-도전" class="headerlink" title="새로운 도전"></a>새로운 도전</h1><p>회사를 관두게 되며 본가인 제주로 다시 내려오게 되었다.<br>초반에는 클라우드를 알고 있으니 클라우드를 깊게 공부하면 되겠지 싶어 클라우드 강의를 끊고 공부를 하고 있었다.</p>
-<p>강의 중 스프링부트를 사용하여 웹서버를 구축하는 실습이 있었다. 이제까지 웹서버를 Node.js나 Flask를 통해 만들어봤는데 스프링부트라니, 궁금했다.<br>강의에서 배운 내용을 사용하여 프로젝트를 만들어보기 위해 아무 생각없이 스프링부트 강의 하나를 사게 되었다.</p>
-<p>스프링부트로 클론코딩을 해본 후, “아 이거다!” 라는 생각이 들었고 오랜만에 심장이 두근거렸다. 그만큼 재밌는 걸 찾았다는 뜻이다.<br>하지만 자바는 혼자 공부하기엔 너무 버거웠고 제주에 있는 것도 지겨워 오프라인 부트 캠프를 찾게 되었다.</p>
-<p>그러다 플레이데이터 백엔드 부트캠프를 보게 되었다.<br>자바와 스프링부트가 과정에 들어있었고 또한 내가 계속 공부하고 싶었던 CI&#x2F;CD도 과정에 포함되어 있었다.</p>
-<p>그렇게 플레이 데이터 부트캠프를 지원하게 되었다.</p>
-<h1 id="새로운-도전에-대한-불안"><a href="#새로운-도전에-대한-불안" class="headerlink" title="새로운 도전에 대한 불안"></a>새로운 도전에 대한 불안</h1><p>불안한 감정이 들 수 밖에 없었다.<br>제주에서 서울로 학원을 다니러 올라가야 한다는 것 자체가 버거운 도전이다. 혹여나 중도 포기하게 될까 걱정도 되었다.<br>그러나 부모님께서 <strong>“실패해도 괜찮다. 도전해보았다는 것이 성공보다 대단한 것이다.”</strong> 라고 말씀해주셨다.<br>그 덕분에 마음을 굳게 먹고 도전을 할 수 있었다. 부모님께 항상 감사하다.</p>
-<h1 id="자바의-즐거움"><a href="#자바의-즐거움" class="headerlink" title="자바의 즐거움"></a>자바의 즐거움</h1><p>학원이 개강했고 첫 챕터는 자바 수업이였다. 이제까지 어렵게만 생각하여 멀리했던 언어인데 배워보니 생각보다 재밌었다.<br>어려워 머리로 이해가 가지 않은 부분이 있었지만 그래도 가슴으로는 이해했다<br>그것으로 충분하다고 내 자신을 격려했다.</p>
-<h1 id="수업을-들으며-느끼게-된-나의-단점"><a href="#수업을-들으며-느끼게-된-나의-단점" class="headerlink" title="수업을 들으며 느끼게 된 나의 단점"></a>수업을 들으며 느끼게 된 나의 단점</h1><p>항상 나는 알고리즘 문제를 복잡하게 생각했다. 숙제로 내주신 문제도 쉽다고 하셨지만 내겐 너무 어려운 문제였다.<br>3시간을 코드를 쳐봐도 답이 나오질 않았다. 그렇게 문제를 계속 풀다 “문제에 의도를 내가 찾기 못해서 그런 것이 아닐까?” 라는 생각이 들었다.<br>처음으로 문제에 대한 의도를 찾아보게 되었고, 의도를 찾고 천천히 풀어보니 문제가 쉽게 풀렸다.<br>수업 덕분에 이제까지 나의 풀이 방식이 잘못되었다는 걸 알게 되었다.</p>
-<h1 id="플레이데이터의-장점"><a href="#플레이데이터의-장점" class="headerlink" title="플레이데이터의 장점"></a>플레이데이터의 장점</h1><p>공부하기 너무 좋은 환경이다.<br>나는 카페에 가서도 공부가 안 되는 사람인데, 이곳을 와서 내 인생 처음으로 의자에 오래 앉아 있었다.<br>환경에 예민한 나도 공부하게 되는 곳이다. 이 부분에 플레이데이터에 감사드린다.</p>
-<p>읽고 싶던 책이 거의 다 배치되어 있어 좋았다. 굳이 서점을 갈 필요가 없는 거 같다.</p>
-<p>다른 장점들도 많지만 개인적으로만 느끼는 거 같아 줄이겠다.</p>
-<h1 id="그러나-아쉬운-점"><a href="#그러나-아쉬운-점" class="headerlink" title="그러나 아쉬운 점"></a>그러나 아쉬운 점</h1><p>학원이 밤 9시까지만 운영을 해서 아쉽다.<br>조금 더 공부하고 싶은데 9시에 끝나고 집에 가면 공부할 힘이 없고 바로 자게 된다..<br>진짜 아쉽당</p>
-<h1 id="앞으로의-다짐"><a href="#앞으로의-다짐" class="headerlink" title="앞으로의 다짐"></a>앞으로의 다짐</h1><p>앞으로도 꾸준히 노력하여 포기하지 않고 한 발자국씩 나아갈 수 있는 사람이 되고 싶고, 동기 분들께 도움 줄 수 있는 것은 도움을 많이 드리고 싶다.</p>
+                <h1 id="자료구조"><a href="#자료구조" class="headerlink" title="자료구조"></a>자료구조</h1><p>기본 자료구조인 배열과 리스트는 비슷한 점도 많지만 다른 점도 많다.<br>두 자료구조의 특징을 정확하게 이해하고 문제가 요구하는 조건에 따라 적절하게 선택해 사용하는 것이 중요하다.</p>
+<h1 id="배열과-리스트의-핵심-이론"><a href="#배열과-리스트의-핵심-이론" class="headerlink" title="배열과 리스트의 핵심 이론"></a>배열과 리스트의 핵심 이론</h1><h2 id="배열"><a href="#배열" class="headerlink" title="배열"></a>배열</h2><p>배열은 메모리의 연속 공간에 값이 채워져 있는 형태의 자료구조이다.<br>배열의 값은 인덱스를 통해 참조할 수 있으며, 선언한 자료형의 값만 저장할 수 있다.<br><img src="https://github.com/icebear2n2/icebear2n2.github.io/assets/87232411/7a2b3c21-e5fb-4412-aa34-ae57b5cf352e" srcset="/img/loading.gif" lazyload alt="download (2)"></p>
+<h3 id="배열의-특징"><a href="#배열의-특징" class="headerlink" title="배열의 특징"></a>배열의 특징</h3><ul>
+<li>인덱스를 사용하여 값에 바로 접근할 수 있다.</li>
+<li>새로운 값을 삽입하거나 특정 인덱스가 있는 값을 삭제하기 어렵다. 값을 삽입하거나 삭제하려면 해당 인덱스 주변에 있는 값을 이동시키는 과정이 필요하다.</li>
+<li>배열의 크기는 선언할 때 지정할 수 있으며, 한번 선언하면 크기를 늘리거나 줄일 수 없다.</li>
+<li>구조가 간단하므로 코딩 테스트에서 많이 사용한다.</li>
+</ul>
+<h2 id="리스트"><a href="#리스트" class="headerlink" title="리스트"></a>리스트</h2><p>리스트는 값과 포인터를 묶은 노드라는 것을 포인터로 연결한 자료구조이다.<br>노드: 컴퓨터 과학에서 값, 포인터를 쌍으로 갖는 기초 단위를 부르는 말<br><img src="https://github.com/icebear2n2/icebear2n2.github.io/assets/87232411/cc5406c1-002d-4979-804d-59b062225a71" srcset="/img/loading.gif" lazyload alt="java_linked_list2"></p>
+<h3 id="리스트의-특징"><a href="#리스트의-특징" class="headerlink" title="리스트의 특징"></a>리스트의 특징</h3><ul>
+<li>인덱스가 없으므로 값에 접근하려면 Head 포인터부터 순서대로 접근해야 한다. -&gt; 값에 접근하는 속도가 느리다.</li>
+<li>포인터로 연결되어 있으므로 데이터를 삽입하거나 삭제하는 연산 속도가 빠르다.</li>
+<li>선언할 때 크기를 별도로 지정하지 않아도 된다. 다시 말해 리스트의 크기는 정해져 있지 않으며, 크기가 변하기 쉬운 데이터를 다룰 때 적절하다.</li>
+<li>포인터를 저장할 공간이 필요하므로 배열보다 구조가 복잡하다.</li>
+</ul>
+<br/>
+<br/>
+
+<p>출처: <a target="_blank" rel="noopener" href="https://www.google.com/url?sa=i&url=https://www.appsdeveloperblog.com/linkedlist-in-java/&psig=AOvVaw2cmkIdLsTwzDVg0wWToBcd&ust=1685416035788000&source=images&cd=vfe&ved=0CBMQjhxqFwoTCKCdzZLGmf8CFQAAAAAdAAAAABAG">https://www.google.com/url?sa=i&amp;url=https%3A%2F%2Fwww.appsdeveloperblog.com%2Flinkedlist-in-java%2F&amp;psig=AOvVaw2cmkIdLsTwzDVg0wWToBcd&amp;ust=1685416035788000&amp;source=images&amp;cd=vfe&amp;ved=0CBMQjhxqFwoTCKCdzZLGmf8CFQAAAAAdAAAAABAG</a>, <a target="_blank" rel="noopener" href="https://www.google.com/url?sa=i&url=https://jenkov.com/tutorials/java/arrays.html&psig=AOvVaw3Oaz8vL19cHlWBTEUSQ-Ur&ust=1685415496806000&source=images&cd=vfe&ved=0CBMQjhxqFwoTCKDWz5HEmf8CFQAAAAAdAAAAABAE">https://www.google.com/url?sa=i&amp;url=https%3A%2F%2Fjenkov.com%2Ftutorials%2Fjava%2Farrays.html&amp;psig=AOvVaw3Oaz8vL19cHlWBTEUSQ-Ur&amp;ust=1685415496806000&amp;source=images&amp;cd=vfe&amp;ved=0CBMQjhxqFwoTCKDWz5HEmf8CFQAAAAAdAAAAABAE</a></p>
 
                 
               </div>
@@ -307,7 +313,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/PLAYDATA/" class="category-chain-item">PLAYDATA</a>
+  <a href="/categories/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/" class="category-chain-item">자료구조</a>
   
   
 
@@ -322,7 +328,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/PLAYDATA/">#PLAYDATA</a>
+        <a href="/tags/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/">#자료구조</a>
       
     </div>
   
@@ -334,8 +340,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>[PLAYDATA 백엔드 1기] 1주차 회고록</div>
-      <div>http://example.com/2023/05/26/playdata-1week/</div>
+      <div>[자료구조] 배열과 리스트</div>
+      <div>http://example.com/2023/05/29/array-list/</div>
     </div>
     <div class="license-meta">
       
@@ -347,7 +353,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>May 26, 2023</div>
+          <div>May 29, 2023</div>
         </div>
       
       
@@ -379,18 +385,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/05/29/array-list/" title="[자료구조] 배열과 리스트">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">[자료구조] 배열과 리스트</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/05/26/micro-services/" title="[MSA] 마이크로서비스 개념">
-                        <span class="hidden-mobile">[MSA] 마이크로서비스 개념</span>
+                      <a href="/2023/05/26/playdata-1week/" title="[PLAYDATA 백엔드 1기] 1주차 회고록">
+                        <span class="hidden-mobile">[PLAYDATA 백엔드 1기] 1주차 회고록</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
